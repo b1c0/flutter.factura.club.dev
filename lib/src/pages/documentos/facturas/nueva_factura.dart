@@ -8,10 +8,11 @@ class NuevaFacturaPage extends StatefulWidget {
 }
 
 class _NuevaFacturaPage extends State<NuevaFacturaPage> {
+  InputWidget input = InputWidget();
   String _opcionSeleccionada = 'Pago';
   List<String> _opciones = ['Pago', 'Efectivo', 'Tarjeta Débito', 'Tarjeta Crédito'];
-  InputWidget input = InputWidget();
-
+  String _fecha = '';
+  TextEditingController _inputFieldDateController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +87,7 @@ class _NuevaFacturaPage extends State<NuevaFacturaPage> {
               ],
             ),
             Divider(),
-            input.crearInputText('Fecha', ''),
+            _crearFecha(context),
             Divider(),
             _crearDropDown(),
           ]),
@@ -251,5 +252,37 @@ class _NuevaFacturaPage extends State<NuevaFacturaPage> {
         color: Colors.blueAccent,
         textColor: Colors.white,
         onPressed: () {});
+  }
+
+  Widget _crearFecha(BuildContext context) {
+    return TextField(
+      enableInteractiveSelection: false,
+      controller: _inputFieldDateController,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Fecha',
+        labelText: 'Fecha',
+      ),
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+        _selectDate(context);
+      },
+    );
+  }
+
+  void _selectDate(BuildContext context) async {
+    DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: new DateTime.now(),
+      firstDate: new DateTime(2021),
+      lastDate: new DateTime(2025),
+      locale: Locale('es', 'ES'),
+    );
+    if (picked != null) {
+      setState(() {
+        _fecha = picked.toString().substring(0, 10);
+        _inputFieldDateController.text = _fecha;
+      });
+    }
   }
 }

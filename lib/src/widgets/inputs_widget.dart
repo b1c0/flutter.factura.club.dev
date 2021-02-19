@@ -55,6 +55,7 @@ class InputWidget {
     return TextField(
       // autofocus: true,
       textCapitalization: TextCapitalization.sentences,
+      maxLength: 5,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         hintText: hint,
@@ -85,21 +86,5 @@ class InputWidget {
       ));
     });
     return lista;
-  }
-
-  Widget crearDropDown(String opcionSeleccionada, List<String> opciones) {
-    return Row(
-      children: [
-        SizedBox(width: 10.0),
-        Expanded(
-          child: DropdownButton(
-              value: opcionSeleccionada,
-              items: getOpcionesDropDown(opciones),
-              onChanged: (opt) {
-                opcionSeleccionada = opt;
-              }),
-        )
-      ],
-    );
   }
 }

@@ -92,10 +92,10 @@ class LoginPage extends StatelessWidget {
                 input.crearNombreUsuario(),
                 input.crearPassword(),
                 _botonIngresar(context),
+                _botonRegistrar(context),
               ],
             ),
           ),
-          _botonRegistrar(context),
         ],
       ),
     );
@@ -105,7 +105,7 @@ class LoginPage extends StatelessWidget {
     return RaisedButton(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-        child: Text('Ingresar'),
+        child: Text('Ingresar', style: TextStyle(fontSize: 18)),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       elevation: 0.0,
@@ -123,7 +123,7 @@ class LoginPage extends StatelessWidget {
             onPressed: () => Navigator.pushReplacementNamed(context, 'registro'),
             child: Text(
               '¿No tienes cuenta? Registrate!',
-              style: TextStyle(color: Colors.white, fontSize: 16.0),
+              style: TextStyle(color: Colors.blue, fontSize: 16.0),
             ))
       ],
     );

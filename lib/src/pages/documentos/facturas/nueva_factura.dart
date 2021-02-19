@@ -42,11 +42,26 @@ class _NuevaFacturaPage extends State<NuevaFacturaPage> {
           padding: EdgeInsets.all(10),
           child: Center(
             child: Text(
-              'Factura Nro: 001-001-123456789006',
+              'Factura Nro: 001-001-123456789',
               style: TextStyle(fontSize: 20),
             ),
           ),
         ));
+  }
+
+  Widget _inputCliente(String texto, String hint) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.75,
+      child: TextField(
+        // autofocus: true,
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          hintText: hint,
+          labelText: texto,
+        ),
+      ),
+    );
   }
 
   Widget _inputsFact() {
@@ -57,7 +72,19 @@ class _NuevaFacturaPage extends State<NuevaFacturaPage> {
         child: Container(
           padding: EdgeInsets.all(10),
           child: Column(children: [
-            input.crearInputText('Cliente', ''),
+            Row(
+              children: [
+                _inputCliente('Cliente', ''),
+                IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.blueAccent,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'agregar-producto-factura');
+                    }),
+              ],
+            ),
             Divider(),
             input.crearInputText('Fecha', ''),
             Divider(),

@@ -82,17 +82,16 @@ class _RegistroPageState extends State<RegistroPage> {
             child: Column(
               children: [
                 Text('Registro', style: TextStyle(fontSize: 20.0)),
-                SizedBox(height: 30.0),
                 _crearEmail(),
                 _crearUsuario(),
                 _crearPassword(),
                 _crearVerificarPassword(),
                 _crearTerminosCondiciones(),
                 _crearBotonRegistrar(),
+                _crearbotonLogin(context),
               ],
             ),
           ),
-          _crearbotonLogin(context),
         ],
       ),
     );
@@ -179,7 +178,10 @@ class _RegistroPageState extends State<RegistroPage> {
                   });
                 },
               )),
-          Text('Acepto los términos y condiciones')
+          Text(
+            'Acepto los términos y condiciones',
+            overflow: TextOverflow.visible,
+          )
         ]),
         SizedBox(height: 20.0)
       ],
@@ -190,7 +192,7 @@ class _RegistroPageState extends State<RegistroPage> {
     return RaisedButton(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-          child: Text('Registrar'),
+          child: Text('Registrar', style: TextStyle(fontSize: 18)),
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         elevation: 0.0,
@@ -207,7 +209,7 @@ class _RegistroPageState extends State<RegistroPage> {
             onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
             child: Text(
               '¿Ya tienes cuenta? Inicia Sesión!',
-              style: TextStyle(color: Colors.white, fontSize: 16.0),
+              style: TextStyle(color: Colors.blue, fontSize: 16.0),
             ))
       ],
     );

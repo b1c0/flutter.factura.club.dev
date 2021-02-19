@@ -34,6 +34,13 @@ class MenuWidget extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: Icon(Icons.business, color: Colors.blue),
+            title: Text('Empresa'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, 'empresa');
+            },
+          ),
+          ListTile(
               leading: Icon(Icons.category, color: Colors.blue),
               title: Text('Productos/Servicios'),
               onTap: () {

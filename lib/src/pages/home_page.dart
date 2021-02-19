@@ -19,12 +19,17 @@ class _HomePageState extends State<HomePage> {
       appBar: buildAppBar(),
       drawer: MenuWidget(),
       floatingActionButton: opcionesFAB(),
-      body: Column(
+      body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
         children: [
           _crearDropDown(),
           SingleChildScrollView(child: Column(children: [_unionTarjetas()])),
           SizedBox(height: 10.0),
-          Text('Actividades recientes', style: TextStyle(fontSize: 18)),
+          Text(
+            'Actividades recientes',
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
           SizedBox(height: 10.0),
           _actividadesRecientes(),
         ],
@@ -37,16 +42,16 @@ class _HomePageState extends State<HomePage> {
       title: Text('factura.club'),
       actions: [
         Container(
-          padding: EdgeInsets.only(right: 5.0),
+          padding: EdgeInsets.only(right: 10.0),
           child: Row(children: [
             Text(
               '\$ 99999999',
-              style: TextStyle(fontSize: 18.0),
+              style: TextStyle(fontSize: 14.0),
             ),
-            SizedBox(width: 10),
+            SizedBox(width: 8),
             Container(
-              height: 30,
-              width: 30,
+              height: 20,
+              width: 20,
               child: Image(
                 image: AssetImage('assets/img/monedas.png'),
               ),
@@ -145,11 +150,9 @@ class _HomePageState extends State<HomePage> {
         TableRow(children: [
           _crearTarjeta(Colors.white, Icons.shop, 'Prodctos'),
           _crearTarjeta(Colors.white, Icons.supervised_user_circle_sharp, 'Clientes'),
-          _crearTarjeta(Colors.white, Icons.supervised_user_circle_sharp, 'Clientes'),
         ]),
         TableRow(children: [
           _crearTarjeta(Colors.white, Icons.assignment, 'Facturas'),
-          _crearTarjeta(Colors.white, Icons.paste_rounded, 'Proformas'),
           _crearTarjeta(Colors.white, Icons.paste_rounded, 'Proformas'),
         ]),
       ],
@@ -193,7 +196,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.all(10.0),
-      height: 100,
+      height: 200,
       width: double.infinity,
       color: Colors.grey,
     );

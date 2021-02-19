@@ -1,3 +1,4 @@
+import 'package:app_factura_club_dev/src/pages/Empresa/empresa_page.dart';
 import 'package:app_factura_club_dev/src/pages/acceso/login_page.dart';
 import 'package:app_factura_club_dev/src/pages/acceso/registro_page.dart';
 import 'package:app_factura_club_dev/src/pages/clientes/clientes_page.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         'facturas': (BuildContext context) => FacturasPage(),
         'nueva-factura': (BuildContext context) => NuevaFacturaPage(),
         'agregar-producto-factura': (BuildContext context) => AgregarProductoFacturaPage(),
+        'empresa': (BuildContext context) => EmpresaPage(),
       },
     );
   }

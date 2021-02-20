@@ -102,11 +102,10 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _botonIngresar(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return RaisedButton(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-        child: Text('Ingresar', style: TextStyle(fontSize: 18)),
-      ),
+      child: Text('Ingresar'),
+      padding: EdgeInsets.only(right: size.width * 0.25, left: size.width * 0.25),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       elevation: 0.0,
       color: Colors.blueAccent,
@@ -116,17 +115,12 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _botonRegistrar(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 10.0),
-        FlatButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, 'registro'),
-            child: Text(
-              '¿No tienes cuenta? Registrate!',
-              style: TextStyle(color: Colors.blue, fontSize: 16.0),
-            ))
-      ],
-    );
+    return FlatButton(
+        onPressed: () => Navigator.pushReplacementNamed(context, 'registro'),
+        child: Text(
+          '¿No tienes cuenta? Registrate!',
+          style: TextStyle(color: Colors.blue),
+        ));
   }
 
   _login(BuildContext context) {

@@ -169,7 +169,7 @@ class _RegistroPageState extends State<RegistroPage> {
       children: [
         Row(children: [
           Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              padding: EdgeInsets.only(left: 10.0),
               child: Checkbox(
                 value: terminosCondiciones,
                 onChanged: (value) {
@@ -181,6 +181,7 @@ class _RegistroPageState extends State<RegistroPage> {
           Text(
             'Acepto los términos y condiciones',
             overflow: TextOverflow.visible,
+            maxLines: 2,
           )
         ]),
         SizedBox(height: 20.0)
@@ -189,11 +190,10 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   Widget _crearBotonRegistrar() {
+    final size = MediaQuery.of(context).size;
     return RaisedButton(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-          child: Text('Registrar', style: TextStyle(fontSize: 18)),
-        ),
+        child: Text('Registrar'),
+        padding: EdgeInsets.only(right: size.width * 0.25, left: size.width * 0.25),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         elevation: 0.0,
         color: Colors.blueAccent,
@@ -202,17 +202,12 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   Widget _crearbotonLogin(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 10.0),
-        FlatButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
-            child: Text(
-              '¿Ya tienes cuenta? Inicia Sesión!',
-              style: TextStyle(color: Colors.blue, fontSize: 16.0),
-            ))
-      ],
-    );
+    return FlatButton(
+        onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
+        child: Text(
+          '¿Ya tienes cuenta? Inicia Sesión!',
+          style: TextStyle(color: Colors.blue),
+        ));
   }
 
   _registro() {

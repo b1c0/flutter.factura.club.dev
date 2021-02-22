@@ -51,11 +51,20 @@ class InputWidget {
     ]);
   }
 
+  Widget crearPassword2(String texto, String hint) {
+    return TextField(
+        obscureText: true,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          hintText: texto,
+          labelText: hint,
+        ));
+  }
+
   Widget crearInputText(String texto, String hint) {
     return TextField(
       // autofocus: true,
       textCapitalization: TextCapitalization.sentences,
-      maxLength: 5,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         hintText: hint,

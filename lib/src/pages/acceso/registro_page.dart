@@ -69,16 +69,19 @@ class _RegistroPageState extends State<RegistroPage> {
           SafeArea(child: Container(height: size.height * 0.03)),
           Container(
             width: size.width * 0.85,
-            margin: EdgeInsets.symmetric(vertical: 10.0),
-            padding: EdgeInsets.symmetric(vertical: 20.0),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.0), boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 3.0,
-                offset: Offset(0.0, 5.0),
-                spreadRadius: 2.0,
-              )
-            ]),
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 3.0,
+                  offset: Offset(0.0, 5.0),
+                  spreadRadius: 2.0,
+                )
+              ],
+            ),
             child: Column(
               children: [
                 Text('Registro', style: TextStyle(fontSize: 20.0)),
@@ -178,10 +181,10 @@ class _RegistroPageState extends State<RegistroPage> {
                   });
                 },
               )),
-          Text(
-            'Acepto los términos y condiciones',
-            overflow: TextOverflow.visible,
-            maxLines: 2,
+          Flexible(
+            child: Text(
+              'Acepto los términos y condiciones',
+            ),
           )
         ]),
         SizedBox(height: 20.0)

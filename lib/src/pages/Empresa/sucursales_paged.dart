@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
-class UsuariosPage extends StatefulWidget {
+class SucursalesPage extends StatefulWidget {
   @override
-  _UsuariosPage createState() => _UsuariosPage();
+  _SucursalesPage createState() => _SucursalesPage();
 }
 
-class _UsuariosPage extends State<UsuariosPage> {
+class _SucursalesPage extends State<SucursalesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Usuarios'),
+        title: Text('Sucursales'),
         actions: [
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Navigator.pushNamed(context, 'nuevo-usuario');
+                Navigator.pushNamed(context, 'nueva-sucursal');
               })
         ],
       ),
       body: ListView.builder(
-        itemCount: 3,
+        itemCount: 2,
         itemBuilder: (BuildContext context, int index) {
           return _card();
         },
@@ -36,14 +36,23 @@ class _UsuariosPage extends State<UsuariosPage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: Column(children: [
         ListTile(
-          leading: Icon(Icons.person, color: Colors.white, size: 40.0),
+          leading: Icon(Icons.add_business, color: Colors.white, size: 40.0),
           title: Text(
-            'Punto emisión: 001',
+            '001',
             style: TextStyle(color: Colors.white),
           ),
-          subtitle: Text(
-            'Nombre usuario',
-            style: TextStyle(color: Colors.white),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Dirección',
+                style: TextStyle(color: Colors.white),
+              ),
+              Text(
+                'Telefono',
+                style: TextStyle(color: Colors.white),
+              )
+            ],
           ),
           trailing: Icon(
             Icons.menu_outlined,

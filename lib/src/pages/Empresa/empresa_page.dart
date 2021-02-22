@@ -1,5 +1,4 @@
 import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
-import 'package:app_factura_club_dev/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class EmpresaPage extends StatelessWidget {
@@ -11,7 +10,6 @@ class EmpresaPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Datos Empresa'),
       ),
-      drawer: MenuWidget(),
       body: Container(
         padding: EdgeInsets.all(20.0),
         child: ListView(

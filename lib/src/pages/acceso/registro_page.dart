@@ -1,3 +1,6 @@
+import 'package:app_factura_club_dev/src/blocs/provider.dart';
+import 'package:app_factura_club_dev/src/blocs/registro_usuarios_bloc.dart';
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,9 +11,13 @@ class RegistroPage extends StatefulWidget {
 
 class _RegistroPageState extends State<RegistroPage> {
   bool terminosCondiciones = false;
+  String verificarClave = "";
+  Usuario usuario = Usuario();
+  RegistroUsuariosBloc regUsuarioBloc;
 
   @override
   Widget build(BuildContext context) {
+    regUsuarioBloc = Provider.registroUsuarioBloc(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -86,6 +93,7 @@ class _RegistroPageState extends State<RegistroPage> {
               children: [
                 Text('Registro', style: TextStyle(fontSize: 20.0)),
                 _crearEmail(),
+                _crearTelefono(),
                 _crearUsuario(),
                 _crearPassword(),
                 _crearVerificarPassword(),
@@ -111,6 +119,25 @@ class _RegistroPageState extends State<RegistroPage> {
             hintText: 'ejemplo@ejemplo.com',
             labelText: 'Correo electrónico',
           ),
+          onChanged: (value) => usuario.usuarioCorreo = value,
+        ),
+      ),
+      SizedBox(height: 20.0)
+    ]);
+  }
+
+  Widget _crearTelefono() {
+    return Column(children: [
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: TextField(
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            icon: Icon(Icons.phone),
+            hintText: 'Teléfono',
+            labelText: 'Teléfono',
+          ),
+          onChanged: (value) => usuario.usuarioCelular = value,
         ),
       ),
       SizedBox(height: 20.0)
@@ -127,6 +154,7 @@ class _RegistroPageState extends State<RegistroPage> {
             hintText: 'Usuario',
             labelText: 'Nombre de Usuario',
           ),
+          onChanged: (value) => usuario.usuarioNombre = value,
         ),
       ),
       SizedBox(height: 20.0)
@@ -144,6 +172,7 @@ class _RegistroPageState extends State<RegistroPage> {
             hintText: 'Contraseña',
             labelText: 'Contraseña',
           ),
+          onChanged: (value) => usuario.usuarioContrasenia = value,
         ),
       ),
       SizedBox(height: 20.0)
@@ -161,6 +190,7 @@ class _RegistroPageState extends State<RegistroPage> {
             hintText: 'Verificar Contraseña',
             labelText: 'Verificar Contraseña',
           ),
+          onChanged: (value) => verificarClave = value,
         ),
       ),
       SizedBox(height: 20.0)
@@ -214,6 +244,38 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   _registro() {
-    print('registrando');
+    usuario.usuarioNic = usuario.usuarioNombre.trim();
+    String mensaje = '';
+    String titulo = '';
+    //TODO: CONTROLAR VACIOS
+    if (usuario.usuarioContrasenia == verificarClave) {
+      if (terminosCondiciones) {
+        print('REGISTRO CORRECTO');
+        // regUsuarioBloc.registrarUsuario(usuario);
+      } else {
+        titulo = 'Alerta';
+        mensaje = 'Debe aceptar los terminos y condiciones para continuar';
+        mostrarAlerta(context, mensaje, titulo);
+      }
+    } else {
+      print('las claves no coinciden');
+    }
+  }
+
+  void mostrarAlerta(BuildContext context, String mensaje, String titulo) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(titulo),
+            content: Text(mensaje),
+            actions: [
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('OK'),
+              )
+            ],
+          );
+        });
   }
 }

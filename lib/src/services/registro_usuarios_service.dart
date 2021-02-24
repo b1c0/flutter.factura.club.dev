@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:http/io_client.dart';

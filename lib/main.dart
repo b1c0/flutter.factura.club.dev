@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
+import 'package:app_factura_club_dev/src/pages/Empresa/agregar_empresa_page.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/agregar_sucursal_page.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/empresa_page.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/menu_empresas_page.dart';
@@ -54,6 +53,7 @@ class MyApp extends StatelessWidget {
           'agregar-producto-factura': (BuildContext context) => AgregarProductoFacturaPage(),
           'menu-empresa': (BuildContext context) => MenuEmpresaPage(),
           'empresa': (BuildContext context) => EmpresaPage(),
+          'nueva-empresa': (BuildContext context) => NuevaEmpresaPage(),
           'sucursales': (BuildContext context) => SucursalesPage(),
           'nueva-sucursal': (BuildContext context) => NuevaSucursalPage(),
           'usuarios': (BuildContext context) => UsuariosPage(),

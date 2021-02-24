@@ -1,8 +1,10 @@
+import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/registro_usuarios_bloc.dart';
 import 'package:flutter/material.dart';
 
 class Provider extends InheritedWidget {
   final _registroUsuariosBloc = RegistroUsuariosBloc();
+  final _crearEmpresaBloc = EmpresaBloc();
 
   static Provider _instancia;
 
@@ -20,5 +22,9 @@ class Provider extends InheritedWidget {
 
   static RegistroUsuariosBloc registroUsuarioBloc(BuildContext context) {
     return (context.dependOnInheritedWidgetOfExactType<Provider>()._registroUsuariosBloc);
+  }
+
+  static EmpresaBloc crearEmpresaBloc(BuildContext context) {
+    return (context.dependOnInheritedWidgetOfExactType<Provider>()._crearEmpresaBloc);
   }
 }

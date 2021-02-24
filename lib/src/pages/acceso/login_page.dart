@@ -3,7 +3,12 @@ import 'dart:ui';
 import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   InputWidget input = InputWidget();
 
   @override
@@ -110,17 +115,19 @@ class LoginPage extends StatelessWidget {
       elevation: 0.0,
       color: Colors.blueAccent,
       textColor: Colors.white,
-      onPressed: () => Navigator.pushReplacementNamed(context, 'home'),
+      onPressed: () => _login(context),
     );
   }
 
   Widget _botonRegistrar(BuildContext context) {
     return FlatButton(
-        onPressed: () => Navigator.pushReplacementNamed(context, 'registro'),
         child: Text(
           '¿No tienes cuenta? Registrate!',
           style: TextStyle(color: Colors.blue),
-        ));
+        ),
+        onPressed: () => {
+              Navigator.pushReplacementNamed(context, 'registro'),
+            });
   }
 
   _login(BuildContext context) {

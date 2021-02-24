@@ -73,6 +73,19 @@ class InputWidget {
     );
   }
 
+  Widget crearInputTextValor(String texto, String hint, String valor) {
+    return TextField(
+      // autofocus: true,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: hint,
+        labelText: texto,
+      ),
+      onChanged: (value) => valor = value,
+    );
+  }
+
   Widget crearInputNumber(String texto, String hint) {
     return TextField(
       // autofocus: true,

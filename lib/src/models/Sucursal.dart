@@ -43,3 +43,15 @@ class Sucursal {
         "usuario_id": usuarioId,
       };
 }
+
+class Sucursales {
+  List<Sucursal> items = new List();
+  Sucursales();
+  Sucursales.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+    for (var item in jsonList) {
+      final sucursal = new Sucursal.fromJson(item);
+      items.add(sucursal);
+    }
+  }
+}

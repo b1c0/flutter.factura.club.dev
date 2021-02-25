@@ -1,4 +1,6 @@
-import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
+import 'package:app_factura_club_dev/src/blocs/provider.dart';
+import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
+import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:flutter/material.dart';
 
 class NuevaSucursalPage extends StatefulWidget {
@@ -7,33 +9,40 @@ class NuevaSucursalPage extends StatefulWidget {
 }
 
 class _NuevaSucursalPage extends State<NuevaSucursalPage> {
-  InputWidget input = InputWidget();
-  bool esServicio;
-
-  @override
-  void initState() {
-    super.initState();
-    esServicio = false;
-  }
+  Sucursal sucursal = Sucursal();
+  SucursalBloc sucursalBloc;
 
   @override
   Widget build(BuildContext context) {
+    sucursalBloc = Provider.crearSucursalBloc(context);
+    sucursal.empresaId = 11;
+    sucursal.usuarioId = 12;
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva Sucursal'),
       ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-        children: [
-          input.crearInputText('Código establecimiento', ''),
-          Divider(),
-          input.crearInputText('Dirección', 'Dirección de la sucursal'),
-          Divider(),
-          input.crearInputNumber('Télefono', ''),
-          Divider(),
-          _crearBoton(),
-        ],
-      ),
+      body: _formulario(),
+    );
+  }
+
+  ListView _formulario() {
+    return ListView(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      children: [
+        _inputCodigoEstablecimiento(),
+        Divider(),
+        _inputCodigoNombreSucursal(),
+        Divider(),
+        _inputDireccionSucursal(),
+        Divider(),
+        _inputTelefonoSucursal(),
+        Divider(),
+        _inputCorreoSucursal(),
+        Divider(),
+        _inputRucSucursal(),
+        Divider(),
+        _crearBoton(),
+      ],
     );
   }
 
@@ -47,6 +56,89 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
         elevation: 0.0,
         color: Colors.blueAccent,
         textColor: Colors.white,
-        onPressed: () {});
+        onPressed: () {
+          _botonGuardarSucursal();
+        });
+  }
+
+  void _botonGuardarSucursal() {
+    //TODO: VALIDAR VACIOS
+
+    sucursalBloc.crearNuevaSucursal(sucursal);
+  }
+
+  //================================INPUTS===========================
+  Widget _inputCodigoEstablecimiento() {
+    return TextField(
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Codigo Establecimiento',
+        labelText: 'Codigo Establecimiento',
+      ),
+      maxLength: 3,
+      onChanged: (value) => "",
+    );
+  }
+
+  Widget _inputCodigoNombreSucursal() {
+    return TextField(
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Nombre Sucursal',
+        labelText: 'Nombre Sucursal',
+      ),
+      onChanged: (value) => sucursal.sucursalNombre = value,
+    );
+  }
+
+  Widget _inputDireccionSucursal() {
+    return TextField(
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Dirección Sucursal',
+        labelText: 'Dirección Sucursal',
+      ),
+      onChanged: (value) => sucursal.sucursalDireccion = value,
+    );
+  }
+
+  Widget _inputTelefonoSucursal() {
+    return TextField(
+      textCapitalization: TextCapitalization.sentences,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Teléfono Sucursal',
+        labelText: 'Teléfono Sucursal',
+      ),
+      onChanged: (value) => sucursal.sucursalTelefono = value,
+    );
+  }
+
+  Widget _inputCorreoSucursal() {
+    return TextField(
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Correo Sucursal',
+        labelText: 'Correo Sucursal',
+      ),
+      onChanged: (value) => sucursal.sucursalCorreoCorporativo = value,
+    );
+  }
+
+  Widget _inputRucSucursal() {
+    return TextField(
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'RUC Sucursal',
+        labelText: 'RUC Sucursal',
+      ),
+      onChanged: (value) => sucursal.sucursalRuc = value,
+    );
   }
 }

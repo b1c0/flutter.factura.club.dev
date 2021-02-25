@@ -20,7 +20,7 @@ class _UsuariosPage extends State<UsuariosPage> {
         ],
       ),
       body: ListView.builder(
-        itemCount: 3,
+        itemCount: 10,
         itemBuilder: (BuildContext context, int index) {
           return _card();
         },
@@ -37,19 +37,9 @@ class _UsuariosPage extends State<UsuariosPage> {
       child: Column(children: [
         ListTile(
           leading: Icon(Icons.person, color: Colors.white, size: 40.0),
-          title: Text(
-            'Punto emisión: 001',
-            style: TextStyle(color: Colors.white),
-          ),
-          subtitle: Text(
-            'Nombre usuario',
-            style: TextStyle(color: Colors.white),
-          ),
-          trailing: Icon(
-            Icons.menu_outlined,
-            color: Colors.white,
-            size: 30.0,
-          ),
+          title: Text('Punto emisión: 001', style: TextStyle(color: Colors.white)),
+          subtitle: Text('Nombre usuario', style: TextStyle(color: Colors.white)),
+          trailing: Icon(Icons.menu_outlined, color: Colors.white, size: 30.0),
         ),
       ]),
     );

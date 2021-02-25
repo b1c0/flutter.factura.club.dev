@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(color: Colors.blue),
         ),
         onPressed: () => {
-              Navigator.pushReplacementNamed(context, 'registro'),
+              Navigator.popAndPushNamed(context, 'registro'),
             });
   }
 

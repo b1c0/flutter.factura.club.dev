@@ -65,6 +65,8 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     crearEmpresaBloc.crearNuevaEmpresa(empresa);
   }
 
+  //===================================INPUTS============================
+
   Widget inputNombreEmpresa() {
     return TextField(
       // autofocus: true,

@@ -9,7 +9,8 @@ class NuevoUsuarioPage extends StatefulWidget {
 class _NuevoUsuarioPage extends State<NuevoUsuarioPage> {
   InputWidget input = InputWidget();
   bool esServicio;
-
+  String _opcionSeleccionada = 'Perfiles';
+  List<String> _opciones = ['Perfiles', 'nuevo'];
   @override
   void initState() {
     super.initState();
@@ -28,6 +29,8 @@ class _NuevoUsuarioPage extends State<NuevoUsuarioPage> {
           input.crearInputText('Código punto de emisión', ''),
           Divider(),
           input.crearInputText('Nombre de usuario', ''),
+          Divider(),
+          _inputPerfil(),
           Divider(),
           input.crearPassword2('Clave', 'Clave'),
           Divider(),
@@ -49,6 +52,57 @@ class _NuevoUsuarioPage extends State<NuevoUsuarioPage> {
         elevation: 0.0,
         color: Colors.blueAccent,
         textColor: Colors.white,
-        onPressed: () {});
+        onPressed: () {
+          Navigator.pushNamed(context, '');
+        });
+  }
+
+  Widget _inputPerfil() {
+    return Container(
+      child: Row(
+        children: [
+          _dropDownPerfiles(),
+          Container(
+            child: IconButton(
+                icon: Icon(Icons.add_circle, color: Colors.blueAccent),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'permisos-usuarios');
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _dropDownPerfiles() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.75,
+      child: Row(
+        children: [
+          SizedBox(width: 10),
+          Expanded(
+            child: DropdownButton(
+                value: _opcionSeleccionada,
+                items: getOpcionesDropDown(_opciones),
+                onChanged: (opt) {
+                  setState(() {
+                    _opcionSeleccionada = opt;
+                  });
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<DropdownMenuItem<String>> getOpcionesDropDown(List<String> opciones) {
+    List<DropdownMenuItem<String>> lista = List();
+    opciones.forEach((poder) {
+      lista.add(DropdownMenuItem(
+        child: Text(poder),
+        value: poder,
+      ));
+    });
+    return lista;
   }
 }

@@ -15,6 +15,7 @@ import 'package:app_factura_club_dev/src/pages/home_page.dart';
 import 'package:app_factura_club_dev/src/pages/productos_servicios/nuevo_producto.dart';
 import 'package:app_factura_club_dev/src/pages/productos_servicios/tabs_page.dart';
 import 'package:app_factura_club_dev/src/pages/usuarios/agregar_usuario_page.dart';
+import 'package:app_factura_club_dev/src/pages/usuarios/permisos_page.dart';
 import 'package:app_factura_club_dev/src/pages/usuarios/usuario_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           'nueva-sucursal': (BuildContext context) => NuevaSucursalPage(),
           'usuarios': (BuildContext context) => UsuariosPage(),
           'nuevo-usuario': (BuildContext context) => NuevoUsuarioPage(),
+          'permisos-usuarios': (BuildContext context) => PermisosUsuarioPage(),
         },
       ),
     );

@@ -74,8 +74,8 @@ class Empresas {
   Empresas.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
     for (var item in jsonList) {
-      final pelicula = new Empresa.fromJson(item);
-      items.add(pelicula);
+      final empresa = new Empresa.fromJson(item);
+      items.add(empresa);
     }
   }
 }

@@ -37,6 +37,14 @@ class MenuEmpresaPage extends StatelessWidget {
               Navigator.pushNamed(context, 'usuarios');
             },
           ),
+          ListTile(
+            title: Text('Bodegas'),
+            leading: Icon(Icons.inventory, color: Colors.blue),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
+            onTap: () {
+              Navigator.pushNamed(context, 'usuarios');
+            },
+          )
         ],
       ),
     );

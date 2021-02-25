@@ -92,9 +92,10 @@ class _RegistroPageState extends State<RegistroPage> {
             child: Column(
               children: [
                 Text('Registro', style: TextStyle(fontSize: 20.0)),
+                _crearNombreApellido(),
+                _crearNombreUsuario(),
                 _crearEmail(),
                 _crearTelefono(),
-                _crearUsuario(),
                 _crearPassword(),
                 _crearVerificarPassword(),
                 _crearTerminosCondiciones(),
@@ -144,7 +145,24 @@ class _RegistroPageState extends State<RegistroPage> {
     ]);
   }
 
-  Widget _crearUsuario() {
+  Widget _crearNombreApellido() {
+    return Column(children: [
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: TextField(
+          decoration: InputDecoration(
+            icon: Icon(Icons.supervised_user_circle_sharp),
+            hintText: 'Apellidos y Nombres',
+            labelText: 'Apellidos y Nombres',
+          ),
+          onChanged: (value) => usuario.usuarioNombre = value,
+        ),
+      ),
+      SizedBox(height: 20.0)
+    ]);
+  }
+
+  Widget _crearNombreUsuario() {
     return Column(children: [
       Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -154,7 +172,7 @@ class _RegistroPageState extends State<RegistroPage> {
             hintText: 'Usuario',
             labelText: 'Nombre de Usuario',
           ),
-          onChanged: (value) => usuario.usuarioNombre = value,
+          onChanged: (value) => usuario.usuarioNic = value,
         ),
       ),
       SizedBox(height: 20.0)
@@ -244,7 +262,6 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   _registro() {
-    usuario.usuarioNic = usuario.usuarioNombre.trim();
     String mensaje = '';
     String titulo = '';
     //TODO: CONTROLAR VACIOS

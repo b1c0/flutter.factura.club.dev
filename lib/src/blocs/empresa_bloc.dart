@@ -18,6 +18,14 @@ class EmpresaBloc {
     _empresasController.sink.add(empresas);
   }
 
+  void actualizarEmpresa(Empresa empresa) async {
+    await _empresaService.actualizarEmpresa(empresa);
+  }
+
+  void eliminarEmpresa(int empresa_id, int usuario_id) async {
+    await _empresaService.eliminarEmpresa(empresa_id, usuario_id);
+  }
+
   void dispose() {
     _empresasController?.close();
     _crearEmpresaStreamController?.close();

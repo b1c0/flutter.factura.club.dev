@@ -15,8 +15,8 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   @override
   Widget build(BuildContext context) {
     sucursalBloc = Provider.crearSucursalBloc(context);
-    sucursal.empresaId = 11;
-    sucursal.usuarioId = 12;
+    sucursal.empresaId = 9;
+    sucursal.usuarioId = 11;
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva Sucursal'),

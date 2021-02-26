@@ -269,6 +269,7 @@ class _RegistroPageState extends State<RegistroPage> {
       if (terminosCondiciones) {
         print('REGISTRO CORRECTO');
         // regUsuarioBloc.registrarUsuario(usuario);
+        Navigator.pushReplacementNamed(context, 'login');
       } else {
         titulo = 'Alerta';
         mensaje = 'Debe aceptar los terminos y condiciones para continuar';

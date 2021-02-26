@@ -10,11 +10,15 @@ class NuevaEmpresaPage extends StatefulWidget {
 
 class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   Empresa empresa = Empresa.sinID();
-
   EmpresaBloc crearEmpresaBloc;
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     crearEmpresaBloc = Provider.crearEmpresaBloc(context);
+    final Empresa data = ModalRoute.of(context).settings.arguments;
+    if (data != null) {
+      empresa = data;
+    }
     //EL ID DEL USUARIO CONECTADO
     empresa.usuarioId = 11;
     return Scaffold(
@@ -61,15 +65,19 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
 
   void ingresarEmpresa() {
     //TODO: VALIDAR VACIOS y validar el usuario logueado
-    print('a veeeeeeeeeeeeeeeeeeeeeeeeeeer');
-    crearEmpresaBloc.crearNuevaEmpresa(empresa);
+    if (empresa.empresaId == null) {
+      crearEmpresaBloc.crearNuevaEmpresa(empresa);
+    } else {
+      crearEmpresaBloc.actualizarEmpresa(empresa);
+    }
+    Navigator.pop(context);
   }
 
   //===================================INPUTS============================
-
   Widget inputNombreEmpresa() {
-    return TextField(
+    return TextFormField(
       // autofocus: true,
+      initialValue: empresa.empresaNombre,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -81,8 +89,9 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   }
 
   Widget inputCorreoEmpresa() {
-    return TextField(
+    return TextFormField(
       // autofocus: true,
+      initialValue: empresa.empresaCorreoCorporativo,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -95,8 +104,9 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   }
 
   Widget inputTelefonoEmpresa() {
-    return TextField(
+    return TextFormField(
       // autofocus: true,
+      initialValue: empresa.empresaTelefono,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
@@ -109,8 +119,10 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   }
 
   Widget inputDireccionEmpresa() {
-    return TextField(
+    return TextFormField(
       // autofocus: true,
+      initialValue: empresa.empresaDireccion,
+
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -123,8 +135,10 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   }
 
   Widget inputLogoEmpresa() {
-    return TextField(
+    return TextFormField(
       // autofocus: true,
+      initialValue: empresa.empresaLogotipo,
+
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -137,8 +151,9 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   }
 
   Widget inputRUCEmpresa() {
-    return TextField(
+    return TextFormField(
       // autofocus: true,
+      initialValue: empresa.empresaRuc,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(

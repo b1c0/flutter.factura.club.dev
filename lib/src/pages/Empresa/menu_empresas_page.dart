@@ -1,3 +1,4 @@
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:app_factura_club_dev/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -6,11 +7,12 @@ class MenuEmpresaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Usuario usuario = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text('Empresa'),
       ),
-      drawer: MenuWidget(),
+      drawer: MenuWidget(usuario: usuario),
       body: ListView(
         children: [
           ListTile(
@@ -18,15 +20,7 @@ class MenuEmpresaPage extends StatelessWidget {
             leading: Icon(Icons.business, color: Colors.blue),
             trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
             onTap: () {
-              Navigator.pushNamed(context, 'empresa');
-            },
-          ),
-          ListTile(
-            title: Text('Sucursales'),
-            leading: Icon(Icons.add_business, color: Colors.blue),
-            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
-            onTap: () {
-              Navigator.pushNamed(context, 'sucursales');
+              Navigator.pushNamed(context, 'empresa', arguments: usuario);
             },
           ),
           ListTile(

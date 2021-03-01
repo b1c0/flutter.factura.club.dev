@@ -1,6 +1,8 @@
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
+import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
 class NuevaSucursalPage extends StatefulWidget {
@@ -15,8 +17,10 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   @override
   Widget build(BuildContext context) {
     sucursalBloc = Provider.crearSucursalBloc(context);
-    sucursal.empresaId = 9;
-    sucursal.usuarioId = 11;
+    final Empresa empresa = ModalRoute.of(context).settings.arguments;
+    final Usuario usuario = ModalRoute.of(context).settings.arguments;
+    sucursal.empresaId = empresa.empresaId;
+    sucursal.usuarioId = usuario.idUser;
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva Sucursal'),

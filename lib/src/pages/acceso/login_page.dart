@@ -1,6 +1,5 @@
-import 'dart:ui';
-
-import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:app_factura_club_dev/src/services/usuarios_service.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,8 +8,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  InputWidget input = InputWidget();
-
+  final usuarioService = UsuarioService();
+  String _correo;
+  String _nic;
+  String _clave;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,9 +94,9 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Text('Iniciar Sesión', style: TextStyle(fontSize: 20.0)),
                 SizedBox(height: 30.0),
-                input.crearEmail(),
-                input.crearNombreUsuario(),
-                input.crearPassword(),
+                _inputEmail(),
+                _inputNombreUsuario(),
+                _inputClave(),
                 _botonIngresar(context),
                 _botonRegistrar(context),
               ],
@@ -130,8 +131,73 @@ class _LoginPageState extends State<LoginPage> {
             });
   }
 
-  _login(BuildContext context) {
+  _login(BuildContext context) async {
     //TODO: Validar el login
-    Navigator.pushReplacementNamed(context, 'home');
+    print('******************************');
+    print('Correo:$_correo   Nick:$_nic     clave:$_clave');
+    print('******************************');
+
+    Map info = await usuarioService.login(_correo, _nic, _clave);
+    if (info['ok']) {
+      print('Existe');
+      Usuario usuario = info['usuario'];
+      Navigator.pushReplacementNamed(context, 'home', arguments: usuario);
+    } else {
+      print('error');
+    }
+  }
+
+//====================INPUTS===================
+  Widget _inputEmail() {
+    return Column(children: [
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: TextField(
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            icon: Icon(Icons.alternate_email),
+            hintText: 'ejemplo@email.com',
+            labelText: 'Correo electrónico',
+          ),
+          onChanged: (value) => _correo = value,
+        ),
+      ),
+      SizedBox(height: 20.0)
+    ]);
+  }
+
+  Widget _inputNombreUsuario() {
+    return Column(children: [
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: TextField(
+          decoration: InputDecoration(
+            icon: Icon(Icons.supervised_user_circle_sharp),
+            hintText: 'Usuario',
+            labelText: 'Nombre de Usuario',
+          ),
+          onChanged: (value) => _nic = value,
+        ),
+      ),
+      SizedBox(height: 20.0)
+    ]);
+  }
+
+  Widget _inputClave() {
+    return Column(children: [
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: TextField(
+          obscureText: true,
+          decoration: InputDecoration(
+            icon: Icon(Icons.lock_outline),
+            hintText: 'Contraseña',
+            labelText: 'Contraseña',
+          ),
+          onChanged: (value) => _clave = value,
+        ),
+      ),
+      SizedBox(height: 20.0)
+    ]);
   }
 }

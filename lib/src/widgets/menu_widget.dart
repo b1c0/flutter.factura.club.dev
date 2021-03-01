@@ -1,6 +1,16 @@
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
-class MenuWidget extends StatelessWidget {
+// ignore: must_be_immutable
+class MenuWidget extends StatefulWidget {
+  Usuario usuario;
+  MenuWidget({Key key, this.usuario}) : super(key: key);
+
+  @override
+  _MenuWidgetState createState() => _MenuWidgetState();
+}
+
+class _MenuWidgetState extends State<MenuWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -13,51 +23,49 @@ class MenuWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'Cajero José',
+                  widget.usuario.nombreUser,
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 Text(
-                  'empresa@empresa.com',
+                  widget.usuario.correoUser,
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ],
             ),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
+            decoration: BoxDecoration(color: Colors.blue),
           ),
           ListTile(
             leading: Icon(Icons.home, color: Colors.blue),
             title: Text('Inicio'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, 'home');
+              Navigator.popAndPushNamed(context, 'home', arguments: widget.usuario);
             },
           ),
           ListTile(
             leading: Icon(Icons.business, color: Colors.blue),
             title: Text('Empresa'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, 'menu-empresa');
+              Navigator.popAndPushNamed(context, 'menu-empresa', arguments: widget.usuario);
             },
           ),
           ListTile(
               leading: Icon(Icons.category, color: Colors.blue),
               title: Text('Productos/Servicios'),
               onTap: () {
-                Navigator.pushReplacementNamed(context, 'productos-servicios');
+                Navigator.popAndPushNamed(context, 'productos-servicios');
               }),
           ListTile(
               leading: Icon(Icons.people_sharp, color: Colors.blue),
               title: Text('Clientes'),
               onTap: () {
-                Navigator.pushReplacementNamed(context, 'clientes');
+                Navigator.popAndPushNamed(context, 'clientes');
                 // Navigator.pop(context);
               }),
           ListTile(
               leading: Icon(Icons.paste, color: Colors.blue),
               title: Text('Facturas'),
               onTap: () {
-                Navigator.pushReplacementNamed(context, 'facturas');
+                Navigator.popAndPushNamed(context, 'facturas');
 
                 // Navigator.pop(context);
               }),

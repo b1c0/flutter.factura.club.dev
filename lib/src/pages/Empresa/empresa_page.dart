@@ -1,6 +1,7 @@
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
 class EmpresaPage extends StatefulWidget {
@@ -11,10 +12,12 @@ class EmpresaPage extends StatefulWidget {
 class _EmpresaPage extends State<EmpresaPage> {
   @override
   Widget build(BuildContext context) {
+    final Usuario usuario = ModalRoute.of(context).settings.arguments;
+    final Empresa empresa = Empresa(); //solo para evitar un error al pasar los args
+    final Argumentos arg = Argumentos(empresa, usuario);
     //id del usuario logueado
-    final usuario_id = 11;
     final empresasBloc = Provider.crearEmpresaBloc(context);
-    empresasBloc.cargarEmpresas(usuario_id);
+    empresasBloc.cargarEmpresas(usuario.idUser);
 
     return Scaffold(
       appBar: AppBar(
@@ -23,15 +26,15 @@ class _EmpresaPage extends State<EmpresaPage> {
           IconButton(
               icon: Icon(Icons.add_business),
               onPressed: () {
-                Navigator.pushNamed(context, 'nueva-empresa');
+                Navigator.pushNamed(context, 'nueva-empresa', arguments: arg);
               })
         ],
       ),
-      body: _listarEmpresas(empresasBloc, usuario_id),
+      body: _listarEmpresas(empresasBloc, usuario),
     );
   }
 
-  Widget _listarEmpresas(EmpresaBloc empresasBloc, int usuario_id) {
+  Widget _listarEmpresas(EmpresaBloc empresasBloc, Usuario usuario) {
     return StreamBuilder(
       stream: empresasBloc.empresasStream,
       builder: (BuildContext context, AsyncSnapshot<List<Empresa>> snapshot) {
@@ -40,12 +43,8 @@ class _EmpresaPage extends State<EmpresaPage> {
           return ListView.builder(
               itemCount: empresas.length,
               itemBuilder: (context, i) {
-                empresas[i].usuarioId = usuario_id;
-                return _crearItem(
-                  context,
-                  empresasBloc,
-                  empresas[i],
-                );
+                empresas[i].usuarioId = usuario.idUser;
+                return _crearItem(context, empresasBloc, empresas[i], usuario);
               });
         } else {
           return Center(child: CircularProgressIndicator());
@@ -54,7 +53,7 @@ class _EmpresaPage extends State<EmpresaPage> {
     );
   }
 
-  Widget _crearItem(BuildContext context, EmpresaBloc empresasBloc, Empresa empresa) {
+  Widget _crearItem(BuildContext context, EmpresaBloc empresasBloc, Empresa empresa, Usuario usuario) {
     return Dismissible(
       key: UniqueKey(),
       background: Container(
@@ -80,7 +79,11 @@ class _EmpresaPage extends State<EmpresaPage> {
               padding: EdgeInsets.all(5.0),
               child: ListTile(
                   leading: Icon(Icons.business_sharp, color: Colors.white, size: 40.0),
-                  trailing: Icon(Icons.more_vert, color: Colors.white, size: 30.0),
+                  trailing: _crearPopupMenuButton(empresa, usuario),
+                  // IconButton(
+                  // icon: Icon(Icons.more_vert, color: Colors.white, size: 30.0),
+                  // onPressed: () => _crearPopupMenuButton(empresa),
+                  // ),
                   title: Text(empresa.empresaNombre, style: TextStyle(color: Colors.white)),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,13 +92,38 @@ class _EmpresaPage extends State<EmpresaPage> {
                       Text(empresa.empresaDireccion, style: TextStyle(color: Colors.white)),
                     ],
                   ),
-                  onTap: () => Navigator.pushNamed(context, 'nueva-empresa', arguments: empresa).then((value) {
-                        setState(() {});
-                      })),
+                  onTap: () {
+                    Argumentos arg = Argumentos(empresa, usuario);
+                    Navigator.pushNamed(context, 'nueva-empresa', arguments: arg).then((value) {
+                      setState(() {});
+                    });
+                  }),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _crearPopupMenuButton(Empresa empresa, Usuario usuario) {
+    return PopupMenuButton(
+      icon: Icon(Icons.more_vert, color: Colors.white),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 1,
+          child: Row(
+            children: [
+              Icon(Icons.home_work_sharp, color: Colors.blue),
+              FlatButton(
+                child: Text('Ver Sucursales'),
+                onPressed: () {
+                  Navigator.popAndPushNamed(context, 'sucursales', arguments: {empresa, usuario});
+                },
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 
@@ -128,4 +156,10 @@ class _EmpresaPage extends State<EmpresaPage> {
           );
         });
   }
+}
+
+class Argumentos {
+  Empresa empresa;
+  Usuario usuario;
+  Argumentos(this.empresa, this.usuario);
 }

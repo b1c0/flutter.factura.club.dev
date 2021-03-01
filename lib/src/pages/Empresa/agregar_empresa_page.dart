@@ -1,6 +1,8 @@
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:app_factura_club_dev/src/pages/Empresa/empresa_page.dart';
 import 'package:flutter/material.dart';
 
 class NuevaEmpresaPage extends StatefulWidget {
@@ -15,12 +17,14 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   @override
   Widget build(BuildContext context) {
     crearEmpresaBloc = Provider.crearEmpresaBloc(context);
-    final Empresa data = ModalRoute.of(context).settings.arguments;
+    final Argumentos arg = ModalRoute.of(context).settings.arguments;
+    final Usuario usuario = arg.usuario;
+    final Empresa data = arg.empresa;
     if (data != null) {
       empresa = data;
     }
     //EL ID DEL USUARIO CONECTADO
-    empresa.usuarioId = 11;
+    empresa.usuarioId = usuario.idUser;
     return Scaffold(
       appBar: AppBar(
         title: Text('Datos Empresa'),
@@ -42,14 +46,14 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
             Divider(),
             inputRUCEmpresa(),
             Divider(),
-            _botonGuardarEmpresa(),
+            _botonGuardarEmpresa(usuario),
           ],
         ),
       ),
     );
   }
 
-  Widget _botonGuardarEmpresa() {
+  Widget _botonGuardarEmpresa(Usuario usuario) {
     return RaisedButton(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
@@ -59,18 +63,18 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
         color: Colors.blueAccent,
         textColor: Colors.white,
         onPressed: () {
-          ingresarEmpresa();
+          ingresarEmpresa(usuario);
         });
   }
 
-  void ingresarEmpresa() {
+  void ingresarEmpresa(Usuario usuario) {
     //TODO: VALIDAR VACIOS y validar el usuario logueado
     if (empresa.empresaId == null) {
       crearEmpresaBloc.crearNuevaEmpresa(empresa);
     } else {
       crearEmpresaBloc.actualizarEmpresa(empresa);
     }
-    Navigator.pop(context);
+    Navigator.popAndPushNamed(context, 'empresa', arguments: usuario);
   }
 
   //===================================INPUTS============================

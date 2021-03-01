@@ -1,3 +1,4 @@
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
 import 'package:app_factura_club_dev/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final Usuario usuario = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: buildAppBar(),
-      drawer: MenuWidget(),
+      drawer: MenuWidget(usuario: usuario),
       floatingActionButton: opcionesFAB(),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),

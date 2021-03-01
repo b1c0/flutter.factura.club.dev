@@ -268,7 +268,7 @@ class _RegistroPageState extends State<RegistroPage> {
     if (usuario.usuarioContrasenia == verificarClave) {
       if (terminosCondiciones) {
         print('REGISTRO CORRECTO');
-        // regUsuarioBloc.registrarUsuario(usuario);
+        regUsuarioBloc.registrarUsuario(usuario);
         Navigator.pushReplacementNamed(context, 'login');
       } else {
         titulo = 'Alerta';

@@ -22,6 +22,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     final Empresa data = arg.empresa;
     if (data != null) {
       empresa = data;
+      print(empresa.empresaId);
     }
     //EL ID DEL USUARIO CONECTADO
     empresa.usuarioId = usuario.idUser;

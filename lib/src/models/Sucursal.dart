@@ -4,8 +4,11 @@ Sucursal sucursalFromJson(String str) => Sucursal.fromJson(json.decode(str));
 
 String sucursalToJson(Sucursal data) => json.encode(data.toJson());
 
+String sucursalToJsonSinID(Sucursal data) => json.encode(data.toJsonSinId());
+
 class Sucursal {
   Sucursal({
+    this.sucursalId,
     this.sucursalNombre,
     this.sucursalCorreoCorporativo,
     this.sucursalTelefono,
@@ -14,7 +17,15 @@ class Sucursal {
     this.empresaId,
     this.usuarioId,
   });
-
+  Sucursal.sinId({
+    this.sucursalNombre,
+    this.sucursalCorreoCorporativo,
+    this.sucursalTelefono,
+    this.sucursalDireccion,
+    this.sucursalRuc,
+    this.empresaId,
+  });
+  int sucursalId;
   String sucursalNombre;
   String sucursalCorreoCorporativo;
   String sucursalTelefono;
@@ -24,6 +35,7 @@ class Sucursal {
   int usuarioId;
 
   factory Sucursal.fromJson(Map<String, dynamic> json) => Sucursal(
+        sucursalId: json['sucursal_id'],
         sucursalNombre: json["sucursal_nombre"],
         sucursalCorreoCorporativo: json["sucursal_correo_corporativo"],
         sucursalTelefono: json["sucursal_telefono"],
@@ -34,6 +46,7 @@ class Sucursal {
       );
 
   Map<String, dynamic> toJson() => {
+        "sucursal_id": sucursalId,
         "sucursal_nombre": sucursalNombre,
         "sucursal_correo_corporativo": sucursalCorreoCorporativo,
         "sucursal_telefono": sucursalTelefono,
@@ -41,6 +54,14 @@ class Sucursal {
         "sucursal_ruc": sucursalRuc,
         "empresa_id": empresaId,
         "usuario_id": usuarioId,
+      };
+  Map<String, dynamic> toJsonSinId() => {
+        "sucursal_nombre": sucursalNombre,
+        "sucursal_correo_corporativo": sucursalCorreoCorporativo,
+        "sucursal_telefono": sucursalTelefono,
+        "sucursal_direccion": sucursalDireccion,
+        "sucursal_ruc": sucursalRuc,
+        "empresa_id": empresaId,
       };
 }
 

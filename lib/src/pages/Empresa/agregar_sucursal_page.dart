@@ -3,6 +3,7 @@ import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:app_factura_club_dev/src/pages/Empresa/empresa_page.dart';
 import 'package:flutter/material.dart';
 
 class NuevaSucursalPage extends StatefulWidget {
@@ -11,31 +12,37 @@ class NuevaSucursalPage extends StatefulWidget {
 }
 
 class _NuevaSucursalPage extends State<NuevaSucursalPage> {
-  Sucursal sucursal = Sucursal();
+  Sucursal sucursal = Sucursal.sinId();
   SucursalBloc sucursalBloc;
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     sucursalBloc = Provider.crearSucursalBloc(context);
-    final Empresa empresa = ModalRoute.of(context).settings.arguments;
-    final Usuario usuario = ModalRoute.of(context).settings.arguments;
+    final Argumentos arg = ModalRoute.of(context).settings.arguments;
+    final Usuario usuario = arg.usuario;
+    final Empresa empresa = arg.empresa;
+    final Sucursal data = arg.sucursal;
     sucursal.empresaId = empresa.empresaId;
     sucursal.usuarioId = usuario.idUser;
+    if (data != null) {
+      sucursal = data;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva Sucursal'),
       ),
-      body: _formulario(),
+      body: _formulario(arg),
     );
   }
 
-  ListView _formulario() {
+  ListView _formulario(Argumentos arg) {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       children: [
         _inputCodigoEstablecimiento(),
         Divider(),
-        _inputCodigoNombreSucursal(),
+        _inputNombreSucursal(),
         Divider(),
         _inputDireccionSucursal(),
         Divider(),
@@ -45,12 +52,12 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
         Divider(),
         _inputRucSucursal(),
         Divider(),
-        _crearBoton(),
+        _crearBoton(arg),
       ],
     );
   }
 
-  Widget _crearBoton() {
+  Widget _crearBoton(Argumentos arg) {
     return RaisedButton(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
@@ -61,14 +68,22 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
         color: Colors.blueAccent,
         textColor: Colors.white,
         onPressed: () {
-          _botonGuardarSucursal();
+          _botonGuardarSucursal(arg);
         });
   }
 
-  void _botonGuardarSucursal() {
+  void _botonGuardarSucursal(Argumentos arg) {
     //TODO: VALIDAR VACIOS
+    print('aaaaaaaaaaaaaaaaaaa');
+    if (sucursal.sucursalId == null) {
+      sucursalBloc.crearNuevaSucursal(sucursal);
+      print('creando');
+    } else {
+      print('actualizando');
 
-    sucursalBloc.crearNuevaSucursal(sucursal);
+      sucursalBloc.actualizarSucursal(sucursal);
+    }
+    Navigator.popAndPushNamed(context, 'sucursales', arguments: arg);
   }
 
   //================================INPUTS===========================
@@ -85,8 +100,9 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
     );
   }
 
-  Widget _inputCodigoNombreSucursal() {
-    return TextField(
+  Widget _inputNombreSucursal() {
+    return TextFormField(
+      initialValue: sucursal.sucursalNombre,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -98,7 +114,8 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   }
 
   Widget _inputDireccionSucursal() {
-    return TextField(
+    return TextFormField(
+      initialValue: sucursal.sucursalDireccion,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -110,7 +127,8 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   }
 
   Widget _inputTelefonoSucursal() {
-    return TextField(
+    return TextFormField(
+      initialValue: sucursal.sucursalTelefono,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
@@ -123,7 +141,8 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   }
 
   Widget _inputCorreoSucursal() {
-    return TextField(
+    return TextFormField(
+      initialValue: sucursal.sucursalCorreoCorporativo,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -135,7 +154,8 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   }
 
   Widget _inputRucSucursal() {
-    return TextField(
+    return TextFormField(
+      initialValue: sucursal.sucursalRuc,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),

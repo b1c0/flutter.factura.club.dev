@@ -1,6 +1,7 @@
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
+import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -117,7 +118,8 @@ class _EmpresaPage extends State<EmpresaPage> {
               FlatButton(
                 child: Text('Ver Sucursales'),
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, 'sucursales', arguments: {empresa, usuario});
+                  Argumentos arg = Argumentos(empresa, usuario);
+                  Navigator.popAndPushNamed(context, 'sucursales', arguments: arg);
                 },
               ),
             ],
@@ -161,5 +163,7 @@ class _EmpresaPage extends State<EmpresaPage> {
 class Argumentos {
   Empresa empresa;
   Usuario usuario;
+  Sucursal sucursal;
   Argumentos(this.empresa, this.usuario);
+  Argumentos.sucursal(this.empresa, this.usuario, this.sucursal);
 }

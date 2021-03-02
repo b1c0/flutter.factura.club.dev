@@ -11,6 +11,8 @@ import 'package:app_factura_club_dev/src/pages/clientes/nuevo_cliente.dart';
 import 'package:app_factura_club_dev/src/pages/documentos/facturas/agregar_producto_factura.dart';
 import 'package:app_factura_club_dev/src/pages/documentos/facturas/facturas_page.dart';
 import 'package:app_factura_club_dev/src/pages/documentos/facturas/nueva_factura.dart';
+import 'package:app_factura_club_dev/src/pages/empresa/agregar_bodega.dart';
+import 'package:app_factura_club_dev/src/pages/empresa/bodega_page.dart';
 import 'package:app_factura_club_dev/src/pages/home_page.dart';
 import 'package:app_factura_club_dev/src/pages/productos_servicios/nuevo_producto.dart';
 import 'package:app_factura_club_dev/src/pages/productos_servicios/tabs_page.dart';
@@ -60,6 +62,8 @@ class MyApp extends StatelessWidget {
           'usuarios': (BuildContext context) => UsuariosPage(),
           'nuevo-usuario': (BuildContext context) => NuevoUsuarioPage(),
           'permisos-usuarios': (BuildContext context) => PermisosUsuarioPage(),
+          'bodega': (BuildContext context) => BodegaPage(),
+          'nueva-bodega': (BuildContext context) => NuevaBodegaPage(),
         },
       ),
     );

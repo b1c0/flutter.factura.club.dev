@@ -1,6 +1,7 @@
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/registro_usuarios_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
 class Provider extends InheritedWidget {

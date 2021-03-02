@@ -36,7 +36,7 @@ class MenuEmpresaPage extends StatelessWidget {
             leading: Icon(Icons.inventory, color: Colors.blue),
             trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
             onTap: () {
-              Navigator.pushNamed(context, 'usuarios');
+              Navigator.pushNamed(context, 'bodega');
             },
           )
         ],

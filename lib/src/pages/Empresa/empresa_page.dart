@@ -19,7 +19,6 @@ class _EmpresaPage extends State<EmpresaPage> {
     //id del usuario logueado
     final empresasBloc = Provider.crearEmpresaBloc(context);
     empresasBloc.cargarEmpresas(usuario.idUser);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Mis Empresas'),
@@ -119,7 +118,7 @@ class _EmpresaPage extends State<EmpresaPage> {
                 child: Text('Ver Sucursales'),
                 onPressed: () {
                   Argumentos arg = Argumentos(empresa, usuario);
-                  Navigator.popAndPushNamed(context, 'sucursales', arguments: arg);
+                  Navigator.pushNamed(context, 'sucursales', arguments: arg);
                 },
               ),
             ],

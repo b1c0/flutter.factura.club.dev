@@ -68,11 +68,11 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
         color: Colors.blueAccent,
         textColor: Colors.white,
         onPressed: () {
-          _botonGuardarSucursal(arg);
+          _actionGuardarSucursal(arg);
         });
   }
 
-  void _botonGuardarSucursal(Argumentos arg) {
+  void _actionGuardarSucursal(Argumentos arg) {
     //TODO: VALIDAR VACIOS
     print('aaaaaaaaaaaaaaaaaaa');
     if (sucursal.sucursalId == null) {
@@ -83,7 +83,7 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
 
       sucursalBloc.actualizarSucursal(sucursal);
     }
-    Navigator.popAndPushNamed(context, 'sucursales', arguments: arg);
+    Navigator.pushNamedAndRemoveUntil(context, 'sucursales', ModalRoute.withName('empresa'), arguments: arg);
   }
 
   //================================INPUTS===========================

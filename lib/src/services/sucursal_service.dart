@@ -15,7 +15,7 @@ class SucursalService {
     final url = 'https://192.168.1.2:44379/api/Sucursal';
     final resp = await ioClient.post(
       url,
-      body: (sucursalToJson(sucursal)),
+      body: (sucursalToJsonSinID(sucursal)),
       headers: {'Content-Type': 'application/json'},
     );
     final decodedData = json.decode(resp.body);

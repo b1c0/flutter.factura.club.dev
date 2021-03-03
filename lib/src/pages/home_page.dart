@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final Usuario usuario = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       appBar: buildAppBar(),
       drawer: MenuWidget(usuario: usuario),

@@ -1,6 +1,4 @@
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
-import 'package:app_factura_club_dev/src/pages/Empresa/agregar_empresa_page.dart';
-import 'package:app_factura_club_dev/src/pages/Empresa/agregar_sucursal_page.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/empresa_page.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/menu_empresas_page.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/sucursales_paged.dart';
@@ -11,8 +9,10 @@ import 'package:app_factura_club_dev/src/pages/clientes/nuevo_cliente.dart';
 import 'package:app_factura_club_dev/src/pages/documentos/facturas/agregar_producto_factura.dart';
 import 'package:app_factura_club_dev/src/pages/documentos/facturas/facturas_page.dart';
 import 'package:app_factura_club_dev/src/pages/documentos/facturas/nueva_factura.dart';
-import 'package:app_factura_club_dev/src/pages/empresa/agregar_bodega.dart';
+import 'package:app_factura_club_dev/src/pages/empresa/bodega_nueva_page.dart';
 import 'package:app_factura_club_dev/src/pages/empresa/bodega_page.dart';
+import 'package:app_factura_club_dev/src/pages/empresa/empresa_nueva_page.dart';
+import 'package:app_factura_club_dev/src/pages/empresa/sucursal_nueva_page.dart';
 import 'package:app_factura_club_dev/src/pages/home_page.dart';
 import 'package:app_factura_club_dev/src/pages/productos_servicios/nuevo_producto.dart';
 import 'package:app_factura_club_dev/src/pages/productos_servicios/tabs_page.dart';

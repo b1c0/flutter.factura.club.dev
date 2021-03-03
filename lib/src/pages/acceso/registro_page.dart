@@ -254,7 +254,7 @@ class _RegistroPageState extends State<RegistroPage> {
 
   Widget _crearbotonLogin(BuildContext context) {
     return FlatButton(
-        onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
+        onPressed: () => Navigator.pop(context),
         child: Text(
           '¿Ya tienes cuenta? Inicia Sesión!',
           style: TextStyle(color: Colors.blue),
@@ -269,7 +269,7 @@ class _RegistroPageState extends State<RegistroPage> {
       if (terminosCondiciones) {
         print('REGISTRO CORRECTO');
         regUsuarioBloc.registrarUsuario(usuario);
-        Navigator.pushReplacementNamed(context, 'login');
+        Navigator.pop(context);
       } else {
         titulo = 'Alerta';
         mensaje = 'Debe aceptar los terminos y condiciones para continuar';

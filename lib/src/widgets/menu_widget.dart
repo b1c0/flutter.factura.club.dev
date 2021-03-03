@@ -38,34 +38,34 @@ class _MenuWidgetState extends State<MenuWidget> {
             leading: Icon(Icons.home, color: Colors.blue),
             title: Text('Inicio'),
             onTap: () {
-              Navigator.popAndPushNamed(context, 'home', arguments: widget.usuario);
+              Navigator.pushNamedAndRemoveUntil(context, 'home', (Route<dynamic> route) => false, arguments: widget.usuario);
             },
           ),
           ListTile(
             leading: Icon(Icons.business, color: Colors.blue),
             title: Text('Empresa'),
             onTap: () {
-              Navigator.popAndPushNamed(context, 'menu-empresa', arguments: widget.usuario);
+              Navigator.pushNamedAndRemoveUntil(context, 'menu-empresa', ModalRoute.withName('home'), arguments: widget.usuario);
             },
           ),
           ListTile(
               leading: Icon(Icons.category, color: Colors.blue),
               title: Text('Productos/Servicios'),
               onTap: () {
-                Navigator.popAndPushNamed(context, 'productos-servicios');
+                Navigator.pushNamedAndRemoveUntil(context, 'productos-servicios', ModalRoute.withName('home'));
               }),
           ListTile(
               leading: Icon(Icons.people_sharp, color: Colors.blue),
               title: Text('Clientes'),
               onTap: () {
-                Navigator.popAndPushNamed(context, 'clientes');
+                Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('home'));
                 // Navigator.pop(context);
               }),
           ListTile(
               leading: Icon(Icons.paste, color: Colors.blue),
               title: Text('Facturas'),
               onTap: () {
-                Navigator.popAndPushNamed(context, 'facturas');
+                Navigator.pushNamedAndRemoveUntil(context, 'facturas', ModalRoute.withName('home'));
 
                 // Navigator.pop(context);
               }),
@@ -73,7 +73,7 @@ class _MenuWidgetState extends State<MenuWidget> {
               leading: Icon(Icons.arrow_back_rounded, color: Colors.blue),
               title: Text('Salir'),
               onTap: () {
-                Navigator.popAndPushNamed(context, 'login');
+                Navigator.pushReplacementNamed(context, 'login');
               }),
           // ListTile(
           //     leading: Icon(Icons.settings, color: Colors.blue),

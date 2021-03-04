@@ -1,5 +1,6 @@
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
+import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
@@ -17,8 +18,8 @@ class _SucursalesPage extends State<SucursalesPage> {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
-    final empresasBloc = Provider.crearEmpresaBloc(context);
-    empresasBloc.cargarEmpresas(usuario.idUser);
+    // final empresasBloc = Provider.crearEmpresaBloc(context);
+    // empresasBloc.cargarEmpresas(usuario.idUser);
     final sucursalesBloc = Provider.crearSucursalBloc(context);
     sucursalesBloc.cargarSucursales(empresa.empresaId);
 

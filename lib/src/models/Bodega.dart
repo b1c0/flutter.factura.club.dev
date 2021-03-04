@@ -4,9 +4,19 @@ Bodega bodegaFromJson(String str) => Bodega.fromJson(json.decode(str));
 
 String bodegaToJson(Bodega data) => json.encode(data.toJson());
 
+String bodegaToJsonSinID(Bodega data) => json.encode(data.toJsonSinId());
+
 class Bodega {
   Bodega({
     this.bodegaId,
+    this.bodegaNombre,
+    this.bodegaProvincia,
+    this.bodegaDireccion,
+    this.empresaId,
+    this.usuarioId,
+  });
+
+  Bodega.sinId({
     this.bodegaNombre,
     this.bodegaProvincia,
     this.bodegaDireccion,
@@ -38,4 +48,24 @@ class Bodega {
         "empresa_id": empresaId,
         "usuario_id": usuarioId,
       };
+
+  Map<String, dynamic> toJsonSinId() => {
+        "bodega_nombre": bodegaNombre,
+        "bodega_provincia": bodegaProvincia,
+        "bodega_direccion": bodegaDireccion,
+        "empresa_id": empresaId,
+        "usuario_id": usuarioId,
+      };
+}
+
+class Bodegas {
+  List<Bodega> items = new List();
+  Bodegas();
+  Bodegas.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+    for (var item in jsonList) {
+      final bodega = new Bodega.fromJson(item);
+      items.add(bodega);
+    }
+  }
 }

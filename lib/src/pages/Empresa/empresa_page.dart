@@ -1,7 +1,7 @@
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
+import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
-import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -80,10 +80,6 @@ class _EmpresaPage extends State<EmpresaPage> {
               child: ListTile(
                   leading: Icon(Icons.business_sharp, color: Colors.white, size: 40.0),
                   trailing: _crearPopupMenuButton(empresa, usuario),
-                  // IconButton(
-                  // icon: Icon(Icons.more_vert, color: Colors.white, size: 30.0),
-                  // onPressed: () => _crearPopupMenuButton(empresa),
-                  // ),
                   title: Text(empresa.empresaNombre, style: TextStyle(color: Colors.white)),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +114,24 @@ class _EmpresaPage extends State<EmpresaPage> {
                 child: Text('Ver Sucursales'),
                 onPressed: () {
                   Argumentos arg = Argumentos(empresa, usuario);
+                  Navigator.pop(context);
                   Navigator.pushNamed(context, 'sucursales', arguments: arg);
+                },
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 2,
+          child: Row(
+            children: [
+              Icon(Icons.inventory, color: Colors.blue),
+              FlatButton(
+                child: Text('Ver Bodegas'),
+                onPressed: () {
+                  Argumentos arg = Argumentos(empresa, usuario);
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, 'bodega', arguments: arg);
                 },
               ),
             ],
@@ -157,12 +170,4 @@ class _EmpresaPage extends State<EmpresaPage> {
           );
         });
   }
-}
-
-class Argumentos {
-  Empresa empresa;
-  Usuario usuario;
-  Sucursal sucursal;
-  Argumentos(this.empresa, this.usuario);
-  Argumentos.sucursal(this.empresa, this.usuario, this.sucursal);
 }

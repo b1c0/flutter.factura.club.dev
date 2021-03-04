@@ -10,12 +10,12 @@ class SucursalBloc {
   Stream<List<Sucursal>> get sucursalesStream => _sucursalesController.stream;
 
   void crearNuevaSucursal(Sucursal sucursal) async {
-    await _sucursalService.agregarNuevaSucursal(sucursal);
+    await _sucursalService.crearNuevaSucursal(sucursal);
   }
 
   void cargarSucursales(int empresa_id) async {
-    final empresas = await _sucursalService.cargarSucursales(empresa_id);
-    _sucursalesController.sink.add(empresas);
+    final sucursales = await _sucursalService.cargarSucursales(empresa_id);
+    _sucursalesController.sink.add(sucursales);
   }
 
   void actualizarSucursal(Sucursal sucursal) async {

@@ -103,7 +103,11 @@ class _EmpresaPage extends State<EmpresaPage> {
 
   Widget _crearPopupMenuButton(Empresa empresa, Usuario usuario) {
     return PopupMenuButton(
-      icon: Icon(Icons.more_vert, color: Colors.white),
+      icon: Icon(
+        Icons.more_vert,
+        color: Colors.white,
+        size: 30,
+      ),
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 1,
@@ -141,6 +145,9 @@ class _EmpresaPage extends State<EmpresaPage> {
     );
   }
 
+//===============================================================
+//================           METODOS         ====================
+//===============================================================
   void _eliminarEmpresa(EmpresaBloc empresasBloc, Empresa empresa) {
     empresasBloc.eliminarEmpresa(empresa.empresaId, empresa.usuarioId);
   }

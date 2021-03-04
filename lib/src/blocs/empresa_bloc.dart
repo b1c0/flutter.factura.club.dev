@@ -10,7 +10,7 @@ class EmpresaBloc {
   Stream<List<Empresa>> get empresasStream => _empresasController.stream;
 
   void crearNuevaEmpresa(Empresa empresa) async {
-    await _empresaService.agregarNuevaEmpresa(empresa);
+    await _empresaService.crearNuevaEmpresa(empresa);
   }
 
   void cargarEmpresas(int usuario_id) async {

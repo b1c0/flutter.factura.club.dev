@@ -4,7 +4,6 @@ import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
-import 'package:app_factura_club_dev/src/pages/Empresa/empresa_page.dart';
 import 'package:flutter/material.dart';
 
 class SucursalesPage extends StatefulWidget {
@@ -40,7 +39,7 @@ class _SucursalesPage extends State<SucursalesPage> {
     );
   }
 
-  _listar(SucursalBloc sucursalBloc, Argumentos arg) {
+  Widget _listar(SucursalBloc sucursalBloc, Argumentos arg) {
     return StreamBuilder(
       stream: sucursalBloc.sucursalesStream,
       builder: (BuildContext context, AsyncSnapshot<List<Sucursal>> snapshot) {
@@ -93,7 +92,7 @@ class _SucursalesPage extends State<SucursalesPage> {
                       Text(sucursal.sucursalDireccion, style: TextStyle(color: Colors.white)),
                     ],
                   ),
-                  trailing: Icon(Icons.more_vert, color: Colors.white, size: 30.0),
+                  trailing: _crearPopupMenuButton(sucursal, arg.usuario),
                   onTap: () {
                     Argumentos a = Argumentos.sucursal(arg.empresa, arg.usuario, sucursal);
                     Navigator.pushNamed(context, 'nueva-sucursal', arguments: a).then((value) {
@@ -135,5 +134,36 @@ class _SucursalesPage extends State<SucursalesPage> {
 
   void _eliminarSucursal(SucursalBloc sucursalBloc, Sucursal sucursal) {
     sucursalBloc.eliminarSucursal(sucursal.usuarioId, sucursal.sucursalId);
+  }
+
+  Widget _crearPopupMenuButton(Sucursal sucursal, Usuario usuario) {
+    return PopupMenuButton(
+      icon: Icon(
+        Icons.more_vert,
+        color: Colors.white,
+        size: 30,
+      ),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 1,
+          child: Row(
+            children: [
+              Icon(
+                Icons.person,
+                color: Colors.blue,
+              ),
+              FlatButton(
+                child: Text('Ver Clientes'),
+                onPressed: () {
+                  Argumentos arg = Argumentos.cliente(sucursal, usuario);
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, 'clientes', arguments: arg);
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

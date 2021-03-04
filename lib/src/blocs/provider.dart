@@ -1,3 +1,4 @@
+import 'package:app_factura_club_dev/src/blocs/cliente_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/registro_usuarios_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
@@ -10,6 +11,7 @@ class Provider extends InheritedWidget {
   final _crearEmpresaBloc = EmpresaBloc();
   final _crearSucursalBloc = SucursalBloc();
   final _crearBodegaBloc = BodegaBloc();
+  final _crearClienteBloc = ClienteBloc();
 
   static Provider _instancia;
 
@@ -39,5 +41,9 @@ class Provider extends InheritedWidget {
 
   static BodegaBloc crearBodegaBloc(BuildContext context) {
     return (context.dependOnInheritedWidgetOfExactType<Provider>()._crearBodegaBloc);
+  }
+
+  static ClienteBloc crearClienteBloc(BuildContext context) {
+    return (context.dependOnInheritedWidgetOfExactType<Provider>()._crearClienteBloc);
   }
 }

@@ -1,5 +1,9 @@
+import 'package:app_factura_club_dev/src/blocs/cliente_bloc.dart';
+import 'package:app_factura_club_dev/src/blocs/provider.dart';
+import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Cliente.dart';
-import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
+import 'package:app_factura_club_dev/src/models/Sucursal.dart';
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
 class NuevoClientePage extends StatefulWidget {
@@ -8,26 +12,43 @@ class NuevoClientePage extends StatefulWidget {
 }
 
 class _NuevoClientePage extends State<NuevoClientePage> {
-  InputWidget input = InputWidget();
-  String _opcionSeleccionada = 'Tipo de identificación';
-  List<String> _opciones = ['Tipo de identificación', 'CÉDULA', 'RUC', 'PASAPORTE'];
-  Cliente cliente = Cliente();
+  // String _opcionSeleccionada = 'Tipo de identificación';
+  // List<String> _opciones = ['Tipo de identificación', 'CÉDULA', 'RUC', 'PASAPORTE'];
+  Cliente cliente = Cliente.sinId();
+  ClienteBloc clienteBloc;
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    clienteBloc = Provider.crearClienteBloc(context);
+    final Argumentos arg = ModalRoute.of(context).settings.arguments;
+    Usuario usuario = arg.usuario;
+    Sucursal sucursal = arg.sucursal;
+    cliente.usuarioId = usuario.idUser;
+    cliente.sucursalId = sucursal.sucursalId;
+    Cliente data = arg.cliente;
+    if (data != null) {
+      cliente = data;
+      cliente.usuarioId = usuario.idUser;
+      cliente.sucursalId = sucursal.sucursalId;
+      print(cliente.clienteId);
+      print(cliente.usuarioId);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Nuevo Cliente'),
         centerTitle: true,
       ),
-      body: _formulario(),
+      body: _formulario(arg),
     );
   }
 
-  ListView _formulario() {
+  ListView _formulario(Argumentos arg) {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       children: [
-        _crearDropDown(),
+        // _crearDropDown(),
         _inputIdentificacion(),
         Divider(),
         _inputNombres(),
@@ -40,30 +61,12 @@ class _NuevoClientePage extends State<NuevoClientePage> {
         Divider(),
         _inputTelefono(),
         Divider(),
-        _crearBoton(),
+        _crearBoton(arg),
       ],
     );
   }
 
-  Widget _crearDropDown() {
-    return Row(
-      children: [
-        SizedBox(width: 10.0),
-        Expanded(
-          child: DropdownButton(
-              value: _opcionSeleccionada,
-              items: input.getOpcionesDropDown(_opciones),
-              onChanged: (opt) {
-                setState(() {
-                  _opcionSeleccionada = opt;
-                });
-              }),
-        )
-      ],
-    );
-  }
-
-  Widget _crearBoton() {
+  Widget _crearBoton(Argumentos arg) {
     return RaisedButton(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
@@ -73,13 +76,32 @@ class _NuevoClientePage extends State<NuevoClientePage> {
         elevation: 0.0,
         color: Colors.blueAccent,
         textColor: Colors.white,
-        onPressed: () {});
+        onPressed: () {
+          _guardarCliente(arg);
+        });
+  }
+
+  _guardarCliente(Argumentos arg) {
+    if (cliente.clienteId == null) {
+      clienteBloc.crearNuevoCliente(cliente);
+      print('creando');
+    } else {
+      print('actualizando');
+      clienteBloc.actualizarClientes(cliente);
+    }
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      'clientes',
+      ModalRoute.withName('sucursales'),
+      arguments: arg,
+    );
   }
 
 //=======================================================================INPUTS=====
   Widget _inputIdentificacion() {
     return TextFormField(
       // autofocus: true,
+      initialValue: cliente.clienteIdentificacion,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -93,19 +115,21 @@ class _NuevoClientePage extends State<NuevoClientePage> {
   Widget _inputNombres() {
     return TextFormField(
       // autofocus: true,
+      initialValue: cliente.clienteNombres,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         labelText: 'Nombres y Apellidos',
         hintText: 'Nombres y Apellidos',
       ),
-      onChanged: (value) => cliente.clienteNombres = value,
+      // onChanged: (value) => cliente.clienteNombres = value,
     );
   }
 
   Widget _inputCorreo() {
     return TextFormField(
       // autofocus: true,
+      initialValue: cliente.clienteCorreo,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -119,6 +143,7 @@ class _NuevoClientePage extends State<NuevoClientePage> {
   Widget _inputDireccion() {
     return TextFormField(
       // autofocus: true,
+      initialValue: cliente.clienteDireccion,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -132,6 +157,7 @@ class _NuevoClientePage extends State<NuevoClientePage> {
   Widget _inputCelular() {
     return TextFormField(
       // autofocus: true,
+      initialValue: cliente.clienteCelular,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -145,6 +171,7 @@ class _NuevoClientePage extends State<NuevoClientePage> {
   Widget _inputTelefono() {
     return TextFormField(
       // autofocus: true,
+      initialValue: cliente.clienteTelefono,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),

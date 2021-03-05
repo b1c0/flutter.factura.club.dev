@@ -27,42 +27,11 @@ class _ClientesPage extends State<ClientesPage> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Navigator.pushNamed(context, 'nuevo-cliente');
+                Navigator.pushNamed(context, 'nuevo-cliente', arguments: arg);
               })
         ],
       ),
       body: _listarClientes(clientesBloc, arg),
-    );
-  }
-
-  Widget _card() {
-    return Card(
-      margin: EdgeInsets.all(5.0),
-      color: Colors.blue[300],
-      elevation: 10.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      child: Column(children: [
-        ListTile(
-          leading: Icon(
-            Icons.person_pin_rounded,
-            color: Colors.white,
-            size: 40.0,
-          ),
-          title: Text(
-            'Consumidor final',
-            style: TextStyle(color: Colors.white),
-          ),
-          subtitle: Text(
-            '9999999999999',
-            style: TextStyle(color: Colors.white),
-          ),
-          trailing: Icon(
-            Icons.menu_outlined,
-            color: Colors.white,
-            size: 30.0,
-          ),
-        ),
-      ]),
     );
   }
 
@@ -86,52 +55,80 @@ class _ClientesPage extends State<ClientesPage> {
   }
 
   Widget _crearItem(BuildContext context, ClienteBloc clienteBloc, Cliente cliente, Argumentos arg) {
-    return
-        // Dismissible(
-        //   key: UniqueKey(),
-        //   background: Container(
-        //     padding: EdgeInsets.only(right: 30),
-        //     color: Colors.red,
-        //     child: Align(
-        //       child: Icon(Icons.delete, color: Colors.white),
-        //       alignment: Alignment.centerRight,
-        //     ),
-        //   ),
-        //   onDismissed: (direction) {
-        //     mostrarAlertaEliminar(context, sucursalBloc, sucursal);
-        //     setState(() {});
-        //   },
-        //   child:
-        Card(
-      margin: EdgeInsets.all(5.0),
-      color: Colors.blue[300],
-      elevation: 5.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      child: Column(
-        children: [
-          Container(
-            color: Colors.green,
-            padding: EdgeInsets.all(5.0),
-            child: ListTile(
-                leading: Icon(Icons.business_sharp, color: Colors.white, size: 40.0),
-                title: Text(cliente.clienteIdentificacion, style: TextStyle(color: Colors.white)),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(cliente.clienteDireccion, style: TextStyle(color: Colors.white)),
-                  ],
-                ),
-                // trailing: _crearPopupMenuButton(sucursal, arg.usuario),
-                onTap: () {
-                  // Argumentos a = Argumentos.cliente(sucursal, arg.usuario);
-                  Navigator.pushNamed(context, 'nuevo cliente').then((value) {
-                    setState(() {});
-                  });
-                }),
-          ),
-        ],
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        padding: EdgeInsets.only(right: 30),
+        color: Colors.red,
+        child: Align(
+          child: Icon(Icons.delete, color: Colors.white),
+          alignment: Alignment.centerRight,
+        ),
       ),
-      // ),
+      onDismissed: (direction) {
+        mostrarAlertaEliminar(context, clienteBloc, cliente);
+        setState(() {});
+      },
+      child: Card(
+        margin: EdgeInsets.all(5.0),
+        color: Colors.blue[300],
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Column(
+          children: [
+            Container(
+              color: Colors.orange,
+              padding: EdgeInsets.all(5.0),
+              child: ListTile(
+                  leading: Icon(Icons.business_sharp, color: Colors.white, size: 40.0),
+                  title: Text(cliente.clienteIdentificacion, style: TextStyle(color: Colors.white)),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(cliente.clienteDireccion, style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                  // trailing: _crearPopupMenuButton(sucursal, arg.usuario),
+                  onTap: () {
+                    Argumentos a = Argumentos.modificarCliente(cliente, arg.usuario, arg.sucursal);
+                    Navigator.pushNamed(context, 'nuevo-cliente', arguments: a).then((value) {
+                      setState(() {});
+                    });
+                  }),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  void mostrarAlertaEliminar(BuildContext context, ClienteBloc clienteBloc, Cliente cliente) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Eliminar'),
+            content: Text('¿Esta seguro que desea eliminar este cliente?'),
+            actions: [
+              FlatButton(
+                onPressed: () => {
+                  Navigator.pop(context),
+                },
+                child: Text('Cancelar'),
+              ),
+              FlatButton(
+                  child: Text('OK'),
+                  onPressed: () => {
+                        _eliminarCliente(clienteBloc, cliente),
+                        Navigator.pop(context),
+                        setState(() {}),
+                      })
+            ],
+          );
+        });
+  }
+
+  void _eliminarCliente(ClienteBloc clienteBloc, Cliente cliente) {
+    clienteBloc.eliminarCliente(cliente.clienteId, cliente.usuarioId, cliente.sucursalId);
   }
 }

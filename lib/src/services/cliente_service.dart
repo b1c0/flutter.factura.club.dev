@@ -38,8 +38,7 @@ class ClienteService {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
-    //TODO: CAMBIAR EL ID DEL USUARIO POR EL ID DEL CLIENTE
-    final url = 'https://192.168.1.2:44379/api/Cliente/${cliente.usuarioId},${cliente.sucursalId}';
+    final url = 'https://192.168.1.2:44379/api/Cliente/${cliente.clienteId},${cliente.usuarioId}';
     final resp = await ioClient.put(
       url,
       body: (clienteToJsonSinId(cliente)),

@@ -7,8 +7,6 @@ import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
 class BodegaPage extends StatefulWidget {
-  BodegaPage({Key key}) : super(key: key);
-
   @override
   _BodegaPageState createState() => _BodegaPageState();
 }
@@ -91,7 +89,7 @@ class _BodegaPageState extends State<BodegaPage> {
                       Text(bodega.bodegaNombre, style: TextStyle(color: Colors.white)),
                     ],
                   ),
-                  trailing: Icon(Icons.more_vert, color: Colors.white, size: 30.0),
+                  trailing: _crearPopupMenuButton(bodega, arg.usuario),
                   onTap: () {
                     Argumentos a = Argumentos.bodega(arg.empresa, arg.usuario, bodega);
                     Navigator.pushNamed(context, 'nueva-bodega', arguments: a).then((value) {
@@ -102,6 +100,37 @@ class _BodegaPageState extends State<BodegaPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _crearPopupMenuButton(Bodega bodega, Usuario usuario) {
+    return PopupMenuButton(
+      icon: Icon(
+        Icons.more_vert,
+        color: Colors.white,
+        size: 30,
+      ),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 1,
+          child: Row(
+            children: [
+              Icon(
+                Icons.category,
+                color: Colors.blue,
+              ),
+              FlatButton(
+                child: Text('Ver Productos/Servicios'),
+                onPressed: () {
+                  Argumentos arg = Argumentos.productos(bodega, usuario);
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, 'productos-servicios', arguments: arg);
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

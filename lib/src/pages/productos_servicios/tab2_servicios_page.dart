@@ -20,7 +20,6 @@ class _TabServiciosState extends State<TabServicios> {
               })
         ],
       ),
-      drawer: MenuWidget(),
       body: ListView.builder(
         itemCount: 5,
         itemBuilder: (BuildContext context, int index) {

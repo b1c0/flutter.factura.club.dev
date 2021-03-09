@@ -30,8 +30,8 @@ class ClienteService {
       headers: {'Content-Type': 'application/json'},
     );
     final decodeData = json.decode(resp.body);
-    final sucursales = new Clientes.fromJsonList(decodeData);
-    return sucursales.items;
+    final clientes = new Clientes.fromJsonList(decodeData);
+    return clientes.items;
   }
 
   Future<bool> actualizarCliente(Cliente cliente) async {

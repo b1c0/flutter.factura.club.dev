@@ -27,7 +27,9 @@ class _TabProductosState extends State<TabProductos> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Navigator.pushNamed(context, 'nuevo_producto', arguments: arg);
+                Producto producto = Producto();
+                Argumentos arg = Argumentos.modificarProductos(bodega, usuario, producto);
+                Navigator.pushNamed(context, 'nuevo_producto', arguments: arg).then((value) => setState(() {}));
               })
         ],
       ),
@@ -55,48 +57,76 @@ class _TabProductosState extends State<TabProductos> {
   }
 
   _crearItem(BuildContext context, ProductoBloc productoBloc, Producto producto, Argumentos arg) {
-    return
-// Dismissible(
-//       key: UniqueKey(),
-//       background: Container(
-//         padding: EdgeInsets.only(right: 30),
-//         color: Colors.red,
-//         child: Align(
-//           child: Icon(Icons.delete, color: Colors.white),
-//           alignment: Alignment.centerRight,
-//         ),
-//       ),
-//       onDismissed: (direction) {
-//         mostrarAlertaEliminar(context, bodegaBloc, bodega);
-//         setState(() {});
-//       },
-//       child:
-        Card(
-      margin: EdgeInsets.all(5.0),
-      color: Colors.blue[300],
-      elevation: 5.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      child: Column(
-        children: [
-          Container(
-            color: Colors.purple,
-            padding: EdgeInsets.all(5.0),
-            child: ListTile(
-                leading: Icon(Icons.business_sharp, color: Colors.white, size: 40.0),
-                title: Text(producto.productoNombre, style: TextStyle(color: Colors.white)),
-                subtitle: Text(producto.productoBodegaPrecio.toString(), style: TextStyle(color: Colors.white)),
-
-                // trailing: _crearPopupMenuButton(bodega, arg.usuario),
-                onTap: () {
-                  // Argumentos a = Argumentos.bodega(arg.empresa, arg.usuario, bodega);
-                  // Navigator.pushNamed(context, 'nueva-bodega', arguments: a).then((value) {
-                  // setState(() {});
-                  // });
-                }),
-          ),
-        ],
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        padding: EdgeInsets.only(right: 30),
+        color: Colors.red,
+        child: Align(
+          child: Icon(Icons.delete, color: Colors.white),
+          alignment: Alignment.centerRight,
+        ),
       ),
-      // ),
+      onDismissed: (direction) {
+        mostrarAlertaEliminar(context, productoBloc, producto);
+        setState(() {});
+      },
+      child: Card(
+        margin: EdgeInsets.all(5.0),
+        color: Colors.blue[300],
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Column(
+          children: [
+            Container(
+              color: Colors.purple,
+              padding: EdgeInsets.all(5.0),
+              child: ListTile(
+                  leading: Icon(Icons.category_rounded, color: Colors.white, size: 40.0),
+                  title: Text(producto.productoNombre, style: TextStyle(color: Colors.white)),
+                  subtitle: Text(producto.productoBodegaPrecio.toString(), style: TextStyle(color: Colors.white)),
+
+                  // trailing: _crearPopupMenuButton(bodega, arg.usuario),
+                  onTap: () {
+                    Argumentos a = Argumentos.modificarProductos(arg.bodega, arg.usuario, producto);
+                    Navigator.pushNamed(context, 'nuevo_producto', arguments: a).then((value) {
+                      setState(() {});
+                    });
+                  }),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  void mostrarAlertaEliminar(BuildContext context, ProductoBloc productoBloc, Producto producto) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Eliminar'),
+            content: Text('¿Esta seguro que desea eliminar el producto?'),
+            actions: [
+              FlatButton(
+                onPressed: () => {
+                  Navigator.pop(context),
+                },
+                child: Text('Cancelar'),
+              ),
+              FlatButton(
+                  child: Text('OK'),
+                  onPressed: () => {
+                        _eliminarBodega(productoBloc, producto),
+                        Navigator.pop(context),
+                        setState(() {}),
+                      })
+            ],
+          );
+        });
+  }
+
+  void _eliminarBodega(ProductoBloc productoBloc, Producto producto) {
+    productoBloc.eliminarProducto(producto.usuarioId, producto.productoBodegaId);
   }
 }

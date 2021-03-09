@@ -81,7 +81,7 @@ class _BodegaPageState extends State<BodegaPage> {
               color: Colors.green,
               padding: EdgeInsets.all(5.0),
               child: ListTile(
-                  leading: Icon(Icons.business_sharp, color: Colors.white, size: 40.0),
+                  leading: Icon(Icons.inventory, color: Colors.white, size: 40.0),
                   title: Text(bodega.bodegaId.toString(), style: TextStyle(color: Colors.white)),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

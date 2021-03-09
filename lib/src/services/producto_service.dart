@@ -21,11 +21,11 @@ class ProductoService {
     return true;
   }
 
-  Future<List<Producto>> cargarProductos(int bodega_id) async {
+  Future<List<Producto>> cargarProductos(int bodegaId) async {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
-    final url = 'https://192.168.1.2:44379/api/Producto/$bodega_id';
+    final url = 'https://192.168.1.2:44379/api/Producto/$bodegaId';
     final resp = await ioClient.get(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -33,5 +33,31 @@ class ProductoService {
     final decodeData = json.decode(resp.body);
     final productos = new Productos.fromJsonList(decodeData);
     return productos.items;
+  }
+
+  Future<bool> actualizarProducto(Producto producto) async {
+    HttpClient client = new HttpClient();
+    client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
+    IOClient ioClient = new IOClient(client);
+    final url = 'https://192.168.1.2:44379/api/Producto/${producto.productoBodegaId}';
+    final resp = await ioClient.put(
+      url,
+      body: (productoToJsonSinId(producto)),
+      headers: {'Content-Type': 'application/json'},
+    );
+    final decodedData = json.decode(resp.body);
+    print(' ================================== $decodedData');
+
+    return true;
+  }
+
+  Future<int> eliminarProducto(int usuarioId, int productoId) async {
+    HttpClient client = new HttpClient();
+    client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
+    IOClient ioClient = new IOClient(client);
+    final url = 'https://192.168.1.2:44379/api/Producto/$usuarioId,$productoId';
+    final resp = await ioClient.delete(url);
+    print(json.decode(resp.body));
+    return 1;
   }
 }

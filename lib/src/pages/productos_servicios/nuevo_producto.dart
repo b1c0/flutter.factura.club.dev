@@ -14,13 +14,13 @@ class NuevoProductoPage extends StatefulWidget {
 class _NuevoProductoPage extends State<NuevoProductoPage> {
   // String _opcionSeleccionada = 'Selecione impuesto Iva';
   // List<String> _opciones = ['Selecione impuesto Iva', 'Iva 0%', 'Iva 12%', 'Iva 14%'];
-
+  final formKey = GlobalKey<FormState>();
   bool esServicio = false;
   bool iva = false;
   bool rice = false;
   Producto producto = Producto.sinId();
   ProductoBloc productoBloc;
-
+  bool _guardando = false;
   @override
   Widget build(BuildContext context) {
     productoBloc = Provider.crearProductoBloc(context);
@@ -28,12 +28,16 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     final Usuario usuario = arg.usuario;
     final Bodega bodega = arg.bodega;
+    final Producto data = arg.producto;
 
     producto.bodegaId = bodega.bodegaId;
     producto.usuarioId = usuario.idUser;
-    print(arg.bodega.bodegaId);
-    print(arg.usuario.idUser);
-
+    // print(arg.bodega.bodegaId);
+    // print(arg.usuario.idUser);
+    if (data != null) {
+      producto = data;
+      // print(producto.productoBodegaId);
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Nuevo Producto/Servicio'),
@@ -42,30 +46,35 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
     );
   }
 
-  ListView _formulario(Argumentos arg) {
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      children: [
-        _inputNombreProducto(),
-        Divider(),
-        _inputMarcaProducto(),
-        Divider(),
-        _inputPesoProducto(),
-        Divider(),
-        _inputUnidadMedida(),
-        Divider(),
-        _inputIva(),
-        Divider(),
-        _inputIce(),
-        Divider(),
-        _crearCheckServicio(),
-        Divider(),
-        _inputStock(),
-        Divider(),
-        _inputPrecio(),
-        Divider(),
-        _crearBoton(arg),
-      ],
+  Widget _formulario(Argumentos arg) {
+    return Form(
+      key: formKey,
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        children: [
+          _inputNombreProducto(),
+          Divider(),
+          _inputMarcaProducto(),
+          Divider(),
+          _inputPesoProducto(),
+          Divider(),
+          _inputUnidadMedida(),
+          Divider(),
+          _inputIva(),
+          Divider(),
+          _inputIce(),
+          Divider(),
+          _crearCheckServicio(),
+          Divider(),
+          _inputStock(),
+          Divider(),
+          _inputPrecio(),
+          Divider(),
+          _inputEstado(),
+          Divider(),
+          _crearBoton(arg),
+        ],
+      ),
     );
   }
 
@@ -80,13 +89,18 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         color: Colors.blueAccent,
         textColor: Colors.white,
         onPressed: () {
-          _actionGuardar(arg);
+          (_guardando) ? null : _actionGuardar(arg);
         });
   }
 
   void _actionGuardar(Argumentos arg) {
+    formKey.currentState.save();
+    setState(() {
+      _guardando = true;
+    });
     //producto
     if (esServicio) {
+      //TODO: Codigo para crear y actualizar servicios
     } else {
       print('Es producto');
       producto.categoriaId = 1;
@@ -94,10 +108,12 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         productoBloc.crearNuevoProducto(producto);
         print('creando');
       } else {
+        productoBloc.actualizarProducto(producto);
         print('actualizando');
 
         // sucursalBloc.actualizarSucursal(sucursal);
       }
+      Navigator.pop(context);
       Navigator.pushNamedAndRemoveUntil(context, 'productos-servicios', ModalRoute.withName('bodega'), arguments: arg);
     }
   }
@@ -218,6 +234,7 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         hintText: 'Número de unidades en el inventario',
         labelText: 'Stock',
       ),
+      onChanged: (value) => producto.productoBodegaStock = int.parse(value),
     );
   }
 

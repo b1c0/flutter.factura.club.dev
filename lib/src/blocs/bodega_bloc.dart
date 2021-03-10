@@ -13,8 +13,8 @@ class BodegaBloc {
     await _bodegaService.crearNuevaBodega(bodega);
   }
 
-  void cargarBodegas(int empresa_id) async {
-    final empresas = await _bodegaService.cargarBodegas(empresa_id);
+  void cargarBodegas(int empresaId) async {
+    final empresas = await _bodegaService.cargarBodegas(empresaId);
     _bodegasController.sink.add(empresas);
   }
 
@@ -22,8 +22,8 @@ class BodegaBloc {
     await _bodegaService.actualizarBodega(bodega);
   }
 
-  void eliminarBodega(int usuario_id, int bodega_id) async {
-    await _bodegaService.eliminarBodega(usuario_id, bodega_id);
+  void eliminarBodega(int usuarioId, int bodegaId) async {
+    await _bodegaService.eliminarBodega(usuarioId, bodegaId);
   }
 
   void dispose() {

@@ -20,11 +20,11 @@ class SucursalService {
     return true;
   }
 
-  Future<List<Sucursal>> cargarSucursales(int empresa_id) async {
+  Future<List<Sucursal>> cargarSucursales(int empresaId) async {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
-    final url = 'https://192.168.1.2:44379/api/Sucursal/$empresa_id';
+    final url = 'https://192.168.1.2:44379/api/Sucursal/$empresaId';
     final resp = await ioClient.get(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -50,11 +50,11 @@ class SucursalService {
     return true;
   }
 
-  Future<int> eliminarSucursal(int usuario_id, int sucursal_id) async {
+  Future<int> eliminarSucursal(int usuarioId, int sucursalId) async {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
-    final url = 'https://192.168.1.2:44379/api/Sucursal/$usuario_id,$sucursal_id';
+    final url = 'https://192.168.1.2:44379/api/Sucursal/$usuarioId,$sucursalId';
     final resp = await ioClient.delete(url);
     print(json.decode(resp.body));
     return 1;

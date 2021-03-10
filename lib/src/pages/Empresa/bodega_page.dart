@@ -15,7 +15,7 @@ class _BodegaPageState extends State<BodegaPage> {
   @override
   Widget build(BuildContext context) {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
-    final Usuario usuario = arg.usuario;
+    // final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
     final bodegaBloc = Provider.crearBodegaBloc(context);
     bodegaBloc.cargarBodegas(empresa.empresaId);
@@ -120,11 +120,11 @@ class _BodegaPageState extends State<BodegaPage> {
                 color: Colors.blue,
               ),
               FlatButton(
-                child: Text('Ver Productos/Servicios'),
+                child: Text('Ver Productos'),
                 onPressed: () {
                   Argumentos arg = Argumentos.productos(bodega, usuario);
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, 'productos-servicios', arguments: arg);
+                  Navigator.pushNamed(context, 'productos', arguments: arg);
                 },
               ),
             ],

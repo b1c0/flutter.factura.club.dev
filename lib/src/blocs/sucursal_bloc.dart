@@ -13,8 +13,8 @@ class SucursalBloc {
     await _sucursalService.crearNuevaSucursal(sucursal);
   }
 
-  void cargarSucursales(int empresa_id) async {
-    final sucursales = await _sucursalService.cargarSucursales(empresa_id);
+  void cargarSucursales(int empresaId) async {
+    final sucursales = await _sucursalService.cargarSucursales(empresaId);
     _sucursalesController.sink.add(sucursales);
   }
 
@@ -22,8 +22,8 @@ class SucursalBloc {
     await _sucursalService.actualizarSucursal(sucursal);
   }
 
-  void eliminarSucursal(int usuario_id, int sucursal_id) async {
-    await _sucursalService.eliminarSucursal(usuario_id, sucursal_id);
+  void eliminarSucursal(int usuarioId, int sucursalId) async {
+    await _sucursalService.eliminarSucursal(usuarioId, sucursalId);
   }
 
   void dispose() {

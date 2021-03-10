@@ -15,7 +15,7 @@ class _SucursalesPage extends State<SucursalesPage> {
   @override
   Widget build(BuildContext context) {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
-    final Usuario usuario = arg.usuario;
+    // final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
     // final empresasBloc = Provider.crearEmpresaBloc(context);
     // empresasBloc.cargarEmpresas(usuario.idUser);
@@ -84,7 +84,7 @@ class _SucursalesPage extends State<SucursalesPage> {
               color: Colors.green,
               padding: EdgeInsets.all(5.0),
               child: ListTile(
-                  leading: Icon(Icons.business_sharp, color: Colors.white, size: 40.0),
+                  leading: Icon(Icons.home_work_sharp, color: Colors.white, size: 40.0),
                   title: Text(sucursal.sucursalNombre, style: TextStyle(color: Colors.white)),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,6 +158,25 @@ class _SucursalesPage extends State<SucursalesPage> {
                   Argumentos arg = Argumentos.cliente(sucursal, usuario);
                   Navigator.pop(context);
                   Navigator.pushNamed(context, 'clientes', arguments: arg);
+                },
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 2,
+          child: Row(
+            children: [
+              Icon(
+                Icons.miscellaneous_services,
+                color: Colors.blue,
+              ),
+              FlatButton(
+                child: Text('Ver Servicios'),
+                onPressed: () {
+                  Argumentos arg = Argumentos.cliente(sucursal, usuario);
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, 'servicios', arguments: arg);
                 },
               ),
             ],

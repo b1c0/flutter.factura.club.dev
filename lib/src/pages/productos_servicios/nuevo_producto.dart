@@ -20,7 +20,6 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
   bool rice = false;
   Producto producto = Producto.sinId();
   ProductoBloc productoBloc;
-  bool _guardando = false;
   @override
   Widget build(BuildContext context) {
     productoBloc = Provider.crearProductoBloc(context);
@@ -40,7 +39,7 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nuevo Producto/Servicio'),
+        title: Text('Nuevo Producto'),
       ),
       body: _formulario(arg),
     );
@@ -64,8 +63,8 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
           Divider(),
           _inputIce(),
           Divider(),
-          _crearCheckServicio(),
-          Divider(),
+          // _crearCheckServicio(),
+          // Divider(),
           _inputStock(),
           Divider(),
           _inputPrecio(),
@@ -88,35 +87,21 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         elevation: 0.0,
         color: Colors.blueAccent,
         textColor: Colors.white,
-        onPressed: () {
-          (_guardando) ? null : _actionGuardar(arg);
-        });
+        onPressed: () => _actionGuardar(arg));
   }
 
   void _actionGuardar(Argumentos arg) {
-    formKey.currentState.save();
-    setState(() {
-      _guardando = true;
-    });
-    //producto
-    if (esServicio) {
-      //TODO: Codigo para crear y actualizar servicios
+    producto.categoriaId = 1;
+    if (producto.productoBodegaId == null) {
+      print('creando');
+      productoBloc.crearNuevoProducto(producto);
     } else {
-      print('Es producto');
-      producto.categoriaId = 1;
-      if (producto.productoBodegaId == null) {
-        productoBloc.crearNuevoProducto(producto);
-        print('creando');
-      } else {
-        productoBloc.actualizarProducto(producto);
-        print('actualizando');
-
-        // sucursalBloc.actualizarSucursal(sucursal);
-      }
-      Navigator.pop(context);
-      Navigator.pushNamedAndRemoveUntil(context, 'productos-servicios', ModalRoute.withName('bodega'), arguments: arg);
+      print('actualizando');
+      productoBloc.actualizarProducto(producto);
     }
+    Navigator.pushNamedAndRemoveUntil(context, 'productos-servicios', ModalRoute.withName('bodega'), arguments: arg);
   }
+
 //===========================================================================INPUTS
 
   Widget _inputNombreProducto() {
@@ -203,21 +188,21 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         });
   }
 
-  Widget _crearCheckServicio() {
-    return Row(children: [
-      Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: Checkbox(
-            value: esServicio,
-            onChanged: (value) {
-              setState(() {
-                esServicio = value;
-              });
-            },
-          )),
-      Text('¿Es un servicio?')
-    ]);
-  }
+  // Widget _crearCheckServicio() {
+  //   return Row(children: [
+  //     Container(
+  //         padding: EdgeInsets.symmetric(horizontal: 10.0),
+  //         child: Checkbox(
+  //           value: esServicio,
+  //           onChanged: (value) {
+  //             setState(() {
+  //               esServicio = value;
+  //             });
+  //           },
+  //         )),
+  //     Text('¿Es un servicio?')
+  //   ]);
+  // }
 
   Widget _inputStock() {
     if (producto.productoBodegaStock == null) {

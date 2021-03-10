@@ -13,8 +13,8 @@ class EmpresaBloc {
     await _empresaService.crearNuevaEmpresa(empresa);
   }
 
-  void cargarEmpresas(int usuario_id) async {
-    final empresas = await _empresaService.cargarEmpresas(usuario_id);
+  void cargarEmpresas(int usuarioId) async {
+    final empresas = await _empresaService.cargarEmpresas(usuarioId);
     _empresasController.sink.add(empresas);
   }
 
@@ -22,8 +22,8 @@ class EmpresaBloc {
     await _empresaService.actualizarEmpresa(empresa);
   }
 
-  void eliminarEmpresa(int empresa_id, int usuario_id) async {
-    await _empresaService.eliminarEmpresa(empresa_id, usuario_id);
+  void eliminarEmpresa(int empresaId, int usuarioId) async {
+    await _empresaService.eliminarEmpresa(empresaId, usuarioId);
   }
 
   void dispose() {

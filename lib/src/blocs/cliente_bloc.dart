@@ -13,8 +13,8 @@ class ClienteBloc {
     await _clienteService.crearNuevoCliente(cliente);
   }
 
-  void cargarClientes(int sucursal_id) async {
-    final clientes = await _clienteService.cargarClientes(sucursal_id);
+  void cargarClientes(int sucursalId) async {
+    final clientes = await _clienteService.cargarClientes(sucursalId);
     _clientesController.sink.add(clientes);
   }
 
@@ -22,8 +22,8 @@ class ClienteBloc {
     await _clienteService.actualizarCliente(cliente);
   }
 
-  void eliminarCliente(int cliente_id, int usuario_id, int sucursal_id) async {
-    await _clienteService.eliminarCliente(cliente_id, usuario_id, sucursal_id);
+  void eliminarCliente(int clienteId, int usuarioId, int sucursalId) async {
+    await _clienteService.eliminarCliente(clienteId, usuarioId, sucursalId);
   }
 
   void dispose() {

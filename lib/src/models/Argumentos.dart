@@ -2,6 +2,7 @@ import 'package:app_factura_club_dev/src/models/Bodega.dart';
 import 'package:app_factura_club_dev/src/models/Cliente.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Producto.dart';
+import 'package:app_factura_club_dev/src/models/Servicio.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 
@@ -12,6 +13,7 @@ class Argumentos {
   Bodega bodega;
   Cliente cliente;
   Producto producto;
+  Servicio servicio;
 
   Argumentos(this.empresa, this.usuario);
   Argumentos.sucursal(this.empresa, this.usuario, this.sucursal);
@@ -20,4 +22,5 @@ class Argumentos {
   Argumentos.modificarCliente(this.cliente, this.usuario, this.sucursal);
   Argumentos.productos(this.bodega, this.usuario);
   Argumentos.modificarProductos(this.bodega, this.usuario, this.producto);
+  Argumentos.modificarServicios(this.sucursal, this.usuario, this.servicio);
 }

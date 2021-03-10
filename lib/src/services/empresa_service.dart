@@ -23,11 +23,11 @@ class EmpresaService {
     return true;
   }
 
-  Future<List<Empresa>> cargarEmpresas(int usuario_id) async {
+  Future<List<Empresa>> cargarEmpresas(int usuarioId) async {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
-    final url = 'https://192.168.1.2:44379/api/Empresa/$usuario_id';
+    final url = 'https://192.168.1.2:44379/api/Empresa/$usuarioId';
     final resp = await ioClient.get(url, headers: {'Content-Type': 'application/json'});
     final decodeData = json.decode(resp.body);
     final empresas = new Empresas.fromJsonList(decodeData);
@@ -50,11 +50,11 @@ class EmpresaService {
     return true;
   }
 
-  Future<int> eliminarEmpresa(int empresa_id, int usuario_id) async {
+  Future<int> eliminarEmpresa(int empresaId, int usuarioId) async {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
-    final url = 'https://192.168.1.2:44379/api/Empresa/$usuario_id,$empresa_id';
+    final url = 'https://192.168.1.2:44379/api/Empresa/$usuarioId,$empresaId';
     final resp = await ioClient.delete(url);
     print(json.decode(resp.body));
     return 1;

@@ -3,7 +3,6 @@ import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Cliente.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
-import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
 class ClientesPage extends StatefulWidget {
@@ -15,7 +14,7 @@ class _ClientesPage extends State<ClientesPage> {
   @override
   Widget build(BuildContext context) {
     Argumentos arg = ModalRoute.of(context).settings.arguments;
-    Usuario usuario = arg.usuario;
+    // Usuario usuario = arg.usuario;
     Sucursal sucursal = arg.sucursal;
     final clientesBloc = Provider.crearClienteBloc(context);
     clientesBloc.cargarClientes(sucursal.sucursalId);

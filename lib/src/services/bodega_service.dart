@@ -20,11 +20,11 @@ class BodegaService {
     return true;
   }
 
-  Future<List<Bodega>> cargarBodegas(int empresa_id) async {
+  Future<List<Bodega>> cargarBodegas(int empresaId) async {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
-    final url = 'https://192.168.1.2:44379/api/Bodega/$empresa_id';
+    final url = 'https://192.168.1.2:44379/api/Bodega/$empresaId';
     final resp = await ioClient.get(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -50,11 +50,11 @@ class BodegaService {
     return true;
   }
 
-  Future<int> eliminarBodega(int usuario_id, int bodega_id) async {
+  Future<int> eliminarBodega(int usuarioId, int bodegaId) async {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
-    final url = 'https://192.168.1.2:44379/api/Bodega/$usuario_id,$bodega_id';
+    final url = 'https://192.168.1.2:44379/api/Bodega/$usuarioId,$bodegaId';
     final resp = await ioClient.delete(url);
     print(json.decode(resp.body));
     return 1;

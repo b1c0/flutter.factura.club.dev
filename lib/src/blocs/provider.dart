@@ -1,8 +1,10 @@
 import 'package:app_factura_club_dev/src/blocs/bodega_bloc.dart';
+import 'package:app_factura_club_dev/src/blocs/categoria_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/cliente_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/producto_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/registro_usuarios_bloc.dart';
+import 'package:app_factura_club_dev/src/blocs/servicio_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,8 @@ class Provider extends InheritedWidget {
   final _crearBodegaBloc = BodegaBloc();
   final _crearClienteBloc = ClienteBloc();
   final _crearProductoBloc = ProductoBloc();
+  final _crearServicioBloc = ServicioBloc();
+  final _crearCategoriaBloc = CategoriaBloc();
 
   static Provider _instancia;
 
@@ -50,5 +54,13 @@ class Provider extends InheritedWidget {
 
   static ProductoBloc crearProductoBloc(BuildContext context) {
     return (context.dependOnInheritedWidgetOfExactType<Provider>()._crearProductoBloc);
+  }
+
+  static CategoriaBloc crearCategoriaBloc(BuildContext context) {
+    return (context.dependOnInheritedWidgetOfExactType<Provider>()._crearCategoriaBloc);
+  }
+
+  static ServicioBloc crearServicioBloc(BuildContext context) {
+    return (context.dependOnInheritedWidgetOfExactType<Provider>()._crearServicioBloc);
   }
 }

@@ -3,6 +3,7 @@ import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Bodega.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
+import 'package:app_factura_club_dev/src/models/Producto.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,8 @@ class _BodegaPageState extends State<BodegaPage> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Navigator.pushNamed(context, 'nueva-bodega', arguments: arg);
+                Argumentos a = Argumentos.bodega(arg.empresa, arg.usuario, Bodega());
+                Navigator.pushNamed(context, 'nueva-bodega', arguments: a);
               })
         ],
       ),
@@ -122,7 +124,7 @@ class _BodegaPageState extends State<BodegaPage> {
               FlatButton(
                 child: Text('Ver Productos'),
                 onPressed: () {
-                  Argumentos arg = Argumentos.productos(bodega, usuario);
+                  Argumentos arg = Argumentos.producto(bodega, usuario, Producto());
                   Navigator.pop(context);
                   Navigator.pushNamed(context, 'productos', arguments: arg);
                 },

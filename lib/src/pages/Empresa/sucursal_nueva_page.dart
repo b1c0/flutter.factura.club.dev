@@ -24,11 +24,11 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
     final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
     final Sucursal data = arg.sucursal;
-    sucursal.empresaId = empresa.empresaId;
-    sucursal.usuarioId = usuario.idUser;
     if (data != null) {
       sucursal = data;
     }
+    sucursal.empresaId = empresa.empresaId;
+    sucursal.usuarioId = usuario.idUser;
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva Sucursal'),

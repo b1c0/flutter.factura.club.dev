@@ -25,13 +25,11 @@ class _NuevaBodegaPageState extends State<NuevaBodegaPage> {
     final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
     final Bodega data = arg.bodega;
-    bodega.empresaId = empresa.empresaId;
-    bodega.usuarioId = usuario.idUser;
-    print(bodega.empresaId);
-    print(bodega.usuarioId);
     if (data != null) {
       bodega = data;
     }
+    bodega.usuarioId = usuario.idUser;
+    bodega.empresaId = empresa.empresaId;
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva Bodega'),

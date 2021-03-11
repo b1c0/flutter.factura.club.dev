@@ -26,7 +26,8 @@ class _ClientesPage extends State<ClientesPage> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Navigator.pushNamed(context, 'nuevo-cliente', arguments: arg);
+                Argumentos a = Argumentos.cliente(arg.usuario, arg.sucursal, Cliente());
+                Navigator.pushNamed(context, 'nuevo-cliente', arguments: a);
               })
         ],
       ),
@@ -65,7 +66,7 @@ class _ClientesPage extends State<ClientesPage> {
         ),
       ),
       onDismissed: (direction) {
-        mostrarAlertaEliminar(context, clienteBloc, cliente);
+        mostrarAlertaEliminar(context, clienteBloc, cliente, arg);
         setState(() {});
       },
       child: Card(
@@ -89,7 +90,7 @@ class _ClientesPage extends State<ClientesPage> {
                   ),
                   // trailing: _crearPopupMenuButton(sucursal, arg.usuario),
                   onTap: () {
-                    Argumentos a = Argumentos.modificarCliente(cliente, arg.usuario, arg.sucursal);
+                    Argumentos a = Argumentos.cliente(arg.usuario, arg.sucursal, cliente);
                     Navigator.pushNamed(context, 'nuevo-cliente', arguments: a).then((value) {
                       setState(() {});
                     });
@@ -101,7 +102,7 @@ class _ClientesPage extends State<ClientesPage> {
     );
   }
 
-  void mostrarAlertaEliminar(BuildContext context, ClienteBloc clienteBloc, Cliente cliente) {
+  void mostrarAlertaEliminar(BuildContext context, ClienteBloc clienteBloc, Cliente cliente, Argumentos arg) {
     showDialog(
         context: context,
         builder: (context) {
@@ -118,7 +119,7 @@ class _ClientesPage extends State<ClientesPage> {
               FlatButton(
                   child: Text('OK'),
                   onPressed: () => {
-                        _eliminarCliente(clienteBloc, cliente),
+                        _eliminarCliente(clienteBloc, cliente, arg),
                         Navigator.pop(context),
                         setState(() {}),
                       })
@@ -127,7 +128,7 @@ class _ClientesPage extends State<ClientesPage> {
         });
   }
 
-  void _eliminarCliente(ClienteBloc clienteBloc, Cliente cliente) {
-    clienteBloc.eliminarCliente(cliente.clienteId, cliente.usuarioId, cliente.sucursalId);
+  void _eliminarCliente(ClienteBloc clienteBloc, Cliente cliente, Argumentos arg) {
+    clienteBloc.eliminarCliente(cliente.clienteId, arg.usuario.idUser, arg.sucursal.sucursalId);
   }
 }

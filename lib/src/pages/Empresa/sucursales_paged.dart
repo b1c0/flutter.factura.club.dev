@@ -1,7 +1,9 @@
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
 import 'package:app_factura_club_dev/src/models/Argumentos.dart';
+import 'package:app_factura_club_dev/src/models/Cliente.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
+import 'package:app_factura_club_dev/src/models/Servicio.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +17,7 @@ class _SucursalesPage extends State<SucursalesPage> {
   @override
   Widget build(BuildContext context) {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
-    // final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
-    // final empresasBloc = Provider.crearEmpresaBloc(context);
-    // empresasBloc.cargarEmpresas(usuario.idUser);
     final sucursalesBloc = Provider.crearSucursalBloc(context);
     sucursalesBloc.cargarSucursales(empresa.empresaId);
 
@@ -29,7 +28,8 @@ class _SucursalesPage extends State<SucursalesPage> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Navigator.pushNamed(context, 'nueva-sucursal', arguments: arg);
+                Argumentos a = Argumentos.sucursal(arg.empresa, arg.usuario, Sucursal());
+                Navigator.pushNamed(context, 'nueva-sucursal', arguments: a);
               })
         ],
       ),
@@ -155,7 +155,7 @@ class _SucursalesPage extends State<SucursalesPage> {
               FlatButton(
                 child: Text('Ver Clientes'),
                 onPressed: () {
-                  Argumentos arg = Argumentos.cliente(sucursal, usuario);
+                  Argumentos arg = Argumentos.cliente(usuario, sucursal, Cliente());
                   Navigator.pop(context);
                   Navigator.pushNamed(context, 'clientes', arguments: arg);
                 },
@@ -174,7 +174,7 @@ class _SucursalesPage extends State<SucursalesPage> {
               FlatButton(
                 child: Text('Ver Servicios'),
                 onPressed: () {
-                  Argumentos arg = Argumentos.cliente(sucursal, usuario);
+                  Argumentos arg = Argumentos.servicio(sucursal, usuario, Servicio());
                   Navigator.pop(context);
                   Navigator.pushNamed(context, 'servicios', arguments: arg);
                 },

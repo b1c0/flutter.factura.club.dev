@@ -12,8 +12,6 @@ class NuevoClientePage extends StatefulWidget {
 }
 
 class _NuevoClientePage extends State<NuevoClientePage> {
-  // String _opcionSeleccionada = 'Tipo de identificación';
-  // List<String> _opciones = ['Tipo de identificación', 'CÉDULA', 'RUC', 'PASAPORTE'];
   Cliente cliente = Cliente.sinId();
   ClienteBloc clienteBloc;
   final formKey = GlobalKey<FormState>();
@@ -24,16 +22,12 @@ class _NuevoClientePage extends State<NuevoClientePage> {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     Usuario usuario = arg.usuario;
     Sucursal sucursal = arg.sucursal;
-    cliente.usuarioId = usuario.idUser;
-    cliente.sucursalId = sucursal.sucursalId;
     Cliente data = arg.cliente;
     if (data != null) {
       cliente = data;
-      cliente.usuarioId = usuario.idUser;
-      cliente.sucursalId = sucursal.sucursalId;
-      print(cliente.clienteId);
-      print(cliente.usuarioId);
     }
+    cliente.usuarioId = usuario.idUser;
+    cliente.sucursalId = sucursal.sucursalId;
 
     return Scaffold(
       appBar: AppBar(
@@ -122,7 +116,7 @@ class _NuevoClientePage extends State<NuevoClientePage> {
         labelText: 'Nombres y Apellidos',
         hintText: 'Nombres y Apellidos',
       ),
-      // onChanged: (value) => cliente.clienteNombres = value,
+      onChanged: (value) => cliente.clienteNombres = value,
     );
   }
 

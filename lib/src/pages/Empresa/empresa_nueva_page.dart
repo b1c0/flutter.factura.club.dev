@@ -76,6 +76,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
       crearEmpresaBloc.actualizarEmpresa(empresa);
     }
     Navigator.pushNamedAndRemoveUntil(context, 'empresa', ModalRoute.withName('menu-empresa'), arguments: usuario);
+    Navigator.popAndPushNamed(context, 'empresa', arguments: usuario);
   }
 
   //===================================INPUTS============================

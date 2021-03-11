@@ -26,7 +26,7 @@ class _TabServiciosState extends State<TabServicios> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Servicio servicio = Servicio();
-                Argumentos a = Argumentos.modificarServicios(arg.sucursal, arg.usuario, servicio);
+                Argumentos a = Argumentos.servicio(arg.sucursal, arg.usuario, servicio);
                 Navigator.pushNamed(context, 'nuevo-servicio', arguments: a);
               })
         ],
@@ -82,17 +82,10 @@ class _TabServiciosState extends State<TabServicios> {
             color: Colors.cyan,
             padding: EdgeInsets.all(5.0),
             child: ListTile(
-                leading: Icon(Icons.miscellaneous_services, color: Colors.white, size: 40.0),
-                title: Text(servicio.servicioId.toString(), style: TextStyle(color: Colors.white)),
-                subtitle: Text(servicio.servicioDescripcion, style: TextStyle(color: Colors.white)),
-
-                // trailing: _crearPopupMenuButton(bodega, arg.usuario),
-                onTap: () {
-                  // Argumentos a = Argumentos.modificarProductos(arg.bodega, arg.usuario, producto);
-                  // Navigator.pushNamed(context, 'nuevo_producto', arguments: a).then((value) {
-                  //   setState(() {});
-                  // });
-                }),
+              leading: Icon(Icons.miscellaneous_services, color: Colors.white, size: 40.0),
+              title: Text(servicio.servicioId.toString(), style: TextStyle(color: Colors.white)),
+              subtitle: Text(servicio.servicioDescripcion, style: TextStyle(color: Colors.white)),
+            ),
           ),
         ],
       ),

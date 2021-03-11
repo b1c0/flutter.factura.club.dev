@@ -28,7 +28,7 @@ class _TabProductosState extends State<TabProductos> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Producto producto = Producto();
-                Argumentos arg = Argumentos.modificarProductos(bodega, usuario, producto);
+                Argumentos arg = Argumentos.producto(bodega, usuario, producto);
                 Navigator.pushNamed(context, 'nuevo_producto', arguments: arg).then((value) => setState(() {}));
               })
         ],
@@ -88,7 +88,7 @@ class _TabProductosState extends State<TabProductos> {
 
                   // trailing: _crearPopupMenuButton(bodega, arg.usuario),
                   onTap: () {
-                    Argumentos a = Argumentos.modificarProductos(arg.bodega, arg.usuario, producto);
+                    Argumentos a = Argumentos.producto(arg.bodega, arg.usuario, producto);
                     Navigator.pushNamed(context, 'nuevo_producto', arguments: a).then((value) {
                       setState(() {});
                     });

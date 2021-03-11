@@ -39,7 +39,7 @@ class ProductoService {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
-    final url = 'https://192.168.1.2:44379/api/Producto/${producto.productoBodegaId}';
+    final url = 'https://192.168.1.2:44379/api/Producto/${producto.productoBodegaId},${producto.categoriaId}';
     final resp = await ioClient.put(
       url,
       body: (productoToJsonSinId(producto)),

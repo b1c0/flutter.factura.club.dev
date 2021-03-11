@@ -29,14 +29,12 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
     final Bodega bodega = arg.bodega;
     final Producto data = arg.producto;
 
-    producto.bodegaId = bodega.bodegaId;
-    producto.usuarioId = usuario.idUser;
-    // print(arg.bodega.bodegaId);
-    // print(arg.usuario.idUser);
     if (data != null) {
       producto = data;
-      // print(producto.productoBodegaId);
     }
+
+    producto.bodegaId = bodega.bodegaId;
+    producto.usuarioId = usuario.idUser;
     return Scaffold(
       appBar: AppBar(
         title: Text('Nuevo Producto'),
@@ -92,14 +90,16 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
 
   void _actionGuardar(Argumentos arg) {
     producto.categoriaId = 1;
+
     if (producto.productoBodegaId == null) {
       print('creando');
+      print(producto.usuarioId);
       productoBloc.crearNuevoProducto(producto);
     } else {
       print('actualizando');
       productoBloc.actualizarProducto(producto);
     }
-    Navigator.pushNamedAndRemoveUntil(context, 'productos-servicios', ModalRoute.withName('bodega'), arguments: arg);
+    Navigator.pushNamedAndRemoveUntil(context, 'productos', ModalRoute.withName('bodega'), arguments: arg);
   }
 
 //===========================================================================INPUTS
@@ -143,7 +143,7 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         hintText: 'Peso Producto',
         labelText: 'Peso Producto',
       ),
-      onChanged: (value) => producto.productoPeso = int.parse(value),
+      onChanged: (value) => producto.productoPeso = double.parse(value),
     );
   }
 

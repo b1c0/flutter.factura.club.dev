@@ -40,7 +40,7 @@ class Producto {
   int productoBodegaId;
   String productoNombre;
   String productoMarca;
-  int productoPeso;
+  double productoPeso;
   String productoUnidadMedida;
   int categoriaId;
   int usuarioId;
@@ -55,7 +55,7 @@ class Producto {
         productoBodegaId: json["producto_bodega_id"],
         productoNombre: json["producto_nombre"],
         productoMarca: json["producto_marca"],
-        productoPeso: json["producto_peso"],
+        productoPeso: json["producto_peso"].toDouble(),
         productoUnidadMedida: json["producto_unidad_medida"],
         categoriaId: json["categoria_id"],
         usuarioId: json["usuario_id"],

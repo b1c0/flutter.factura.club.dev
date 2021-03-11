@@ -16,11 +16,10 @@ class Argumentos {
   Servicio servicio;
 
   Argumentos(this.empresa, this.usuario);
+
   Argumentos.sucursal(this.empresa, this.usuario, this.sucursal);
   Argumentos.bodega(this.empresa, this.usuario, this.bodega);
-  Argumentos.cliente(this.sucursal, this.usuario);
-  Argumentos.modificarCliente(this.cliente, this.usuario, this.sucursal);
-  Argumentos.productos(this.bodega, this.usuario);
-  Argumentos.modificarProductos(this.bodega, this.usuario, this.producto);
-  Argumentos.modificarServicios(this.sucursal, this.usuario, this.servicio);
+  Argumentos.cliente(this.usuario, this.sucursal, this.cliente);
+  Argumentos.producto(this.bodega, this.usuario, this.producto);
+  Argumentos.servicio(this.sucursal, this.usuario, this.servicio);
 }

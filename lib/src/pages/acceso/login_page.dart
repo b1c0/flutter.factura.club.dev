@@ -133,10 +133,6 @@ class _LoginPageState extends State<LoginPage> {
 
   _login(BuildContext context) async {
     //TODO: Validar el login
-    print('******************************');
-    print('Correo:$_correo   Nick:$_nic     clave:$_clave');
-    print('******************************');
-
     Map info = await usuarioService.login(_correo, _nic, _clave);
     if (info['ok']) {
       print('Existe');

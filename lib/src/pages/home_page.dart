@@ -1,3 +1,6 @@
+import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
+import 'package:app_factura_club_dev/src/blocs/provider.dart';
+import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
 import 'package:app_factura_club_dev/src/widgets/menu_widget.dart';
@@ -11,12 +14,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   InputWidget input = InputWidget();
-  String _opcionSeleccionada = 'Sucursal 1';
+  String _opcionSeleccionada = 'Seleccione';
   List<String> _opciones = ['Sucursal 1', 'Sucursal 2', 'Sucursal 3'];
-
+  EmpresaBloc empresasBloc;
   @override
   Widget build(BuildContext context) {
     final Usuario usuario = ModalRoute.of(context).settings.arguments;
+    empresasBloc = Provider.crearEmpresaBloc(context);
+    empresasBloc.cargarEmpresas(usuario.idUser);
 
     return Scaffold(
       appBar: buildAppBar(),
@@ -25,16 +30,17 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
         children: [
-          _crearDropDown(),
-          SingleChildScrollView(child: Column(children: [_unionTarjetas()])),
-          SizedBox(height: 10.0),
-          Text(
-            'Actividades recientes',
-            style: TextStyle(fontSize: 18),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 10.0),
-          _actividadesRecientes(),
+          getEmpresas(empresasBloc, usuario.idUser),
+          // _crearDropDown(),
+          // SingleChildScrollView(child: Column(children: [_unionTarjetas()])),
+          // SizedBox(height: 10.0),
+          // Text(
+          //   'Actividades recientes',
+          //   style: TextStyle(fontSize: 18),
+          //   textAlign: TextAlign.center,
+          // ),
+          // SizedBox(height: 10.0),
+          // _actividadesRecientes(),
         ],
       ),
     );
@@ -128,22 +134,51 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _crearDropDown() {
-    return Container(
-      alignment: Alignment.center,
-      color: Colors.blue[400],
-      margin: EdgeInsets.all(10),
-      child: DropdownButton(
-        value: _opcionSeleccionada,
-        items: input.getOpcionesDropDown(_opciones),
-        style: TextStyle(color: Colors.white, fontSize: 18),
-        dropdownColor: Colors.blue[400],
-        onChanged: (value) {
-          setState(() {
-            _opcionSeleccionada = value;
-          });
-        },
-      ),
+  List<DropdownMenuItem<String>> getOpcionesDropDown(List<Empresa> opciones) {
+    List<DropdownMenuItem<String>> lista = [];
+    lista.add(DropdownMenuItem(
+      child: Text('Seleccione'),
+      value: 'Seleccione',
+    ));
+    opciones.forEach((poder) {
+      lista.add(DropdownMenuItem(
+        child: Text(poder.empresaNombre),
+        value: poder.empresaNombre,
+      ));
+    });
+
+    return lista;
+  }
+
+  Widget getEmpresas(EmpresaBloc empresaBloc, int usuarioId) {
+    return StreamBuilder(
+      stream: empresasBloc.empresasStream,
+      builder: (BuildContext context, AsyncSnapshot<List<Empresa>> snapshot) {
+        if (snapshot.hasData) {
+          final empresas = snapshot.data;
+          // String opcionSeleccionada = empresas[0].empresaNombre;
+          List<DropdownMenuItem<String>> opciones = getOpcionesDropDown(empresas);
+
+          return Container(
+            alignment: Alignment.center,
+            color: Colors.blue[400],
+            margin: EdgeInsets.all(10),
+            child: DropdownButton(
+              value: _opcionSeleccionada,
+              items: opciones,
+              style: TextStyle(color: Colors.white, fontSize: 18),
+              dropdownColor: Colors.blue[400],
+              onChanged: (value) {
+                setState(() {
+                  _opcionSeleccionada = value;
+                });
+              },
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 

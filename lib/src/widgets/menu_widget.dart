@@ -46,6 +46,10 @@ class _MenuWidgetState extends State<MenuWidget> {
             title: Text('Empresa'),
             onTap: () {
               Navigator.pushNamedAndRemoveUntil(context, 'menu-empresa', ModalRoute.withName('home'), arguments: widget.usuario);
+              // Navigator.pop(context);
+              // Navigator.pushReplacementNamed(context, 'menu-empresa', arguments: widget.usuario);
+
+              // Navigator.popAndPushNamed(context, 'menu-empresa', arguments: widget.usuario);
             },
           ),
           ListTile(

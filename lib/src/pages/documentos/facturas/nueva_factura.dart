@@ -8,7 +8,6 @@ class NuevaFacturaPage extends StatefulWidget {
 }
 
 class _NuevaFacturaPage extends State<NuevaFacturaPage> {
-  InputWidget input = InputWidget();
   String _opcionSeleccionada = 'Pago';
   List<String> _opciones = ['Pago', 'Efectivo', 'Tarjeta Débito', 'Tarjeta Crédito'];
   String _fecha = '';
@@ -203,7 +202,7 @@ class _NuevaFacturaPage extends State<NuevaFacturaPage> {
         Expanded(
           child: DropdownButton(
               value: _opcionSeleccionada,
-              items: input.getOpcionesDropDown(_opciones),
+              // items: input.getOpcionesDropDown(_opciones),
               onChanged: (opt) {
                 setState(() {
                   _opcionSeleccionada = opt;

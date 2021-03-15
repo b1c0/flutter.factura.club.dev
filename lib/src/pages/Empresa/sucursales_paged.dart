@@ -20,7 +20,6 @@ class _SucursalesPage extends State<SucursalesPage> {
     final Empresa empresa = arg.empresa;
     final sucursalesBloc = Provider.crearSucursalBloc(context);
     sucursalesBloc.cargarSucursales(empresa.empresaId);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Sucursales'),

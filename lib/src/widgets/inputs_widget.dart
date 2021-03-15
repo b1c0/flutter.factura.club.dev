@@ -1,112 +1,37 @@
 import 'package:flutter/material.dart';
 
-class InputWidget {
-  Widget crearEmail() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            icon: Icon(Icons.alternate_email),
-            hintText: 'ejemplo@email.com',
-            labelText: 'Correo electrónico',
-          ),
-        ),
-      ),
-      SizedBox(height: 20.0)
-    ]);
-  }
+class InputText extends StatefulWidget {
+  final String label;
+  final Function(String) validator;
+  final bool isSecure;
+  final TextInputType inputType;
+  String value;
 
-  Widget crearNombreUsuario() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          decoration: InputDecoration(
-            icon: Icon(Icons.supervised_user_circle_sharp),
-            hintText: 'Usuario',
-            labelText: 'Nombre de Usuario',
-          ),
-        ),
-      ),
-      SizedBox(height: 20.0)
-    ]);
-  }
+  InputText({
+    Key key,
+    @required this.label,
+    this.validator,
+    this.isSecure = false,
+    this.inputType = TextInputType.text,
+    this.value,
+  }) : super(key: key);
 
-  Widget crearPassword() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            icon: Icon(Icons.lock_outline),
-            hintText: 'Contraseña',
-            labelText: 'Contraseña',
-          ),
-        ),
-      ),
-      SizedBox(height: 20.0)
-    ]);
-  }
+  @override
+  _InputTextState createState() => _InputTextState();
+}
 
-  Widget crearPassword2(String texto, String hint) {
-    return TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-          hintText: texto,
-          labelText: hint,
-        ));
-  }
-
-  Widget crearInputText(String texto, String hint) {
-    return TextField(
-      // autofocus: true,
-      textCapitalization: TextCapitalization.sentences,
+class _InputTextState extends State<InputText> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: widget.validator,
+      obscureText: widget.isSecure,
+      keyboardType: widget.inputType,
       decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        hintText: hint,
-        labelText: texto,
+        labelText: widget.label,
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
       ),
+      onChanged: (value) => widget.value = value,
     );
-  }
-
-  Widget crearInputTextValor(String texto, String hint, String valor) {
-    return TextField(
-      // autofocus: true,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        hintText: hint,
-        labelText: texto,
-      ),
-      onChanged: (value) => valor = value,
-    );
-  }
-
-  Widget crearInputNumber(String texto, String hint) {
-    return TextField(
-      // autofocus: true,
-      keyboardType: TextInputType.number,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        hintText: hint,
-        labelText: texto,
-      ),
-    );
-  }
-
-  List<DropdownMenuItem<String>> getOpcionesDropDown(List<String> opciones) {
-    List<DropdownMenuItem<String>> lista = List();
-    opciones.forEach((poder) {
-      lista.add(DropdownMenuItem(
-        child: Text(poder),
-        value: poder,
-      ));
-    });
-    return lista;
   }
 }

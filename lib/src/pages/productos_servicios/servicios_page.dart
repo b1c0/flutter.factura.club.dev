@@ -83,8 +83,8 @@ class _TabServiciosState extends State<TabServicios> {
             padding: EdgeInsets.all(5.0),
             child: ListTile(
               leading: Icon(Icons.miscellaneous_services, color: Colors.white, size: 40.0),
-              title: Text(servicio.servicioId.toString(), style: TextStyle(color: Colors.white)),
-              subtitle: Text(servicio.servicioDescripcion, style: TextStyle(color: Colors.white)),
+              title: Text(servicio.servicioDescripcion.toString(), style: TextStyle(color: Colors.white)),
+              subtitle: Text(servicio.sucursalServicioPrecio.toString(), style: TextStyle(color: Colors.white)),
             ),
           ),
         ],

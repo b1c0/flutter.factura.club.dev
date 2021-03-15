@@ -109,10 +109,10 @@ class _NuevaBodegaPageState extends State<NuevaBodegaPage> {
         });
   }
 
-  void _actionGuardarBodega(Argumentos arg) {
+  void _actionGuardarBodega(Argumentos arg) async {
     //TODO: VALIDAR VACIOS
     if (bodega.bodegaId == null) {
-      bodegaBloc.crearNuevaBodega(bodega);
+      await bodegaBloc.crearNuevaBodega(bodega);
       print('creando');
     } else {
       print('actualizando');

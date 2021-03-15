@@ -59,4 +59,6 @@ class ClienteService {
     print(json.decode(resp.body));
     return 1;
   }
+
+  Future<List<Cliente>> buscarCliente(String query) {}
 }

@@ -7,7 +7,6 @@ class PermisosUsuarioPage extends StatefulWidget {
 }
 
 class _PermisosUsuarioPage extends State<PermisosUsuarioPage> {
-  InputWidget input = InputWidget();
   bool esServicio;
   bool _bloquearCheck = false;
   @override
@@ -31,9 +30,9 @@ class _PermisosUsuarioPage extends State<PermisosUsuarioPage> {
               padding: EdgeInsets.all(10),
               child: Column(
                 children: [
-                  input.crearInputText('Nombre Perfil', ''),
-                  Divider(),
-                  input.crearInputText('Descripcion', ''),
+                  // input.crearInputText('Nombre Perfil', ''),
+                  // Divider(),
+                  // input.crearInputText('Descripcion', ''),
                 ],
               ),
             ),

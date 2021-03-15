@@ -1,9 +1,17 @@
+import 'package:app_factura_club_dev/src/blocs/bodega_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
+import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
+import 'package:app_factura_club_dev/src/models/Argumentos.dart';
+import 'package:app_factura_club_dev/src/models/Bodega.dart';
+import 'package:app_factura_club_dev/src/models/Cliente.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
+import 'package:app_factura_club_dev/src/models/Producto.dart';
+import 'package:app_factura_club_dev/src/models/Servicio.dart';
+import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
-import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
 import 'package:app_factura_club_dev/src/widgets/menu_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -13,24 +21,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  InputWidget input = InputWidget();
-  String _opcionSeleccionada = 'Seleccione';
-  List<String> _opciones = ['Sucursal 1', 'Sucursal 2', 'Sucursal 3'];
+  String _opcionSeleccionadaEmpresa = '-1';
+  String _opcionSeleccionadaSucursal = '-1';
+  String _opcionSeleccionadaBodega = '-1';
   EmpresaBloc empresasBloc;
+  SucursalBloc sucursalBloc;
+  BodegaBloc bodegaBloc;
+  Sucursal sucursal = Sucursal();
+  Bodega bodega = Bodega();
+  Cliente cliente = Cliente();
+
   @override
   Widget build(BuildContext context) {
     final Usuario usuario = ModalRoute.of(context).settings.arguments;
     empresasBloc = Provider.crearEmpresaBloc(context);
     empresasBloc.cargarEmpresas(usuario.idUser);
+    sucursalBloc = Provider.crearSucursalBloc(context);
+    sucursalBloc.cargarSucursales(int.parse(_opcionSeleccionadaEmpresa));
+    bodegaBloc = Provider.crearBodegaBloc(context);
+    bodegaBloc.cargarBodegas(int.parse(_opcionSeleccionadaEmpresa));
 
     return Scaffold(
       appBar: buildAppBar(),
       drawer: MenuWidget(usuario: usuario),
-      floatingActionButton: opcionesFAB(),
+      floatingActionButton: opcionesFAB(usuario),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
         children: [
-          getEmpresas(empresasBloc, usuario.idUser),
+          getEmpresas(),
+          getSucursales(),
+          getBodegas(),
           // _crearDropDown(),
           // SingleChildScrollView(child: Column(children: [_unionTarjetas()])),
           // SizedBox(height: 10.0),
@@ -71,7 +91,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget opcionesFAB() {
+  Widget opcionesFAB(Usuario usuario) {
     return Container(
       child: Align(
         alignment: Alignment.bottomRight,
@@ -90,10 +110,12 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   children: [
                     Icon(Icons.category, color: Colors.blue),
-                    FlatButton(
+                    CupertinoButton(
                       child: Text('Nuevo Producto'),
                       onPressed: () {
-                        Navigator.popAndPushNamed(context, 'nuevo_producto');
+                        //TODO: VALIDAR SI SE SELECCIONO UNA EMPRESA, BODEGA
+                        Argumentos a = Argumentos.producto(bodega, usuario, Producto());
+                        Navigator.popAndPushNamed(context, 'nuevo_producto', arguments: a);
                       },
                     ),
                   ],
@@ -103,11 +125,12 @@ class _HomePageState extends State<HomePage> {
                 value: 2,
                 child: Row(
                   children: [
-                    Icon(Icons.people, color: Colors.blue),
-                    FlatButton(
-                      child: Text('Nuevo Cliente'),
+                    Icon(Icons.miscellaneous_services, color: Colors.blue),
+                    CupertinoButton(
+                      child: Text('Nuevo Servicio'),
                       onPressed: () {
-                        Navigator.popAndPushNamed(context, 'nuevo-cliente');
+                        Argumentos a = Argumentos.servicio(sucursal, usuario, Servicio());
+                        Navigator.popAndPushNamed(context, 'nuevo-servicio', arguments: a);
                       },
                     ),
                   ],
@@ -117,8 +140,23 @@ class _HomePageState extends State<HomePage> {
                 value: 3,
                 child: Row(
                   children: [
+                    Icon(Icons.people, color: Colors.blue),
+                    CupertinoButton(
+                      child: Text('Nuevo Cliente'),
+                      onPressed: () {
+                        Argumentos a = Argumentos.cliente(usuario, sucursal, Cliente());
+                        Navigator.popAndPushNamed(context, 'nuevo-cliente', arguments: a);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 4,
+                child: Row(
+                  children: [
                     Icon(Icons.paste, color: Colors.blue),
-                    FlatButton(
+                    CupertinoButton(
                       child: Text('Nueva Factura'),
                       onPressed: () {
                         Navigator.popAndPushNamed(context, 'nueva-factura');
@@ -134,43 +172,145 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List<DropdownMenuItem<String>> getOpcionesDropDown(List<Empresa> opciones) {
+  List<DropdownMenuItem<String>> getOpcionesEmpresaDropDown(List<Empresa> opciones) {
     List<DropdownMenuItem<String>> lista = [];
     lista.add(DropdownMenuItem(
-      child: Text('Seleccione'),
-      value: 'Seleccione',
+      child: Text('Seleccione una empresa'),
+      value: '-1',
     ));
-    opciones.forEach((poder) {
+    opciones.forEach((item) {
       lista.add(DropdownMenuItem(
-        child: Text(poder.empresaNombre),
-        value: poder.empresaNombre,
+        child: Text(item.empresaNombre),
+        value: item.empresaId.toString(),
       ));
     });
 
     return lista;
   }
 
-  Widget getEmpresas(EmpresaBloc empresaBloc, int usuarioId) {
+  List<DropdownMenuItem<String>> getOpcionesSucursalDropDown(List<Sucursal> opciones) {
+    List<DropdownMenuItem<String>> lista = [];
+    lista.add(DropdownMenuItem(
+      child: Text('Seleccione una sucursal'),
+      value: '-1',
+    ));
+    opciones.forEach((item) {
+      lista.add(DropdownMenuItem(
+        child: Text(item.sucursalNombre),
+        value: item.sucursalId.toString(),
+      ));
+    });
+
+    return lista;
+  }
+
+  List<DropdownMenuItem<String>> getOpcionesBodegaDropDown(List<Bodega> opciones) {
+    List<DropdownMenuItem<String>> lista = [];
+    lista.add(DropdownMenuItem(
+      child: Text('Seleccione una bodega'),
+      value: '-1',
+    ));
+    opciones.forEach((item) {
+      lista.add(DropdownMenuItem(
+        child: Text(item.bodegaNombre),
+        value: item.bodegaId.toString(),
+      ));
+    });
+
+    return lista;
+  }
+
+  Widget getEmpresas() {
     return StreamBuilder(
       stream: empresasBloc.empresasStream,
       builder: (BuildContext context, AsyncSnapshot<List<Empresa>> snapshot) {
         if (snapshot.hasData) {
           final empresas = snapshot.data;
           // String opcionSeleccionada = empresas[0].empresaNombre;
-          List<DropdownMenuItem<String>> opciones = getOpcionesDropDown(empresas);
+          List<DropdownMenuItem<String>> opciones = getOpcionesEmpresaDropDown(empresas);
 
           return Container(
             alignment: Alignment.center,
             color: Colors.blue[400],
             margin: EdgeInsets.all(10),
             child: DropdownButton(
-              value: _opcionSeleccionada,
+              value: _opcionSeleccionadaEmpresa,
               items: opciones,
               style: TextStyle(color: Colors.white, fontSize: 18),
               dropdownColor: Colors.blue[400],
               onChanged: (value) {
                 setState(() {
-                  _opcionSeleccionada = value;
+                  _opcionSeleccionadaEmpresa = value;
+                  _opcionSeleccionadaSucursal = '-1';
+                  _opcionSeleccionadaBodega = '-1';
+                  print(_opcionSeleccionadaEmpresa);
+                  // _opcionSeleccionada = value;
+                });
+              },
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+
+  Widget getSucursales() {
+    return StreamBuilder(
+      stream: sucursalBloc.sucursalesStream,
+      builder: (BuildContext context, AsyncSnapshot<List<Sucursal>> snapshot) {
+        if (snapshot.hasData) {
+          final sucursales = snapshot.data;
+          // String opcionSeleccionada = empresas[0].empresaNombre;
+          List<DropdownMenuItem<String>> opciones = getOpcionesSucursalDropDown(sucursales);
+
+          return Container(
+            alignment: Alignment.center,
+            color: Colors.blue[400],
+            margin: EdgeInsets.all(10),
+            child: DropdownButton(
+              value: _opcionSeleccionadaSucursal,
+              items: opciones,
+              style: TextStyle(color: Colors.white, fontSize: 18),
+              dropdownColor: Colors.blue[400],
+              onChanged: (value) {
+                setState(() {
+                  _opcionSeleccionadaSucursal = value;
+                  sucursal.sucursalId = int.parse(_opcionSeleccionadaSucursal);
+                });
+              },
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+
+  Widget getBodegas() {
+    return StreamBuilder(
+      stream: bodegaBloc.bodegasStream,
+      builder: (BuildContext context, AsyncSnapshot<List<Bodega>> snapshot) {
+        if (snapshot.hasData) {
+          final bodegas = snapshot.data;
+          // String opcionSeleccionada = empresas[0].empresaNombre;
+          List<DropdownMenuItem<String>> opciones = getOpcionesBodegaDropDown(bodegas);
+
+          return Container(
+            alignment: Alignment.center,
+            color: Colors.blue[400],
+            margin: EdgeInsets.all(10),
+            child: DropdownButton(
+              value: _opcionSeleccionadaBodega,
+              items: opciones,
+              style: TextStyle(color: Colors.white, fontSize: 18),
+              dropdownColor: Colors.blue[400],
+              onChanged: (value) {
+                setState(() {
+                  _opcionSeleccionadaBodega = value;
+                  bodega.bodegaId = int.parse(_opcionSeleccionadaBodega);
                 });
               },
             ),

@@ -7,7 +7,6 @@ class NuevoUsuarioPage extends StatefulWidget {
 }
 
 class _NuevoUsuarioPage extends State<NuevoUsuarioPage> {
-  InputWidget input = InputWidget();
   bool esServicio;
   String _opcionSeleccionada = 'Perfiles';
   List<String> _opciones = ['Perfiles', 'nuevo'];
@@ -26,16 +25,16 @@ class _NuevoUsuarioPage extends State<NuevoUsuarioPage> {
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         children: [
-          input.crearInputText('Código punto de emisión', ''),
-          Divider(),
-          input.crearInputText('Nombre de usuario', ''),
-          Divider(),
-          _inputPerfil(),
-          Divider(),
-          input.crearPassword2('Clave', 'Clave'),
-          Divider(),
-          input.crearPassword2('Confirmar Clave', 'Confirmar Clave'),
-          Divider(),
+          // input.crearInputText('Código punto de emisión', ''),
+          // Divider(),
+          // input.crearInputText('Nombre de usuario', ''),
+          // Divider(),
+          // _inputPerfil(),
+          // Divider(),
+          // input.crearPassword2('Clave', 'Clave'),
+          // Divider(),
+          // input.crearPassword2('Confirmar Clave', 'Confirmar Clave'),
+          // Divider(),
           _crearBoton(),
         ],
       ),

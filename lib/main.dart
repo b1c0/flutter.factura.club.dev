@@ -1,4 +1,5 @@
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
+import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/empresa_page.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/menu_empresas_page.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/sucursales_paged.dart';

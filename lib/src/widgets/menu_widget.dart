@@ -45,11 +45,8 @@ class _MenuWidgetState extends State<MenuWidget> {
             leading: Icon(Icons.business, color: Colors.blue),
             title: Text('Empresa'),
             onTap: () {
-              Navigator.pushNamedAndRemoveUntil(context, 'menu-empresa', ModalRoute.withName('home'), arguments: widget.usuario);
-              // Navigator.pop(context);
-              // Navigator.pushReplacementNamed(context, 'menu-empresa', arguments: widget.usuario);
-
-              // Navigator.popAndPushNamed(context, 'menu-empresa', arguments: widget.usuario);
+              Navigator.pop(context);
+              Navigator.pushNamed(context, 'empresa', arguments: widget.usuario);
             },
           ),
           ListTile(
@@ -59,7 +56,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                 Navigator.pushNamedAndRemoveUntil(context, 'productos-servicios', ModalRoute.withName('home'));
               }),
           ListTile(
-              leading: Icon(Icons.people_sharp, color: Colors.blue),
+              leading: Icon(Icons.person, color: Colors.blue),
               title: Text('Clientes'),
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('home'));
@@ -72,6 +69,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                 Navigator.pushNamedAndRemoveUntil(context, 'facturas', ModalRoute.withName('home'));
 
                 // Navigator.pop(context);
+              }),
+          ListTile(
+              leading: Icon(Icons.people_alt_rounded, color: Colors.blue),
+              title: Text('Usuarios'),
+              onTap: () {
+                Navigator.pushNamed(context, 'usuarios');
               }),
           ListTile(
               leading: Icon(Icons.arrow_back_rounded, color: Colors.blue),

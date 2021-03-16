@@ -4,6 +4,7 @@ import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Bodega.dart';
 import 'package:app_factura_club_dev/src/models/Producto.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NuevoProductoPage extends StatefulWidget {
@@ -15,6 +16,7 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
   // String _opcionSeleccionada = 'Selecione impuesto Iva';
   // List<String> _opciones = ['Selecione impuesto Iva', 'Iva 0%', 'Iva 12%', 'Iva 14%'];
   final formKey = GlobalKey<FormState>();
+  String navFrom;
   bool esServicio = false;
   bool iva = false;
   bool rice = false;
@@ -28,6 +30,8 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
     final Usuario usuario = arg.usuario;
     final Bodega bodega = arg.bodega;
     final Producto data = arg.producto;
+    navFrom = arg.navFrom;
+    print(navFrom);
 
     if (data != null) {
       producto = data;
@@ -61,8 +65,6 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
           Divider(),
           _inputIce(),
           Divider(),
-          // _crearCheckServicio(),
-          // Divider(),
           _inputStock(),
           Divider(),
           _inputPrecio(),
@@ -76,15 +78,16 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
   }
 
   Widget _crearBoton(Argumentos arg) {
-    return RaisedButton(
+    return CupertinoButton(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-          child: Text('Guardar'),
+          child: Text(
+            'Guardar',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        elevation: 0.0,
+        borderRadius: BorderRadius.circular(15),
         color: Colors.blueAccent,
-        textColor: Colors.white,
         onPressed: () => _actionGuardar(arg));
   }
 
@@ -95,11 +98,16 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
       print('creando');
       print(producto.usuarioId);
       productoBloc.crearNuevoProducto(producto);
+      if (navFrom == 'navFromHome') {
+        Navigator.pop(context);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(context, 'productos', ModalRoute.withName('bodega'), arguments: arg);
+      }
     } else {
       print('actualizando');
       productoBloc.actualizarProducto(producto);
+      Navigator.pushNamedAndRemoveUntil(context, 'productos', ModalRoute.withName('bodega'), arguments: arg);
     }
-    Navigator.pushNamedAndRemoveUntil(context, 'productos', ModalRoute.withName('bodega'), arguments: arg);
   }
 
 //===========================================================================INPUTS
@@ -187,22 +195,6 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
           });
         });
   }
-
-  // Widget _crearCheckServicio() {
-  //   return Row(children: [
-  //     Container(
-  //         padding: EdgeInsets.symmetric(horizontal: 10.0),
-  //         child: Checkbox(
-  //           value: esServicio,
-  //           onChanged: (value) {
-  //             setState(() {
-  //               esServicio = value;
-  //             });
-  //           },
-  //         )),
-  //     Text('¿Es un servicio?')
-  //   ]);
-  // }
 
   Widget _inputStock() {
     if (producto.productoBodegaStock == null) {

@@ -14,12 +14,13 @@ class NuevoClientePage extends StatefulWidget {
 class _NuevoClientePage extends State<NuevoClientePage> {
   Cliente cliente = Cliente.sinId();
   ClienteBloc clienteBloc;
+  String navFrom;
   final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     clienteBloc = Provider.crearClienteBloc(context);
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
+    navFrom = arg.navFrom;
     Usuario usuario = arg.usuario;
     Sucursal sucursal = arg.sucursal;
     Cliente data = arg.cliente;
@@ -75,23 +76,23 @@ class _NuevoClientePage extends State<NuevoClientePage> {
         });
   }
 
-  _guardarCliente(Argumentos arg) {
+  void _guardarCliente(Argumentos arg) {
     if (cliente.clienteId == null) {
-      clienteBloc.crearNuevoCliente(cliente);
       print('creando');
+      clienteBloc.crearNuevoCliente(cliente);
+      if (navFrom == 'navFromHome') {
+        Navigator.pop(context);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('sucursales'), arguments: arg);
+      }
     } else {
       print('actualizando');
       clienteBloc.actualizarClientes(cliente);
+      Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('sucursales'), arguments: arg);
     }
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      'clientes',
-      ModalRoute.withName('sucursales'),
-      arguments: arg,
-    );
   }
 
-//=======================================================================INPUTS=====
+//=======================================================================INPUTS
   Widget _inputIdentificacion() {
     return TextFormField(
       // autofocus: true,

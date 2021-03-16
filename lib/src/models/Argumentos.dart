@@ -14,12 +14,13 @@ class Argumentos {
   Cliente cliente;
   Producto producto;
   Servicio servicio;
+  String navFrom;
 
   Argumentos(this.empresa, this.usuario);
 
   Argumentos.sucursal(this.empresa, this.usuario, this.sucursal);
   Argumentos.bodega(this.empresa, this.usuario, this.bodega);
-  Argumentos.cliente(this.usuario, this.sucursal, this.cliente);
-  Argumentos.producto(this.bodega, this.usuario, this.producto);
-  Argumentos.servicio(this.sucursal, this.usuario, this.servicio);
+  Argumentos.cliente(this.usuario, this.sucursal, this.cliente, this.navFrom);
+  Argumentos.producto(this.bodega, this.usuario, this.producto, this.navFrom);
+  Argumentos.servicio(this.sucursal, this.usuario, this.servicio, this.navFrom);
 }

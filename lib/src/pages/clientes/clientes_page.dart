@@ -26,7 +26,7 @@ class _ClientesPage extends State<ClientesPage> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Argumentos a = Argumentos.cliente(arg.usuario, arg.sucursal, Cliente());
+                Argumentos a = Argumentos.cliente(arg.usuario, arg.sucursal, Cliente(), 'navFromCliente');
                 Navigator.pushNamed(context, 'nuevo-cliente', arguments: a);
               })
         ],
@@ -80,7 +80,7 @@ class _ClientesPage extends State<ClientesPage> {
               color: Colors.orange,
               padding: EdgeInsets.all(5.0),
               child: ListTile(
-                  leading: Icon(Icons.business_sharp, color: Colors.white, size: 40.0),
+                  leading: Icon(Icons.person, color: Colors.white, size: 40.0),
                   title: Text(cliente.clienteIdentificacion, style: TextStyle(color: Colors.white)),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +90,7 @@ class _ClientesPage extends State<ClientesPage> {
                   ),
                   // trailing: _crearPopupMenuButton(sucursal, arg.usuario),
                   onTap: () {
-                    Argumentos a = Argumentos.cliente(arg.usuario, arg.sucursal, cliente);
+                    Argumentos a = Argumentos.cliente(arg.usuario, arg.sucursal, cliente, 'navFromCliente');
                     Navigator.pushNamed(context, 'nuevo-cliente', arguments: a).then((value) {
                       setState(() {});
                     });

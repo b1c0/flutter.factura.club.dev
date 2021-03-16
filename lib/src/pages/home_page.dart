@@ -10,6 +10,7 @@ import 'package:app_factura_club_dev/src/models/Producto.dart';
 import 'package:app_factura_club_dev/src/models/Servicio.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:app_factura_club_dev/src/utils/utils.dart';
 import 'package:app_factura_club_dev/src/widgets/menu_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,16 +52,6 @@ class _HomePageState extends State<HomePage> {
           getEmpresas(),
           getSucursales(),
           getBodegas(),
-          // _crearDropDown(),
-          // SingleChildScrollView(child: Column(children: [_unionTarjetas()])),
-          // SizedBox(height: 10.0),
-          // Text(
-          //   'Actividades recientes',
-          //   style: TextStyle(fontSize: 18),
-          //   textAlign: TextAlign.center,
-          // ),
-          // SizedBox(height: 10.0),
-          // _actividadesRecientes(),
         ],
       ),
     );
@@ -99,7 +90,7 @@ class _HomePageState extends State<HomePage> {
           height: 70.0,
           width: 70.0,
           decoration: BoxDecoration(
-            color: Colors.blueAccent,
+            color: Colors.blue[400],
             borderRadius: BorderRadius.circular(80.0),
           ),
           child: PopupMenuButton(
@@ -113,9 +104,10 @@ class _HomePageState extends State<HomePage> {
                     CupertinoButton(
                       child: Text('Nuevo Producto'),
                       onPressed: () {
-                        //TODO: VALIDAR SI SE SELECCIONO UNA EMPRESA, BODEGA
-                        Argumentos a = Argumentos.producto(bodega, usuario, Producto());
-                        Navigator.popAndPushNamed(context, 'nuevo_producto', arguments: a);
+                        if (validarSeleccionProducto(int.parse(_opcionSeleccionadaBodega))) {
+                          Argumentos a = Argumentos.producto(bodega, usuario, Producto(), 'navFromHome');
+                          Navigator.popAndPushNamed(context, 'nuevo_producto', arguments: a);
+                        }
                       },
                     ),
                   ],
@@ -129,8 +121,10 @@ class _HomePageState extends State<HomePage> {
                     CupertinoButton(
                       child: Text('Nuevo Servicio'),
                       onPressed: () {
-                        Argumentos a = Argumentos.servicio(sucursal, usuario, Servicio());
-                        Navigator.popAndPushNamed(context, 'nuevo-servicio', arguments: a);
+                        if (validarSeleccionSucursal(int.parse(_opcionSeleccionadaEmpresa), 'SERVICIO')) {
+                          Argumentos a = Argumentos.servicio(sucursal, usuario, Servicio(), 'navFromHome');
+                          Navigator.popAndPushNamed(context, 'nuevo-servicio', arguments: a);
+                        }
                       },
                     ),
                   ],
@@ -144,8 +138,10 @@ class _HomePageState extends State<HomePage> {
                     CupertinoButton(
                       child: Text('Nuevo Cliente'),
                       onPressed: () {
-                        Argumentos a = Argumentos.cliente(usuario, sucursal, Cliente());
-                        Navigator.popAndPushNamed(context, 'nuevo-cliente', arguments: a);
+                        if (validarSeleccionSucursal(int.parse(_opcionSeleccionadaSucursal), 'CLIENTE')) {
+                          Argumentos a = Argumentos.cliente(usuario, sucursal, Cliente(), 'navFromHome');
+                          Navigator.popAndPushNamed(context, 'nuevo-cliente', arguments: a);
+                        }
                       },
                     ),
                   ],
@@ -175,12 +171,16 @@ class _HomePageState extends State<HomePage> {
   List<DropdownMenuItem<String>> getOpcionesEmpresaDropDown(List<Empresa> opciones) {
     List<DropdownMenuItem<String>> lista = [];
     lista.add(DropdownMenuItem(
-      child: Text('Seleccione una empresa'),
+      child: Center(
+        child: Text(
+          'Seleccione una empresa',
+        ),
+      ),
       value: '-1',
     ));
     opciones.forEach((item) {
       lista.add(DropdownMenuItem(
-        child: Text(item.empresaNombre),
+        child: Center(child: Text(item.empresaNombre)),
         value: item.empresaId.toString(),
       ));
     });
@@ -191,12 +191,12 @@ class _HomePageState extends State<HomePage> {
   List<DropdownMenuItem<String>> getOpcionesSucursalDropDown(List<Sucursal> opciones) {
     List<DropdownMenuItem<String>> lista = [];
     lista.add(DropdownMenuItem(
-      child: Text('Seleccione una sucursal'),
+      child: Center(child: Text('Seleccione una sucursal')),
       value: '-1',
     ));
     opciones.forEach((item) {
       lista.add(DropdownMenuItem(
-        child: Text(item.sucursalNombre),
+        child: Center(child: Text(item.sucursalNombre)),
         value: item.sucursalId.toString(),
       ));
     });
@@ -207,12 +207,12 @@ class _HomePageState extends State<HomePage> {
   List<DropdownMenuItem<String>> getOpcionesBodegaDropDown(List<Bodega> opciones) {
     List<DropdownMenuItem<String>> lista = [];
     lista.add(DropdownMenuItem(
-      child: Text('Seleccione una bodega'),
+      child: Center(child: Text('Seleccione una bodega')),
       value: '-1',
     ));
     opciones.forEach((item) {
       lista.add(DropdownMenuItem(
-        child: Text(item.bodegaNombre),
+        child: Center(child: Text(item.bodegaNombre)),
         value: item.bodegaId.toString(),
       ));
     });
@@ -230,23 +230,35 @@ class _HomePageState extends State<HomePage> {
           List<DropdownMenuItem<String>> opciones = getOpcionesEmpresaDropDown(empresas);
 
           return Container(
-            alignment: Alignment.center,
-            color: Colors.blue[400],
-            margin: EdgeInsets.all(10),
-            child: DropdownButton(
-              value: _opcionSeleccionadaEmpresa,
-              items: opciones,
-              style: TextStyle(color: Colors.white, fontSize: 18),
-              dropdownColor: Colors.blue[400],
-              onChanged: (value) {
-                setState(() {
-                  _opcionSeleccionadaEmpresa = value;
-                  _opcionSeleccionadaSucursal = '-1';
-                  _opcionSeleccionadaBodega = '-1';
-                  print(_opcionSeleccionadaEmpresa);
-                  // _opcionSeleccionada = value;
-                });
-              },
+            // alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 10, right: 25, left: 25),
+            padding: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.blue[400],
+            ),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: [
+                  Icon(Icons.business, color: Colors.white, size: 80),
+                  DropdownButton(
+                    value: _opcionSeleccionadaEmpresa,
+                    items: opciones,
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    dropdownColor: Colors.blue[400],
+                    onChanged: (value) {
+                      setState(() {
+                        _opcionSeleccionadaEmpresa = value;
+                        _opcionSeleccionadaSucursal = '-1';
+                        _opcionSeleccionadaBodega = '-1';
+                        print(_opcionSeleccionadaEmpresa);
+                        // _opcionSeleccionada = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         } else {
@@ -266,20 +278,31 @@ class _HomePageState extends State<HomePage> {
           List<DropdownMenuItem<String>> opciones = getOpcionesSucursalDropDown(sucursales);
 
           return Container(
-            alignment: Alignment.center,
-            color: Colors.blue[400],
-            margin: EdgeInsets.all(10),
-            child: DropdownButton(
-              value: _opcionSeleccionadaSucursal,
-              items: opciones,
-              style: TextStyle(color: Colors.white, fontSize: 18),
-              dropdownColor: Colors.blue[400],
-              onChanged: (value) {
-                setState(() {
-                  _opcionSeleccionadaSucursal = value;
-                  sucursal.sucursalId = int.parse(_opcionSeleccionadaSucursal);
-                });
-              },
+            margin: EdgeInsets.only(top: 10, right: 25, left: 25),
+            padding: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.blue[400],
+            ),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: [
+                  Icon(Icons.home_work, color: Colors.white, size: 80),
+                  DropdownButton(
+                    value: _opcionSeleccionadaSucursal,
+                    items: opciones,
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    dropdownColor: Colors.blue[400],
+                    onChanged: (value) {
+                      setState(() {
+                        _opcionSeleccionadaSucursal = value;
+                        sucursal.sucursalId = int.parse(_opcionSeleccionadaSucursal);
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         } else {
@@ -299,20 +322,31 @@ class _HomePageState extends State<HomePage> {
           List<DropdownMenuItem<String>> opciones = getOpcionesBodegaDropDown(bodegas);
 
           return Container(
-            alignment: Alignment.center,
-            color: Colors.blue[400],
-            margin: EdgeInsets.all(10),
-            child: DropdownButton(
-              value: _opcionSeleccionadaBodega,
-              items: opciones,
-              style: TextStyle(color: Colors.white, fontSize: 18),
-              dropdownColor: Colors.blue[400],
-              onChanged: (value) {
-                setState(() {
-                  _opcionSeleccionadaBodega = value;
-                  bodega.bodegaId = int.parse(_opcionSeleccionadaBodega);
-                });
-              },
+            margin: EdgeInsets.only(top: 10, right: 25, left: 25),
+            padding: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.blue[400],
+            ),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: [
+                  Icon(Icons.inventory, color: Colors.white, size: 80),
+                  DropdownButton(
+                    value: _opcionSeleccionadaBodega,
+                    items: opciones,
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    dropdownColor: Colors.blue[400],
+                    onChanged: (value) {
+                      setState(() {
+                        _opcionSeleccionadaBodega = value;
+                        bodega.bodegaId = int.parse(_opcionSeleccionadaBodega);
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         } else {
@@ -322,61 +356,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _unionTarjetas() {
-    return Table(
-      children: [
-        TableRow(children: [
-          _crearTarjeta(Colors.white, Icons.shop, 'Prodctos'),
-          _crearTarjeta(Colors.white, Icons.supervised_user_circle_sharp, 'Clientes'),
-        ]),
-        TableRow(children: [
-          _crearTarjeta(Colors.white, Icons.assignment, 'Facturas'),
-          _crearTarjeta(Colors.white, Icons.paste_rounded, 'Proformas'),
-        ]),
-      ],
-    );
+  bool validarSeleccionSucursal(int sucursalId, String opcion) {
+    if (sucursalId < 1) {
+      Navigator.pop(context);
+      mostrarAlerta(context, 'Alerta', 'Debe seleccionar la Empresa y la Sucursal a la que desea agregar el $opcion!');
+      return false;
+    }
+    return true;
   }
 
-  Widget _crearTarjeta(Color color, IconData icon, String texto) {
-    return ClipRRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-        child: Container(
-          height: 150.0,
-          margin: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            color: Colors.blue[400],
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CircleAvatar(
-                backgroundColor: color,
-                radius: 35.0,
-                child: Icon(icon, color: Colors.blueAccent, size: 50.0),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('9999', style: TextStyle(color: Colors.white, fontSize: 16.0)),
-                  Text(texto, style: TextStyle(color: Colors.white, fontSize: 16.0)),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _actividadesRecientes() {
-    return Container(
-      margin: EdgeInsets.all(10.0),
-      padding: EdgeInsets.all(10.0),
-      height: 200,
-      width: double.infinity,
-      color: Colors.grey,
-    );
+  bool validarSeleccionProducto(int bodegaId) {
+    if (bodegaId < 1) {
+      Navigator.pop(context);
+      mostrarAlerta(context, 'Alerta', 'Debe seleccionar la Empresa y la Bodega a la que desea agregar el PRODUCTO!');
+      return false;
+    }
+    return true;
   }
 }

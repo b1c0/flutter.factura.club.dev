@@ -26,7 +26,7 @@ class _TabServiciosState extends State<TabServicios> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Servicio servicio = Servicio();
-                Argumentos a = Argumentos.servicio(arg.sucursal, arg.usuario, servicio);
+                Argumentos a = Argumentos.servicio(arg.sucursal, arg.usuario, servicio, 'navFromServicio');
                 Navigator.pushNamed(context, 'nuevo-servicio', arguments: a);
               })
         ],

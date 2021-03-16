@@ -1,8 +1,5 @@
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
-import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/empresa_page.dart';
-import 'package:app_factura_club_dev/src/pages/Empresa/menu_empresas_page.dart';
-import 'package:app_factura_club_dev/src/pages/Empresa/sucursales_paged.dart';
 import 'package:app_factura_club_dev/src/pages/acceso/login_page.dart';
 import 'package:app_factura_club_dev/src/pages/acceso/registro_page.dart';
 import 'package:app_factura_club_dev/src/pages/clientes/clientes_page.dart';
@@ -14,6 +11,7 @@ import 'package:app_factura_club_dev/src/pages/empresa/bodega_nueva_page.dart';
 import 'package:app_factura_club_dev/src/pages/empresa/bodega_page.dart';
 import 'package:app_factura_club_dev/src/pages/empresa/empresa_nueva_page.dart';
 import 'package:app_factura_club_dev/src/pages/empresa/sucursal_nueva_page.dart';
+import 'package:app_factura_club_dev/src/pages/empresa/sucursales_page.dart';
 import 'package:app_factura_club_dev/src/pages/home_page.dart';
 import 'package:app_factura_club_dev/src/pages/productos_servicios/nuevo_producto.dart';
 import 'package:app_factura_club_dev/src/pages/productos_servicios/nuevo_servicio.dart';
@@ -50,7 +48,6 @@ class MyApp extends StatelessWidget {
           'login': (BuildContext context) => LoginPage(),
           'registro': (BuildContext context) => RegistroPage(),
           'home': (BuildContext context) => HomePage(),
-          'menu-empresa': (BuildContext context) => MenuEmpresaPage(),
           'empresa': (BuildContext context) => EmpresaPage(),
           'nueva-empresa': (BuildContext context) => NuevaEmpresaPage(),
           'sucursales': (BuildContext context) => SucursalesPage(),

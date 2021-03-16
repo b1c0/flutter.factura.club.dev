@@ -154,7 +154,7 @@ class _SucursalesPage extends State<SucursalesPage> {
               FlatButton(
                 child: Text('Ver Clientes'),
                 onPressed: () {
-                  Argumentos arg = Argumentos.cliente(usuario, sucursal, Cliente());
+                  Argumentos arg = Argumentos.cliente(usuario, sucursal, Cliente(), 'navFromSucursal');
                   Navigator.pop(context);
                   Navigator.pushNamed(context, 'clientes', arguments: arg);
                 },
@@ -173,7 +173,7 @@ class _SucursalesPage extends State<SucursalesPage> {
               FlatButton(
                 child: Text('Ver Servicios'),
                 onPressed: () {
-                  Argumentos arg = Argumentos.servicio(sucursal, usuario, Servicio());
+                  Argumentos arg = Argumentos.servicio(sucursal, usuario, Servicio(), 'navFromSucursal');
                   Navigator.pop(context);
                   Navigator.pushNamed(context, 'servicios', arguments: arg);
                 },

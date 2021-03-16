@@ -124,7 +124,7 @@ class _BodegaPageState extends State<BodegaPage> {
               FlatButton(
                 child: Text('Ver Productos'),
                 onPressed: () {
-                  Argumentos arg = Argumentos.producto(bodega, usuario, Producto());
+                  Argumentos arg = Argumentos.producto(bodega, usuario, Producto(), 'navFromBodega');
                   Navigator.pop(context);
                   Navigator.pushNamed(context, 'productos', arguments: arg);
                 },

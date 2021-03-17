@@ -51,9 +51,15 @@ class _MenuWidgetState extends State<MenuWidget> {
           ),
           ListTile(
               leading: Icon(Icons.category, color: Colors.blue),
-              title: Text('Productos/Servicios'),
+              title: Text('Productos'),
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, 'productos-servicios', ModalRoute.withName('home'));
+                Navigator.pushNamedAndRemoveUntil(context, 'productos', ModalRoute.withName('home'));
+              }),
+          ListTile(
+              leading: Icon(Icons.miscellaneous_services, color: Colors.blue),
+              title: Text('Servicios'),
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(context, 'servicios', ModalRoute.withName('home'));
               }),
           ListTile(
               leading: Icon(Icons.person, color: Colors.blue),

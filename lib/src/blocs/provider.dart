@@ -6,9 +6,11 @@ import 'package:app_factura_club_dev/src/blocs/producto_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/registro_usuarios_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/servicio_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/sucursal_bloc.dart';
+import 'package:app_factura_club_dev/src/blocs/validator_bloc.dart';
 import 'package:flutter/material.dart';
 
 class Provider extends InheritedWidget {
+  final validatorBloc = ValidatorBloc();
   final _registroUsuariosBloc = RegistroUsuariosBloc();
   final _crearEmpresaBloc = EmpresaBloc();
   final _crearSucursalBloc = SucursalBloc();
@@ -31,6 +33,10 @@ class Provider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
+
+  static ValidatorBloc of(BuildContext context) {
+    return (context.dependOnInheritedWidgetOfExactType<Provider>().validatorBloc);
+  }
 
   static RegistroUsuariosBloc registroUsuarioBloc(BuildContext context) {
     return (context.dependOnInheritedWidgetOfExactType<Provider>()._registroUsuariosBloc);

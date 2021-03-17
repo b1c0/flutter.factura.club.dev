@@ -20,8 +20,6 @@ class UsuarioService {
       headers: {'Content-Type': 'application/json'},
     );
 
-    print('====================${resp.body}');
-    print('====================${resp.statusCode.toString()}');
     if (resp.statusCode == 200) {
       final decodeData = json.decode(resp.body);
       final usuario = new Usuario.infoCompleta(decodeData);
@@ -29,12 +27,12 @@ class UsuarioService {
       print('====================${usuario.nicUsuario}');
       return {'ok': true, 'usuario': usuario};
     } else {
-      return {'ok': false, 'mensaje': 'error'};
+      return {'ok': false, 'mensaje': 'Usuario o contraseña incorrecto'};
     }
   }
 
   //METODO PARA REGISTRAR USUARIOS PADRE(ADMINISTRADOR)
-  Future<bool> agregarNuevoUsuario(Usuario usuario) async {
+  Future<Map<String, dynamic>> agregarNuevoUsuario(Usuario usuario) async {
     HttpClient client = new HttpClient();
     client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
     IOClient ioClient = new IOClient(client);
@@ -48,6 +46,6 @@ class UsuarioService {
     final decodedData = json.decode(resp.body);
     print(' ================================== $decodedData');
 
-    return true;
+    return {'ok': decodedData['exito'], 'mensaje': decodedData['mensaje']};
   }
 }

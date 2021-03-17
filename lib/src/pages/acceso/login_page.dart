@@ -1,5 +1,8 @@
+import 'package:app_factura_club_dev/src/blocs/provider.dart';
+import 'package:app_factura_club_dev/src/blocs/validator_bloc.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:app_factura_club_dev/src/services/usuarios_service.dart';
+import 'package:app_factura_club_dev/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +13,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final usuarioService = UsuarioService();
-  String _correo;
-  String _nic;
-  String _clave;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _formularioLogin(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final bloc = Provider.of(context);
 
     return SingleChildScrollView(
       child: Column(
@@ -95,10 +96,13 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Text('Iniciar Sesión', style: TextStyle(fontSize: 20.0)),
                 SizedBox(height: 30.0),
-                _inputEmail(),
-                _inputNombreUsuario(),
-                _inputClave(),
-                _botonIngresar(context),
+                _inputEmail(bloc),
+                SizedBox(height: 20.0),
+                _inputNombreUsuario(bloc),
+                SizedBox(height: 20.0),
+                _inputClave(bloc),
+                SizedBox(height: 20.0),
+                _botonIngresar(context, bloc),
                 _botonRegistrar(context),
               ],
             ),
@@ -108,16 +112,74 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _botonIngresar(BuildContext context) {
+//===========================================================================INPUTS
+  Widget _inputEmail(ValidatorBloc bloc) {
+    return StreamBuilder(
+        stream: bloc.emailStream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: TextField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                icon: Icon(Icons.alternate_email),
+                hintText: 'ejemplo@email.com',
+                labelText: 'Correo electrónico',
+                errorText: snapshot.error,
+              ),
+              onChanged: bloc.changeEmail,
+            ),
+          );
+        });
+  }
+
+  Widget _inputNombreUsuario(ValidatorBloc bloc) {
+    return StreamBuilder(
+        stream: bloc.usernameStream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: TextField(
+              decoration: InputDecoration(
+                icon: Icon(Icons.supervised_user_circle_sharp),
+                hintText: 'Usuario',
+                labelText: 'Nombre de Usuario',
+                errorText: snapshot.error,
+              ),
+              onChanged: bloc.changeUserName,
+            ),
+          );
+        });
+  }
+
+  Widget _inputClave(ValidatorBloc bloc) {
+    return StreamBuilder(
+        stream: bloc.passwordStream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                icon: Icon(Icons.lock_outline),
+                hintText: 'Contraseña',
+                labelText: 'Contraseña',
+                errorText: snapshot.error,
+              ),
+              onChanged: bloc.changePassword,
+            ),
+          );
+        });
+  }
+
+//===========================================================================BOTONES
+  Widget _botonIngresar(BuildContext context, ValidatorBloc bloc) {
     // final size = MediaQuery.of(context).size;
     return CupertinoButton(
-      child: Text(
-        'Ingresar',
-        style: TextStyle(color: Colors.white),
-      ),
+      child: Text('Ingresar', style: TextStyle(color: Colors.white)),
       borderRadius: BorderRadius.circular(15),
       color: Colors.blueAccent,
-      onPressed: () => _login(context),
+      onPressed: () => _actionLogin(context, bloc),
     );
   }
 
@@ -132,69 +194,17 @@ class _LoginPageState extends State<LoginPage> {
             });
   }
 
-  _login(BuildContext context) async {
-    //TODO: Validar el login
-    Map info = await usuarioService.login(_correo, _nic, _clave);
+//===========================================================================MÉTODOS
+  void _actionLogin(BuildContext context, ValidatorBloc bloc) async {
+    Map info = await usuarioService.login(bloc.email, bloc.username, bloc.password);
     if (info['ok']) {
+      // Duration(milliseconds: 5);
       print('Existe');
       Usuario usuario = info['usuario'];
       Navigator.pushReplacementNamed(context, 'home', arguments: usuario);
     } else {
+      mostrarAlerta(context, 'Error', info['mensaje']);
       print('error');
     }
-  }
-
-//====================INPUTS===================
-  Widget _inputEmail() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            icon: Icon(Icons.alternate_email),
-            hintText: 'ejemplo@email.com',
-            labelText: 'Correo electrónico',
-          ),
-          onChanged: (value) => _correo = value,
-        ),
-      ),
-      SizedBox(height: 20.0)
-    ]);
-  }
-
-  Widget _inputNombreUsuario() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          decoration: InputDecoration(
-            icon: Icon(Icons.supervised_user_circle_sharp),
-            hintText: 'Usuario',
-            labelText: 'Nombre de Usuario',
-          ),
-          onChanged: (value) => _nic = value,
-        ),
-      ),
-      SizedBox(height: 20.0)
-    ]);
-  }
-
-  Widget _inputClave() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            icon: Icon(Icons.lock_outline),
-            hintText: 'Contraseña',
-            labelText: 'Contraseña',
-          ),
-          onChanged: (value) => _clave = value,
-        ),
-      ),
-      SizedBox(height: 20.0)
-    ]);
   }
 }

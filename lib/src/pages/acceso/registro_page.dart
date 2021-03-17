@@ -1,6 +1,7 @@
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/blocs/registro_usuarios_bloc.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:app_factura_club_dev/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,8 @@ class RegistroPage extends StatefulWidget {
 }
 
 class _RegistroPageState extends State<RegistroPage> {
+  final _formKey = GlobalKey<FormState>();
+
   bool terminosCondiciones = false;
   String verificarClave = "";
   Usuario usuario = Usuario();
@@ -92,12 +95,18 @@ class _RegistroPageState extends State<RegistroPage> {
             child: Column(
               children: [
                 Text('Registro', style: TextStyle(fontSize: 20.0)),
-                _crearNombreApellido(),
-                _crearNombreUsuario(),
-                _crearEmail(),
-                _crearTelefono(),
-                _crearPassword(),
-                _crearVerificarPassword(),
+                Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        _crearNombreApellido(),
+                        _crearNombreUsuario(),
+                        _crearEmail(),
+                        _crearTelefono(),
+                        _crearPassword(),
+                        _crearVerificarPassword(),
+                      ],
+                    )),
                 _crearTerminosCondiciones(),
                 _crearBotonRegistrar(),
                 _crearbotonLogin(context),
@@ -110,109 +119,132 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   Widget _crearEmail() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            icon: Icon(Icons.alternate_email),
-            hintText: 'ejemplo@ejemplo.com',
-            labelText: 'Correo electrónico',
-          ),
-          onChanged: (value) => usuario.usuarioCorreo = value,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          icon: Icon(Icons.alternate_email),
+          hintText: 'ejemplo@ejemplo.com',
+          labelText: 'Correo electrónico',
         ),
+        validator: (value) {
+          if (value.isNotEmpty) {
+            if (RegExp(
+                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                .hasMatch(value)) {
+              return null;
+            } else {
+              return 'Correo Invalido';
+            }
+          } else {
+            return 'El campo no debe estar vacio';
+          }
+        },
+        onChanged: (value) => usuario.usuarioCorreo = value,
       ),
-      SizedBox(height: 20.0)
-    ]);
+    );
   }
 
   Widget _crearTelefono() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            icon: Icon(Icons.phone),
-            hintText: 'Teléfono',
-            labelText: 'Teléfono',
-          ),
-          onChanged: (value) => usuario.usuarioCelular = value,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+          icon: Icon(Icons.phone),
+          hintText: 'Teléfono',
+          labelText: 'Teléfono (Opcional)',
         ),
+        onChanged: (value) => usuario.usuarioCelular = value,
       ),
-      SizedBox(height: 20.0)
-    ]);
+    );
   }
 
   Widget _crearNombreApellido() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          decoration: InputDecoration(
-            icon: Icon(Icons.supervised_user_circle_sharp),
-            hintText: 'Apellidos y Nombres',
-            labelText: 'Apellidos y Nombres',
-          ),
-          onChanged: (value) => usuario.usuarioNombre = value,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          icon: Icon(Icons.supervised_user_circle_sharp),
+          hintText: 'Apellidos y Nombres',
+          labelText: 'Apellidos y Nombres',
         ),
+        validator: (value) {
+          if (value.isNotEmpty) {
+            return null;
+          } else {
+            return 'El campo no debe estar vacio';
+          }
+        },
+        onChanged: (value) => usuario.usuarioNombre = value,
       ),
-      SizedBox(height: 20.0)
-    ]);
+    );
   }
 
   Widget _crearNombreUsuario() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          decoration: InputDecoration(
-            icon: Icon(Icons.supervised_user_circle_sharp),
-            hintText: 'Usuario',
-            labelText: 'Nombre de Usuario',
-          ),
-          onChanged: (value) => usuario.usuarioNic = value,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          icon: Icon(Icons.supervised_user_circle_sharp),
+          hintText: 'Nombre de Usuario',
+          labelText: 'Nombre de Usuario',
         ),
+        validator: (value) {
+          if (value.isNotEmpty && value.length >= 4) {
+            return null;
+          } else {
+            return 'El nombre de usuario debe ser \nde por lo menos 4 caracteres';
+          }
+        },
+        onChanged: (value) => usuario.usuarioNic = value,
       ),
-      SizedBox(height: 20.0)
-    ]);
+    );
   }
 
   Widget _crearPassword() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            icon: Icon(Icons.lock_outline),
-            hintText: 'Contraseña',
-            labelText: 'Contraseña',
-          ),
-          onChanged: (value) => usuario.usuarioContrasenia = value,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: TextFormField(
+        obscureText: true,
+        decoration: InputDecoration(
+          icon: Icon(Icons.lock_outline),
+          hintText: 'Contraseña',
+          labelText: 'Contraseña',
         ),
+        validator: (value) {
+          if (value.isNotEmpty && value.length > 5) {
+            return null;
+          } else {
+            return 'la contraseña debe ser de por lo menos 6 caracteres';
+          }
+        },
+        onChanged: (value) => usuario.usuarioContrasenia = value,
       ),
-      SizedBox(height: 20.0)
-    ]);
+    );
   }
 
   Widget _crearVerificarPassword() {
-    return Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            icon: Icon(Icons.lock_outline),
-            hintText: 'Verificar Contraseña',
-            labelText: 'Verificar Contraseña',
-          ),
-          onChanged: (value) => verificarClave = value,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: TextFormField(
+        obscureText: true,
+        decoration: InputDecoration(
+          icon: Icon(Icons.lock_outline),
+          hintText: 'Verificar Contraseña',
+          labelText: 'Verificar Contraseña',
         ),
+        validator: (value) {
+          if (usuario.usuarioContrasenia == value) {
+            return null;
+          } else {
+            return 'Las contraseñas no coinciden';
+          }
+        },
+        onChanged: (value) => verificarClave = value,
       ),
-      SizedBox(height: 20.0)
-    ]);
+    );
   }
 
   Widget _crearTerminosCondiciones() {
@@ -259,39 +291,26 @@ class _RegistroPageState extends State<RegistroPage> {
         ));
   }
 
-  _registro() {
-    String mensaje = '';
-    String titulo = '';
-    //TODO: CONTROLAR VACIOS
-    if (usuario.usuarioContrasenia == verificarClave) {
-      if (terminosCondiciones) {
-        print('REGISTRO CORRECTO');
-        regUsuarioBloc.registrarUsuario(usuario);
-        Navigator.pop(context);
+  _registro() async {
+    if (!_formKey.currentState.validate()) return;
+    if (terminosCondiciones) {
+      print('REGISTRando');
+      Map info = await regUsuarioBloc.registrarUsuario(usuario);
+      if (info['ok']) {
+        Navigator.pop(context, info['mensaje']);
       } else {
-        titulo = 'Alerta';
-        mensaje = 'Debe aceptar los terminos y condiciones para continuar';
-        mostrarAlerta(context, mensaje, titulo);
+        mostrarAlerta(
+          context,
+          'Alerta',
+          info['mensaje'],
+        );
       }
     } else {
-      print('las claves no coinciden');
+      mostrarAlerta(
+        context,
+        'Alerta',
+        'Debe aceptar los terminos y condiciones para continuar',
+      );
     }
-  }
-
-  void mostrarAlerta(BuildContext context, String mensaje, String titulo) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(titulo),
-            content: Text(mensaje),
-            actions: [
-              CupertinoButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text('OK'),
-              )
-            ],
-          );
-        });
   }
 }

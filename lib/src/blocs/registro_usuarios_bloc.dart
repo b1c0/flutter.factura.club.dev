@@ -7,8 +7,8 @@ class RegistroUsuariosBloc {
   final _usuarioService = UsuarioService();
   final _getUsuarioController = BehaviorSubject<Map<String, dynamic>>();
 
-  void registrarUsuario(Usuario usuario) async {
-    await _usuarioService.agregarNuevoUsuario(usuario);
+  Future<Map<String, dynamic>> registrarUsuario(Usuario usuario) async {
+    return await _usuarioService.agregarNuevoUsuario(usuario);
   }
 
   void cargarUsuario(String correo, String nic, String clave) async {

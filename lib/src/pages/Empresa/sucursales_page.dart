@@ -6,6 +6,7 @@ import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Servicio.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SucursalesPage extends StatefulWidget {
@@ -113,13 +114,13 @@ class _SucursalesPage extends State<SucursalesPage> {
             title: Text('Eliminar'),
             content: Text('¿Esta seguro que desea eliminar esta sucursal?'),
             actions: [
-              FlatButton(
+              CupertinoButton(
                 onPressed: () => {
                   Navigator.pop(context),
                 },
                 child: Text('Cancelar'),
               ),
-              FlatButton(
+              CupertinoButton(
                   child: Text('OK'),
                   onPressed: () => {
                         _eliminarSucursal(sucursalBloc, sucursal),
@@ -151,7 +152,7 @@ class _SucursalesPage extends State<SucursalesPage> {
                 Icons.person,
                 color: Colors.blue,
               ),
-              FlatButton(
+              CupertinoButton(
                 child: Text('Ver Clientes'),
                 onPressed: () {
                   Argumentos arg = Argumentos.cliente(usuario, sucursal, Cliente(), 'navFromSucursal');
@@ -170,7 +171,7 @@ class _SucursalesPage extends State<SucursalesPage> {
                 Icons.miscellaneous_services,
                 color: Colors.blue,
               ),
-              FlatButton(
+              CupertinoButton(
                 child: Text('Ver Servicios'),
                 onPressed: () {
                   Argumentos arg = Argumentos.servicio(sucursal, usuario, Servicio(), 'navFromSucursal');

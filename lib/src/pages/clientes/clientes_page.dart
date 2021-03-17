@@ -3,6 +3,7 @@ import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Cliente.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ClientesPage extends StatefulWidget {
@@ -110,13 +111,13 @@ class _ClientesPage extends State<ClientesPage> {
             title: Text('Eliminar'),
             content: Text('¿Esta seguro que desea eliminar este cliente?'),
             actions: [
-              FlatButton(
+              CupertinoButton(
                 onPressed: () => {
                   Navigator.pop(context),
                 },
                 child: Text('Cancelar'),
               ),
-              FlatButton(
+              CupertinoButton(
                   child: Text('OK'),
                   onPressed: () => {
                         _eliminarCliente(clienteBloc, cliente, arg),

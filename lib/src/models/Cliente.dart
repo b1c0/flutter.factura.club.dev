@@ -75,7 +75,7 @@ class Cliente {
 }
 
 class Clientes {
-  List<Cliente> items = new List();
+  List<Cliente> items = [];
   Clientes();
   Clientes.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;

@@ -4,6 +4,7 @@ import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Cliente.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NuevoClientePage extends StatefulWidget {
@@ -62,15 +63,12 @@ class _NuevoClientePage extends State<NuevoClientePage> {
   }
 
   Widget _crearBoton(Argumentos arg) {
-    return RaisedButton(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-          child: Text('Guardar'),
+    return CupertinoButton(
+        child: Text(
+          'Guardar',
+          style: TextStyle(color: Colors.white),
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        elevation: 0.0,
         color: Colors.blueAccent,
-        textColor: Colors.white,
         onPressed: () {
           _guardarCliente(arg);
         });

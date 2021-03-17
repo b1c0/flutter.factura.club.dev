@@ -1,5 +1,6 @@
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:app_factura_club_dev/src/services/usuarios_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -108,20 +109,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _botonIngresar(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return RaisedButton(
-      child: Text('Ingresar'),
-      padding: EdgeInsets.only(right: size.width * 0.25, left: size.width * 0.25),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      elevation: 0.0,
+    // final size = MediaQuery.of(context).size;
+    return CupertinoButton(
+      child: Text(
+        'Ingresar',
+        style: TextStyle(color: Colors.white),
+      ),
+      borderRadius: BorderRadius.circular(15),
       color: Colors.blueAccent,
-      textColor: Colors.white,
       onPressed: () => _login(context),
     );
   }
 
   Widget _botonRegistrar(BuildContext context) {
-    return FlatButton(
+    return CupertinoButton(
         child: Text(
           '¿No tienes cuenta? Registrate!',
           style: TextStyle(color: Colors.blue),

@@ -69,7 +69,7 @@ class Empresa {
 }
 
 class Empresas {
-  List<Empresa> items = new List();
+  List<Empresa> items = [];
   Empresas();
   Empresas.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;

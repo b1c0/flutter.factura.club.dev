@@ -59,7 +59,7 @@ class Bodega {
 }
 
 class Bodegas {
-  List<Bodega> items = new List();
+  List<Bodega> items = [];
   Bodegas();
   Bodegas.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;

@@ -241,19 +241,17 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   Widget _crearBotonRegistrar() {
-    final size = MediaQuery.of(context).size;
-    return RaisedButton(
-        child: Text('Registrar'),
-        padding: EdgeInsets.only(right: size.width * 0.25, left: size.width * 0.25),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        elevation: 0.0,
-        color: Colors.blueAccent,
-        textColor: Colors.white,
-        onPressed: _registro);
+    // final size = MediaQuery.of(context).size;
+    return CupertinoButton(
+      child: Text('Registrar'),
+      borderRadius: BorderRadius.circular(15),
+      color: Colors.blueAccent,
+      onPressed: _registro,
+    );
   }
 
   Widget _crearbotonLogin(BuildContext context) {
-    return FlatButton(
+    return CupertinoButton(
         onPressed: () => Navigator.pop(context),
         child: Text(
           '¿Ya tienes cuenta? Inicia Sesión!',
@@ -288,7 +286,7 @@ class _RegistroPageState extends State<RegistroPage> {
             title: Text(titulo),
             content: Text(mensaje),
             actions: [
-              FlatButton(
+              CupertinoButton(
                 onPressed: () => Navigator.of(context).pop(),
                 child: Text('OK'),
               )

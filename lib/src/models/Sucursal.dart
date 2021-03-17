@@ -66,7 +66,7 @@ class Sucursal {
 }
 
 class Sucursales {
-  List<Sucursal> items = new List();
+  List<Sucursal> items = [];
   Sucursales();
   Sucursales.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;

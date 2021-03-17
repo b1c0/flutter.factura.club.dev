@@ -1,4 +1,4 @@
-import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PermisosUsuarioPage extends StatefulWidget {
@@ -74,16 +74,15 @@ class _PermisosUsuarioPage extends State<PermisosUsuarioPage> {
   }
 
   Widget _crearBoton() {
-    return RaisedButton(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-          child: Text('Guardar'),
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        elevation: 0.0,
-        color: Colors.blueAccent,
-        textColor: Colors.white,
-        onPressed: () {});
+    return CupertinoButton(
+      child: Text(
+        'Guardar',
+        style: TextStyle(color: Colors.white),
+      ),
+      borderRadius: BorderRadius.circular(15),
+      color: Colors.blueAccent,
+      onPressed: () {},
+    );
   }
 
   Widget _crearSwitch(String texto) {
@@ -111,7 +110,7 @@ class Item {
 }
 
 List<Item> generateItems() {
-  List<Item> items = List<Item>();
+  List<Item> items = [];
   items.add(Item(headerValue: 'Empresa', expandedValue: 'Opciones'));
   items.add(Item(headerValue: 'Clientes', expandedValue: 'Opciones'));
   items.add(Item(headerValue: 'Productos', expandedValue: 'Opciones'));

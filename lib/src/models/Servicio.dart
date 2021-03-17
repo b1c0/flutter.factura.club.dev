@@ -58,7 +58,7 @@ class Servicio {
 }
 
 class Servicios {
-  List<Servicio> items = new List();
+  List<Servicio> items = [];
   Servicios();
   Servicios.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;

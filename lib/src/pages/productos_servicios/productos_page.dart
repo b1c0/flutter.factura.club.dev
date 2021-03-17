@@ -4,6 +4,7 @@ import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Bodega.dart';
 import 'package:app_factura_club_dev/src/models/Producto.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TabProductos extends StatefulWidget {
@@ -108,13 +109,13 @@ class _TabProductosState extends State<TabProductos> {
             title: Text('Eliminar'),
             content: Text('¿Esta seguro que desea eliminar el producto?'),
             actions: [
-              FlatButton(
+              CupertinoButton(
                 onPressed: () => {
                   Navigator.pop(context),
                 },
                 child: Text('Cancelar'),
               ),
-              FlatButton(
+              CupertinoButton(
                   child: Text('OK'),
                   onPressed: () => {
                         _eliminarBodega(productoBloc, producto),

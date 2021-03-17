@@ -3,6 +3,7 @@ import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EmpresaPage extends StatefulWidget {
@@ -114,7 +115,7 @@ class _EmpresaPage extends State<EmpresaPage> {
           child: Row(
             children: [
               Icon(Icons.home_work_sharp, color: Colors.blue),
-              FlatButton(
+              CupertinoButton(
                 child: Text('Ver Sucursales'),
                 onPressed: () {
                   Argumentos arg = Argumentos(empresa, usuario);
@@ -130,7 +131,7 @@ class _EmpresaPage extends State<EmpresaPage> {
           child: Row(
             children: [
               Icon(Icons.inventory, color: Colors.blue),
-              FlatButton(
+              CupertinoButton(
                 child: Text('Ver Bodegas'),
                 onPressed: () {
                   Argumentos arg = Argumentos(empresa, usuario);
@@ -160,13 +161,13 @@ class _EmpresaPage extends State<EmpresaPage> {
             title: Text('Eliminar'),
             content: Text('¿Esta seguro que desea eliminar esta empresa?'),
             actions: [
-              FlatButton(
+              CupertinoButton(
                 onPressed: () => {
                   Navigator.pop(context),
                 },
                 child: Text('Cancelar'),
               ),
-              FlatButton(
+              CupertinoButton(
                   child: Text('OK'),
                   onPressed: () => {
                         _eliminarEmpresa(empresasBloc, empresa),

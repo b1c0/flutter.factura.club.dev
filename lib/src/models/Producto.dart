@@ -100,7 +100,7 @@ class Producto {
 }
 
 class Productos {
-  List<Producto> items = new List();
+  List<Producto> items = [];
   Productos();
   Productos.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;

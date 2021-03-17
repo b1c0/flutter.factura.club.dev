@@ -5,6 +5,7 @@ import 'package:app_factura_club_dev/src/models/Bodega.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Producto.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BodegaPage extends StatefulWidget {
@@ -121,7 +122,7 @@ class _BodegaPageState extends State<BodegaPage> {
                 Icons.category,
                 color: Colors.blue,
               ),
-              FlatButton(
+              CupertinoButton(
                 child: Text('Ver Productos'),
                 onPressed: () {
                   Argumentos arg = Argumentos.producto(bodega, usuario, Producto(), 'navFromBodega');
@@ -144,13 +145,13 @@ class _BodegaPageState extends State<BodegaPage> {
             title: Text('Eliminar'),
             content: Text('¿Esta seguro que desea eliminar esta bodega?'),
             actions: [
-              FlatButton(
+              CupertinoButton(
                 onPressed: () => {
                   Navigator.pop(context),
                 },
                 child: Text('Cancelar'),
               ),
-              FlatButton(
+              CupertinoButton(
                   child: Text('OK'),
                   onPressed: () => {
                         _eliminarBodega(bodegaBloc, bodega),

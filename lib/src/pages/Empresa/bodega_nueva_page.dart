@@ -4,6 +4,7 @@ import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Bodega.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NuevaBodegaPage extends StatefulWidget {
@@ -96,23 +97,19 @@ class _NuevaBodegaPageState extends State<NuevaBodegaPage> {
   }
 
   Widget _botonGuardarBodega(Argumentos arg) {
-    return RaisedButton(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-          child: Text('Guardar'),
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+    return CupertinoButton(
+        child: Text('Guardar'),
+        borderRadius: BorderRadius.circular(15),
         color: Colors.blueAccent,
-        textColor: Colors.white,
         onPressed: () {
           _actionGuardarBodega(arg);
         });
   }
 
-  void _actionGuardarBodega(Argumentos arg) async {
+  void _actionGuardarBodega(Argumentos arg) {
     //TODO: VALIDAR VACIOS
     if (bodega.bodegaId == null) {
-      await bodegaBloc.crearNuevaBodega(bodega);
+      bodegaBloc.crearNuevaBodega(bodega);
       print('creando');
     } else {
       print('actualizando');

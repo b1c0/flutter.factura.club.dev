@@ -1,4 +1,4 @@
-import 'package:app_factura_club_dev/src/widgets/inputs_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -9,7 +9,7 @@ class NuevaFacturaPage extends StatefulWidget {
 
 class _NuevaFacturaPage extends State<NuevaFacturaPage> {
   String _opcionSeleccionada = 'Pago';
-  List<String> _opciones = ['Pago', 'Efectivo', 'Tarjeta Débito', 'Tarjeta Crédito'];
+  // List<String> _opciones = ['Pago', 'Efectivo', 'Tarjeta Débito', 'Tarjeta Crédito'];
   String _fecha = '';
   TextEditingController _inputFieldDateController = new TextEditingController();
   @override
@@ -202,7 +202,7 @@ class _NuevaFacturaPage extends State<NuevaFacturaPage> {
         Expanded(
           child: DropdownButton(
               value: _opcionSeleccionada,
-              // items: input.getOpcionesDropDown(_opciones),
+              items: [],
               onChanged: (opt) {
                 setState(() {
                   _opcionSeleccionada = opt;
@@ -238,18 +238,12 @@ class _NuevaFacturaPage extends State<NuevaFacturaPage> {
   }
 
   Widget _crearBoton() {
-    return RaisedButton(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-          child: Text(
-            'Guardar',
-            style: TextStyle(fontSize: 18),
-          ),
+    return CupertinoButton(
+        child: Text(
+          'Guardar',
+          style: TextStyle(color: Colors.white),
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        elevation: 0.0,
         color: Colors.blueAccent,
-        textColor: Colors.white,
         onPressed: () {});
   }
 

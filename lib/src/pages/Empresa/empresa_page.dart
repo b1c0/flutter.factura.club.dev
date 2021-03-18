@@ -27,7 +27,9 @@ class _EmpresaPage extends State<EmpresaPage> {
           IconButton(
               icon: Icon(Icons.add_business),
               onPressed: () {
-                Navigator.pushNamed(context, 'nueva-empresa', arguments: arg);
+                Navigator.pushNamed(context, 'nueva-empresa', arguments: arg).then((value) {
+                  setState(() {});
+                });
               })
         ],
       ),
@@ -86,7 +88,6 @@ class _EmpresaPage extends State<EmpresaPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(empresa.empresaRuc, style: TextStyle(color: Colors.white)),
-                      Text(empresa.empresaDireccion, style: TextStyle(color: Colors.white)),
                     ],
                   ),
                   onTap: () {

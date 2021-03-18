@@ -291,7 +291,7 @@ class _RegistroPageState extends State<RegistroPage> {
         ));
   }
 
-  _registro() async {
+  void _registro() async {
     if (!_formKey.currentState.validate()) return;
     if (terminosCondiciones) {
       print('REGISTRando');

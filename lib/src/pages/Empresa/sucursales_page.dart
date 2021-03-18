@@ -29,7 +29,9 @@ class _SucursalesPage extends State<SucursalesPage> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Argumentos a = Argumentos.sucursal(arg.empresa, arg.usuario, Sucursal());
-                Navigator.pushNamed(context, 'nueva-sucursal', arguments: a);
+                Navigator.pushNamed(context, 'nueva-sucursal', arguments: a).then((value) {
+                  setState(() {});
+                });
               })
         ],
       ),

@@ -13,15 +13,14 @@ class NuevaSucursalPage extends StatefulWidget {
 }
 
 class _NuevaSucursalPage extends State<NuevaSucursalPage> {
+  final _formKey = GlobalKey<FormState>();
   Sucursal sucursal = Sucursal.sinId();
   SucursalBloc sucursalBloc;
-  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     sucursalBloc = Provider.crearSucursalBloc(context);
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
-
     final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
     final Sucursal data = arg.sucursal;
@@ -30,6 +29,7 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
     }
     sucursal.empresaId = empresa.empresaId;
     sucursal.usuarioId = usuario.idUser;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva Sucursal'),
@@ -38,55 +38,34 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
     );
   }
 
-  ListView _formulario(Argumentos arg) {
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      children: [
-        _inputCodigoEstablecimiento(),
-        Divider(),
-        _inputNombreSucursal(),
-        Divider(),
-        _inputDireccionSucursal(),
-        Divider(),
-        _inputTelefonoSucursal(),
-        Divider(),
-        _inputCorreoSucursal(),
-        Divider(),
-        _inputRucSucursal(),
-        Divider(),
-        _crearBoton(arg),
-      ],
+  Widget _formulario(Argumentos arg) {
+    return Form(
+      key: _formKey,
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+        child: ListView(
+          children: [
+            // _inputCodigoEstablecimiento(),
+            // Divider(),
+            _inputNombreSucursal(),
+            Divider(),
+            _inputDireccionSucursal(),
+            Divider(),
+            _inputTelefonoSucursal(),
+            Divider(),
+            _inputCorreoSucursal(),
+            Divider(),
+            _inputRucSucursal(),
+            Divider(),
+            _botonGuardarSucursal(arg),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _crearBoton(Argumentos arg) {
-    return CupertinoButton(
-        child: Text(
-          'Guardar',
-          style: TextStyle(color: Colors.white),
-        ),
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.blueAccent,
-        onPressed: () {
-          _actionGuardarSucursal(arg);
-        });
-  }
+  //===========================================================================INPUTS
 
-  void _actionGuardarSucursal(Argumentos arg) {
-    //TODO: VALIDAR VACIOS
-    print('aaaaaaaaaaaaaaaaaaa');
-    if (sucursal.sucursalId == null) {
-      sucursalBloc.crearNuevaSucursal(sucursal);
-      print('creando');
-    } else {
-      print('actualizando');
-
-      sucursalBloc.actualizarSucursal(sucursal);
-    }
-    Navigator.pushNamedAndRemoveUntil(context, 'sucursales', ModalRoute.withName('empresa'), arguments: arg);
-  }
-
-  //================================INPUTS===========================
   Widget _inputCodigoEstablecimiento() {
     return TextField(
       textCapitalization: TextCapitalization.sentences,
@@ -103,12 +82,19 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   Widget _inputNombreSucursal() {
     return TextFormField(
       initialValue: sucursal.sucursalNombre,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        hintText: 'Nombre Sucursal',
-        labelText: 'Nombre Sucursal',
+        hintText: 'Nombre Sucursal ',
+        labelText: 'Nombre Sucursal *',
       ),
+      validator: (value) {
+        if (value.isNotEmpty) {
+          return null;
+        } else {
+          return 'El nombre es obligatorio';
+        }
+      },
       onChanged: (value) => sucursal.sucursalNombre = value,
     );
   }
@@ -116,7 +102,7 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   Widget _inputDireccionSucursal() {
     return TextFormField(
       initialValue: sucursal.sucursalDireccion,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         hintText: 'Dirección Sucursal',
@@ -129,8 +115,8 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   Widget _inputTelefonoSucursal() {
     return TextFormField(
       initialValue: sucursal.sucursalTelefono,
-      textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.number,
+      maxLength: 25,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         hintText: 'Teléfono Sucursal',
@@ -143,7 +129,7 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   Widget _inputCorreoSucursal() {
     return TextFormField(
       initialValue: sucursal.sucursalCorreoCorporativo,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         hintText: 'Correo Sucursal',
@@ -156,13 +142,50 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   Widget _inputRucSucursal() {
     return TextFormField(
       initialValue: sucursal.sucursalRuc,
-      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         hintText: 'RUC Sucursal',
-        labelText: 'RUC Sucursal',
+        labelText: 'RUC Sucursal *',
       ),
+      validator: (value) {
+        if (value.isNotEmpty) {
+          return null;
+        } else {
+          return 'El nombre es obligatorio';
+        }
+      },
       onChanged: (value) => sucursal.sucursalRuc = value,
     );
+  }
+
+  //===========================================================================BOTONES
+
+  Widget _botonGuardarSucursal(Argumentos arg) {
+    return CupertinoButton(
+      child: Text(
+        'Guardar',
+        style: TextStyle(color: Colors.white),
+      ),
+      borderRadius: BorderRadius.circular(15),
+      color: Colors.blueAccent,
+      onPressed: () => _ingresarSucursal(arg),
+    );
+  }
+
+  //===========================================================================MÉTODOS
+  void _ingresarSucursal(Argumentos arg) {
+    if (!_formKey.currentState.validate()) return;
+    if (sucursal.sucursalId == null) {
+      print('creando');
+      sucursalBloc.crearNuevaSucursal(sucursal);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'sucursales', arguments: arg);
+    } else {
+      print('actualizando');
+
+      sucursalBloc.actualizarSucursal(sucursal);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'sucursales', arguments: arg);
+    }
   }
 }

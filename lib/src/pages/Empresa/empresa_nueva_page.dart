@@ -14,7 +14,8 @@ class NuevaEmpresaPage extends StatefulWidget {
 class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   Empresa empresa = Empresa.sinID();
   EmpresaBloc crearEmpresaBloc;
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     crearEmpresaBloc = Provider.crearEmpresaBloc(context);
@@ -27,26 +28,28 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     }
     //EL ID DEL USUARIO CONECTADO
     empresa.usuarioId = usuario.idUser;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Datos Empresa'),
       ),
-      body: Container(
+      body: _formulario(usuario),
+    );
+  }
+
+  Form _formulario(Usuario usuario) {
+    return Form(
+      key: _formKey,
+      child: Container(
         padding: EdgeInsets.all(20.0),
         child: ListView(
           children: [
-            Divider(),
             inputNombreEmpresa(),
-            Divider(),
-            inputCorreoEmpresa(),
-            Divider(),
-            inputTelefonoEmpresa(),
-            Divider(),
-            inputDireccionEmpresa(),
-            Divider(),
-            inputLogoEmpresa(),
-            Divider(),
             inputRUCEmpresa(),
+            inputCorreoEmpresa(),
+            inputTelefonoEmpresa(),
+            inputDireccionEmpresa(),
+            inputLogoEmpresa(),
             Divider(),
             _botonGuardarEmpresa(usuario),
           ],
@@ -55,49 +58,31 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     );
   }
 
-  Widget _botonGuardarEmpresa(Usuario usuario) {
-    return CupertinoButton(
-        child: Text(
-          'Guardar',
-          style: TextStyle(color: Colors.white),
-        ),
-        color: Colors.blueAccent,
-        onPressed: () {
-          ingresarEmpresa(usuario);
-        });
-  }
-
-  void ingresarEmpresa(Usuario usuario) {
-    //TODO: VALIDAR VACIOS y validar el usuario logueado
-    if (empresa.empresaId == null) {
-      crearEmpresaBloc.crearNuevaEmpresa(empresa);
-    } else {
-      crearEmpresaBloc.actualizarEmpresa(empresa);
-    }
-    Navigator.pushNamedAndRemoveUntil(context, 'empresa', ModalRoute.withName('menu-empresa'), arguments: usuario);
-    Navigator.popAndPushNamed(context, 'empresa', arguments: usuario);
-  }
-
-  //===================================INPUTS============================
+  //===========================================================================INPUTS
   Widget inputNombreEmpresa() {
     return TextFormField(
-      // autofocus: true,
       initialValue: empresa.empresaNombre,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        labelText: 'Nombre Comercial',
+        labelText: 'Nombre Comercial *',
         hintText: 'Nombre tal y como consta en el SRI',
       ),
+      validator: (value) {
+        if (value.isNotEmpty) {
+          return null;
+        } else {
+          return 'El nombre es obligatorio';
+        }
+      },
       onChanged: (value) => empresa.empresaNombre = value,
     );
   }
 
   Widget inputCorreoEmpresa() {
     return TextFormField(
-      // autofocus: true,
       initialValue: empresa.empresaCorreoCorporativo,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 100,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -110,9 +95,8 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
 
   Widget inputTelefonoEmpresa() {
     return TextFormField(
-      // autofocus: true,
       initialValue: empresa.empresaTelefono,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 25,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -125,10 +109,8 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
 
   Widget inputDireccionEmpresa() {
     return TextFormField(
-      // autofocus: true,
       initialValue: empresa.empresaDireccion,
-
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 250,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -141,11 +123,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
 
   Widget inputLogoEmpresa() {
     return TextFormField(
-      // autofocus: true,
       initialValue: empresa.empresaLogotipo,
-
-      textCapitalization: TextCapitalization.sentences,
-      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         labelText: 'Logo Empresa',
@@ -157,17 +135,38 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
 
   Widget inputRUCEmpresa() {
     return TextFormField(
-      // autofocus: true,
       initialValue: empresa.empresaRuc,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 13,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         labelText: 'RUC',
         hintText: 'RUC',
       ),
-      maxLength: 13,
       onChanged: (value) => empresa.empresaRuc = value,
     );
+  }
+
+  //===========================================================================BOTONES
+  Widget _botonGuardarEmpresa(Usuario usuario) {
+    return CupertinoButton(
+      child: Text('Guardar', style: TextStyle(color: Colors.white)),
+      color: Colors.blueAccent,
+      onPressed: () => ingresarEmpresa(usuario),
+    );
+  }
+
+//===========================================================================MÉTODOS
+  void ingresarEmpresa(Usuario usuario) {
+    if (!_formKey.currentState.validate()) return;
+    if (empresa.empresaId == null) {
+      crearEmpresaBloc.crearNuevaEmpresa(empresa);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'empresa', arguments: usuario);
+    } else {
+      crearEmpresaBloc.actualizarEmpresa(empresa);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'empresa', arguments: usuario);
+    }
   }
 }

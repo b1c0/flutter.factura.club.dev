@@ -5,12 +5,12 @@ import 'package:app_factura_club_dev/src/models/Servicio.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:flutter/material.dart';
 
-class TabServicios extends StatefulWidget {
+class ServiciosPage extends StatefulWidget {
   @override
-  _TabServiciosState createState() => _TabServiciosState();
+  _ServiciosPageState createState() => _ServiciosPageState();
 }
 
-class _TabServiciosState extends State<TabServicios> {
+class _ServiciosPageState extends State<ServiciosPage> {
   @override
   Widget build(BuildContext context) {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
@@ -27,7 +27,9 @@ class _TabServiciosState extends State<TabServicios> {
               onPressed: () {
                 Servicio servicio = Servicio();
                 Argumentos a = Argumentos.servicio(arg.sucursal, arg.usuario, servicio, 'navFromServicio');
-                Navigator.pushNamed(context, 'nuevo-servicio', arguments: a);
+                Navigator.pushNamed(context, 'nuevo-servicio', arguments: a).then((value) {
+                  setState(() {});
+                });
               })
         ],
       ),

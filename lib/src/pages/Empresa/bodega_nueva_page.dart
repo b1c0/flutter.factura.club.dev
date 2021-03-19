@@ -15,9 +15,9 @@ class NuevaBodegaPage extends StatefulWidget {
 }
 
 class _NuevaBodegaPageState extends State<NuevaBodegaPage> {
+  final _formKey = GlobalKey<FormState>();
   Bodega bodega = Bodega.sinId();
   BodegaBloc bodegaBloc;
-  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     bodegaBloc = Provider.crearBodegaBloc(context);
@@ -42,39 +42,48 @@ class _NuevaBodegaPageState extends State<NuevaBodegaPage> {
     );
   }
 
-  ListView _formulario(Argumentos arg) {
-    return ListView(
-      children: [
-        _inputNombreBodega(),
-        Divider(),
-        _inputProvinciaBodega(),
-        Divider(),
-        _inputDireccionBodega(),
-        Divider(),
-        _botonGuardarBodega(arg),
-      ],
+  Widget _formulario(Argumentos arg) {
+    return Form(
+      key: _formKey,
+      child: ListView(
+        children: [
+          _inputNombreBodega(),
+          Divider(),
+          _inputProvinciaBodega(),
+          Divider(),
+          _inputDireccionBodega(),
+          Divider(),
+          _botonGuardarBodega(arg),
+        ],
+      ),
     );
   }
 
-//=========================INPUTS=========================\\
+  //===========================================================================INPUTS
+
   Widget _inputNombreBodega() {
     return TextFormField(
-      // autofocus: true,
       initialValue: bodega.bodegaNombre,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        labelText: 'Nombre Bodega',
+        labelText: 'Nombre Bodega *',
       ),
+      validator: (value) {
+        if (value.isNotEmpty) {
+          return null;
+        } else {
+          return 'El nombre es obligatorio';
+        }
+      },
       onChanged: (value) => bodega.bodegaNombre = value,
     );
   }
 
   Widget _inputProvinciaBodega() {
     return TextFormField(
-      // autofocus: true,
       initialValue: bodega.bodegaProvincia,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         labelText: 'Provincia Bodega',
@@ -85,9 +94,8 @@ class _NuevaBodegaPageState extends State<NuevaBodegaPage> {
 
   Widget _inputDireccionBodega() {
     return TextFormField(
-      // autofocus: true,
       initialValue: bodega.bodegaDireccion,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         labelText: 'Direccion Bodega',
@@ -96,26 +104,30 @@ class _NuevaBodegaPageState extends State<NuevaBodegaPage> {
     );
   }
 
+  //===========================================================================BOTONES
   Widget _botonGuardarBodega(Argumentos arg) {
     return CupertinoButton(
-        child: Text('Guardar'),
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.blueAccent,
-        onPressed: () {
-          _actionGuardarBodega(arg);
-        });
+      child: Text('Guardar'),
+      borderRadius: BorderRadius.circular(15),
+      color: Colors.blueAccent,
+      onPressed: () => _ingresarBodega(arg),
+    );
   }
 
-  void _actionGuardarBodega(Argumentos arg) {
-    //TODO: VALIDAR VACIOS
+  //===========================================================================MÉTODOS
+  void _ingresarBodega(Argumentos arg) {
+    if (!_formKey.currentState.validate()) return;
+
     if (bodega.bodegaId == null) {
-      bodegaBloc.crearNuevaBodega(bodega);
       print('creando');
+      bodegaBloc.crearNuevaBodega(bodega);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'bodega', arguments: arg);
     } else {
       print('actualizando');
-
       bodegaBloc.actualizarBodega(bodega);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'bodega', arguments: arg);
     }
-    Navigator.pushNamedAndRemoveUntil(context, 'bodega', ModalRoute.withName('empresa'), arguments: arg);
   }
 }

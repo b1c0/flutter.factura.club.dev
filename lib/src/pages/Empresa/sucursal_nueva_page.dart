@@ -151,7 +151,7 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
         if (value.isNotEmpty) {
           return null;
         } else {
-          return 'El nombre es obligatorio';
+          return 'El RUC es obligatorio';
         }
       },
       onChanged: (value) => sucursal.sucursalRuc = value,
@@ -184,7 +184,6 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
       print('actualizando');
 
       sucursalBloc.actualizarSucursal(sucursal);
-      Navigator.pop(context);
       Navigator.popAndPushNamed(context, 'sucursales', arguments: arg);
     }
   }

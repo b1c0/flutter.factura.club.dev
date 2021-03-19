@@ -7,12 +7,12 @@ import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TabProductos extends StatefulWidget {
+class ProductosPage extends StatefulWidget {
   @override
-  _TabProductosState createState() => _TabProductosState();
+  _ProductosPageState createState() => _ProductosPageState();
 }
 
-class _TabProductosState extends State<TabProductos> {
+class _ProductosPageState extends State<ProductosPage> {
   @override
   Widget build(BuildContext context) {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;

@@ -56,9 +56,9 @@ class MyApp extends StatelessWidget {
           'nueva-bodega': (BuildContext context) => NuevaBodegaPage(),
           'clientes': (BuildContext context) => ClientesPage(),
           'nuevo-cliente': (BuildContext context) => NuevoClientePage(),
-          'productos': (BuildContext context) => TabProductos(),
+          'productos': (BuildContext context) => ProductosPage(),
           'nuevo_producto': (BuildContext context) => NuevoProductoPage(),
-          'servicios': (BuildContext context) => TabServicios(),
+          'servicios': (BuildContext context) => ServiciosPage(),
           'nuevo-servicio': (BuildContext context) => NuevoServicioPage(),
           //
           'usuarios': (BuildContext context) => UsuariosPage(),

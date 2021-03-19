@@ -152,12 +152,12 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     return CupertinoButton(
       child: Text('Guardar', style: TextStyle(color: Colors.white)),
       color: Colors.blueAccent,
-      onPressed: () => ingresarEmpresa(usuario),
+      onPressed: () => _ingresarEmpresa(usuario),
     );
   }
 
 //===========================================================================MÉTODOS
-  void ingresarEmpresa(Usuario usuario) {
+  void _ingresarEmpresa(Usuario usuario) {
     if (!_formKey.currentState.validate()) return;
     if (empresa.empresaId == null) {
       crearEmpresaBloc.crearNuevaEmpresa(empresa);

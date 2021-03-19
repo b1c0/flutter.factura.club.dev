@@ -13,10 +13,10 @@ class NuevoClientePage extends StatefulWidget {
 }
 
 class _NuevoClientePage extends State<NuevoClientePage> {
+  final _formKey = GlobalKey<FormState>();
   Cliente cliente = Cliente.sinId();
   ClienteBloc clienteBloc;
   String navFrom;
-  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     clienteBloc = Provider.crearClienteBloc(context);
@@ -40,81 +40,68 @@ class _NuevoClientePage extends State<NuevoClientePage> {
     );
   }
 
-  ListView _formulario(Argumentos arg) {
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      children: [
-        // _crearDropDown(),
-        _inputIdentificacion(),
-        Divider(),
-        _inputNombres(),
-        Divider(),
-        _inputCorreo(),
-        Divider(),
-        _inputDireccion(),
-        Divider(),
-        _inputCelular(),
-        Divider(),
-        _inputTelefono(),
-        Divider(),
-        _crearBoton(arg),
-      ],
+  Widget _formulario(Argumentos arg) {
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        children: [
+          // _crearDropDown(),
+          _inputIdentificacion(),
+          Divider(),
+          _inputNombres(),
+          Divider(),
+          _inputCorreo(),
+          Divider(),
+          _inputDireccion(),
+          Divider(),
+          _inputCelular(),
+          Divider(),
+          _inputTelefono(),
+          Divider(),
+          _botonGuardarCliente(arg),
+        ],
+      ),
     );
   }
 
-  Widget _crearBoton(Argumentos arg) {
-    return CupertinoButton(
-        child: Text(
-          'Guardar',
-          style: TextStyle(color: Colors.white),
-        ),
-        color: Colors.blueAccent,
-        onPressed: () {
-          _guardarCliente(arg);
-        });
-  }
-
-  void _guardarCliente(Argumentos arg) {
-    if (cliente.clienteId == null) {
-      print('creando');
-      clienteBloc.crearNuevoCliente(cliente);
-      if (navFrom == 'navFromHome') {
-        Navigator.pop(context);
-      } else {
-        Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('sucursales'), arguments: arg);
-      }
-    } else {
-      print('actualizando');
-      clienteBloc.actualizarClientes(cliente);
-      Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('sucursales'), arguments: arg);
-    }
-  }
-
-//=======================================================================INPUTS
+  //===========================================================================INPUTS
   Widget _inputIdentificacion() {
     return TextFormField(
-      // autofocus: true,
       initialValue: cliente.clienteIdentificacion,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 20,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         labelText: 'Cedula, Pasaporte, o RUC',
         hintText: 'Numero de Identificacion',
       ),
+      validator: (value) {
+        if (value.isNotEmpty) {
+          return null;
+        } else {
+          return 'El campo es obligatorio';
+        }
+      },
       onChanged: (value) => cliente.clienteIdentificacion = value,
     );
   }
 
   Widget _inputNombres() {
     return TextFormField(
-      // autofocus: true,
       initialValue: cliente.clienteNombres,
-      textCapitalization: TextCapitalization.sentences,
+      maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         labelText: 'Nombres y Apellidos',
         hintText: 'Nombres y Apellidos',
       ),
+      validator: (value) {
+        if (value.isNotEmpty) {
+          return null;
+        } else {
+          return 'El campo es obligatorio';
+        }
+      },
       onChanged: (value) => cliente.clienteNombres = value,
     );
   }
@@ -173,5 +160,34 @@ class _NuevoClientePage extends State<NuevoClientePage> {
       ),
       onChanged: (value) => cliente.clienteTelefono = value,
     );
+  }
+
+  //===========================================================================BOTONES
+  Widget _botonGuardarCliente(Argumentos arg) {
+    return CupertinoButton(
+        child: Text('Guardar', style: TextStyle(color: Colors.white)),
+        color: Colors.blueAccent,
+        onPressed: () {
+          _ingresarCliente(arg);
+        });
+  }
+
+  //===========================================================================MÉTODOS
+  void _ingresarCliente(Argumentos arg) {
+    if (!_formKey.currentState.validate()) return;
+
+    if (cliente.clienteId == null) {
+      print('creando');
+      clienteBloc.crearNuevoCliente(cliente);
+      if (navFrom == 'navFromHome') {
+        Navigator.pop(context);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('sucursales'), arguments: arg);
+      }
+    } else {
+      print('actualizando');
+      clienteBloc.actualizarClientes(cliente);
+      Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('sucursales'), arguments: arg);
+    }
   }
 }

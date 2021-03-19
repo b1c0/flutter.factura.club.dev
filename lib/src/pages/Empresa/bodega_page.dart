@@ -29,7 +29,9 @@ class _BodegaPageState extends State<BodegaPage> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Argumentos a = Argumentos.bodega(arg.empresa, arg.usuario, Bodega());
-                Navigator.pushNamed(context, 'nueva-bodega', arguments: a);
+                Navigator.pushNamed(context, 'nueva-bodega', arguments: a).then((value) {
+                  setState(() {});
+                });
               })
         ],
       ),

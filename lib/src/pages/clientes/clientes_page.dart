@@ -28,7 +28,9 @@ class _ClientesPage extends State<ClientesPage> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Argumentos a = Argumentos.cliente(arg.usuario, arg.sucursal, Cliente(), 'navFromCliente');
-                Navigator.pushNamed(context, 'nuevo-cliente', arguments: a);
+                Navigator.pushNamed(context, 'nuevo-cliente', arguments: a).then((value) {
+                  setState(() {});
+                });
               })
         ],
       ),

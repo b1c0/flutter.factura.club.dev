@@ -13,6 +13,8 @@ class NuevoServicioPage extends StatefulWidget {
 }
 
 class _NuevoServicioPageState extends State<NuevoServicioPage> {
+  final _formKey = GlobalKey<FormState>();
+
   Servicio servicio = Servicio.sinId();
   ServicioBloc servicioBloc;
   String navFrom;
@@ -40,17 +42,72 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
   }
 
   Widget _formulario(Argumentos arg) {
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      children: [
-        _inputDescripcionServicio(),
-        Divider(),
-        _inputTipoServicio(),
-        Divider(),
-        _inputPrecioServicio(),
-        Divider(),
-        _crearBoton(arg),
-      ],
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        children: [
+          _inputDescripcionServicio(),
+          Divider(),
+          _inputTipoServicio(),
+          Divider(),
+          _inputPrecioServicio(),
+          Divider(),
+          _crearBoton(arg),
+        ],
+      ),
+    );
+  }
+
+  //=========================================================================INPUTS
+
+  Widget _inputDescripcionServicio() {
+    return TextFormField(
+      maxLength: 250,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Descripción Servicio',
+        labelText: 'Descripción Servicio',
+      ),
+      validator: (value) {
+        if (value.isNotEmpty) {
+          return null;
+        } else {
+          return 'El campo es obligatorio';
+        }
+      },
+      onChanged: (value) => servicio.servicioDescripcion = value,
+    );
+  }
+
+  Widget _inputTipoServicio() {
+    return TextFormField(
+      maxLength: 250,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Tipo Servicio',
+        labelText: 'Tipo Servicio',
+      ),
+      onChanged: (value) => servicio.servicioTipo = value,
+    );
+  }
+
+  Widget _inputPrecioServicio() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Precio Servicio',
+        labelText: 'Precio Servicio',
+      ),
+      validator: (value) {
+        if (value.isNotEmpty) {
+          return null;
+        } else {
+          return 'El campo es obligatorio';
+        }
+      },
+      onChanged: (value) => servicio.sucursalServicioPrecio = double.parse(value),
     );
   }
 
@@ -66,54 +123,15 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
   }
 
   void _actionGuardar(Argumentos arg) {
+    if (!_formKey.currentState.validate()) return;
+
     print('creando');
     servicioBloc.crearNuevoServicio(servicio);
     if (navFrom == 'navFromHome') {
       Navigator.pop(context);
     } else {
-      Navigator.pushNamedAndRemoveUntil(context, 'servicios', ModalRoute.withName('sucursales'), arguments: arg);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'servicios', arguments: arg);
     }
-  }
-
-  //=========================================================================INPUTS
-
-  Widget _inputDescripcionServicio() {
-    return TextFormField(
-      // initialValue: servicio.servicioDescripcion,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        hintText: 'Descripción Servicio',
-        labelText: 'Descripción Servicio',
-      ),
-      onChanged: (value) => servicio.servicioDescripcion = value,
-    );
-  }
-
-  Widget _inputTipoServicio() {
-    return TextFormField(
-      // initialValue: servicio.servicioTipo,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        hintText: 'Tipo Servicio',
-        labelText: 'Tipo Servicio',
-      ),
-      onChanged: (value) => servicio.servicioTipo = value,
-    );
-  }
-
-  Widget _inputPrecioServicio() {
-    return TextFormField(
-      // initialValue: servicio.servicioTipo,
-      textCapitalization: TextCapitalization.sentences,
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        hintText: 'Precio Servicio',
-        labelText: 'Precio Servicio',
-      ),
-      onChanged: (value) => servicio.sucursalServicioPrecio = double.parse(value),
-    );
   }
 }

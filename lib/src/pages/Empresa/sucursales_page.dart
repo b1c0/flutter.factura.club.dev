@@ -35,9 +35,7 @@ class _SucursalesPage extends State<SucursalesPage> {
               })
         ],
       ),
-      body:
-          // Container(height: 100, width: 100, child: _crearDropDown(empresas)),
-          _listar(sucursalesBloc, arg),
+      body: _listar(sucursalesBloc, arg),
     );
   }
 

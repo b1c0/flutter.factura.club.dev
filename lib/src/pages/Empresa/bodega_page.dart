@@ -94,7 +94,7 @@ class _BodegaPageState extends State<BodegaPage> {
                       Text(bodega.bodegaNombre, style: TextStyle(color: Colors.white)),
                     ],
                   ),
-                  trailing: _crearPopupMenuButton(bodega, arg.usuario),
+                  trailing: _crearPopupMenuButton(bodega, arg.usuario, arg.empresa),
                   onTap: () {
                     Argumentos a = Argumentos.bodega(arg.empresa, arg.usuario, bodega);
                     Navigator.pushNamed(context, 'nueva-bodega', arguments: a).then((value) {
@@ -108,7 +108,7 @@ class _BodegaPageState extends State<BodegaPage> {
     );
   }
 
-  Widget _crearPopupMenuButton(Bodega bodega, Usuario usuario) {
+  Widget _crearPopupMenuButton(Bodega bodega, Usuario usuario, Empresa empresa) {
     return PopupMenuButton(
       icon: Icon(
         Icons.more_vert,
@@ -127,7 +127,7 @@ class _BodegaPageState extends State<BodegaPage> {
               CupertinoButton(
                 child: Text('Ver Productos'),
                 onPressed: () {
-                  Argumentos arg = Argumentos.producto(bodega, usuario, Producto(), 'navFromBodega');
+                  Argumentos arg = Argumentos.producto(empresa, bodega, usuario, Producto(), 'navFromBodega');
                   Navigator.pop(context);
                   Navigator.pushNamed(context, 'productos', arguments: arg);
                 },

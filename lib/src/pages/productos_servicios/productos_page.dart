@@ -2,6 +2,7 @@ import 'package:app_factura_club_dev/src/blocs/producto_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Bodega.dart';
+import 'package:app_factura_club_dev/src/models/Empresa.dart';
 import 'package:app_factura_club_dev/src/models/Producto.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +17,7 @@ class _ProductosPageState extends State<ProductosPage> {
   @override
   Widget build(BuildContext context) {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
+    final Empresa empresa = arg.empresa;
     final Usuario usuario = arg.usuario;
     final Bodega bodega = arg.bodega;
     final productoBloc = Provider.crearProductoBloc(context);
@@ -29,7 +31,7 @@ class _ProductosPageState extends State<ProductosPage> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Producto producto = Producto();
-                Argumentos arg = Argumentos.producto(bodega, usuario, producto, 'navFromHome');
+                Argumentos arg = Argumentos.producto(empresa, bodega, usuario, producto, 'navFromProductos');
                 Navigator.pushNamed(context, 'nuevo_producto', arguments: arg).then((value) => setState(() {}));
               })
         ],
@@ -89,7 +91,7 @@ class _ProductosPageState extends State<ProductosPage> {
 
                   // trailing: _crearPopupMenuButton(bodega, arg.usuario),
                   onTap: () {
-                    Argumentos a = Argumentos.producto(arg.bodega, arg.usuario, producto, 'navFromProductos');
+                    Argumentos a = Argumentos.producto(arg.empresa, arg.bodega, arg.usuario, producto, 'navFromProductos');
                     Navigator.pushNamed(context, 'nuevo_producto', arguments: a).then((value) {
                       setState(() {});
                     });

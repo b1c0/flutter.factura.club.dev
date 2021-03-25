@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_factura_club_dev/src/blocs/bodega_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
@@ -10,6 +12,7 @@ import 'package:app_factura_club_dev/src/models/Producto.dart';
 import 'package:app_factura_club_dev/src/models/Servicio.dart';
 import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:app_factura_club_dev/src/services/empresa_service.dart';
 import 'package:app_factura_club_dev/src/utils/utils.dart';
 import 'package:app_factura_club_dev/src/widgets/menu_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,6 +25,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final empresaService = EmpresaService();
+
   String _opcionSeleccionadaEmpresa = '-1';
   String _opcionSeleccionadaSucursal = '-1';
   String _opcionSeleccionadaBodega = '-1';
@@ -31,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   Sucursal sucursal = Sucursal();
   Bodega bodega = Bodega();
   Cliente cliente = Cliente();
+  Empresa empresa = Empresa();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +51,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: buildAppBar(),
       drawer: MenuWidget(usuario: usuario),
-      floatingActionButton: opcionesFAB(usuario),
+      floatingActionButton: opcionesFAB(usuario, empresa),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
         children: [
@@ -82,7 +88,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget opcionesFAB(Usuario usuario) {
+  Widget opcionesFAB(Usuario usuario, Empresa empresa) {
     return Container(
       child: Align(
         alignment: Alignment.bottomRight,
@@ -105,7 +111,8 @@ class _HomePageState extends State<HomePage> {
                       child: Text('Nuevo Producto'),
                       onPressed: () {
                         if (validarSeleccionProducto(int.parse(_opcionSeleccionadaBodega))) {
-                          Argumentos a = Argumentos.producto(bodega, usuario, Producto(), 'navFromHome');
+                          empresa.empresaId = int.parse(_opcionSeleccionadaEmpresa);
+                          Argumentos a = Argumentos.producto(empresa, bodega, usuario, Producto(), 'navFromHome');
                           Navigator.popAndPushNamed(context, 'nuevo_producto', arguments: a);
                         }
                       },
@@ -252,6 +259,7 @@ class _HomePageState extends State<HomePage> {
                         _opcionSeleccionadaEmpresa = value;
                         _opcionSeleccionadaSucursal = '-1';
                         _opcionSeleccionadaBodega = '-1';
+                        obtenerEmpresaSelecionada();
                         print(_opcionSeleccionadaEmpresa);
                         // _opcionSeleccionada = value;
                       });
@@ -372,5 +380,11 @@ class _HomePageState extends State<HomePage> {
       return false;
     }
     return true;
+  }
+
+  void obtenerEmpresaSelecionada() async {
+    Map info = await empresaService.cargarEmpresaById(int.parse(_opcionSeleccionadaEmpresa));
+    Empresa miempresa = info['empresa'];
+    empresa = miempresa;
   }
 }

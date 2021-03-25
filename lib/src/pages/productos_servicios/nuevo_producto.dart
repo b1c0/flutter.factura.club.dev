@@ -1,7 +1,9 @@
+import 'package:app_factura_club_dev/src/blocs/categoria_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/producto_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Bodega.dart';
+import 'package:app_factura_club_dev/src/models/Categoria.dart';
 import 'package:app_factura_club_dev/src/models/Producto.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,22 +18,28 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
   // String _opcionSeleccionada = 'Selecione impuesto Iva';
   // List<String> _opciones = ['Selecione impuesto Iva', 'Iva 0%', 'Iva 12%', 'Iva 14%'];
   final formKey = GlobalKey<FormState>();
+  String _categoriaSeleccionada = '-1';
+
   String navFrom;
   bool esServicio = false;
   bool iva = false;
   bool rice = false;
   Producto producto = Producto.sinId();
   ProductoBloc productoBloc;
+  CategoriaBloc categoriaBloc;
   @override
   Widget build(BuildContext context) {
     productoBloc = Provider.crearProductoBloc(context);
+    categoriaBloc = Provider.crearCategoriaBloc(context);
 
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     final Usuario usuario = arg.usuario;
     final Bodega bodega = arg.bodega;
     final Producto data = arg.producto;
     navFrom = arg.navFrom;
+    categoriaBloc.cargarCategorias(arg.empresa.empresaId);
     print(navFrom);
+    print(arg.empresa.empresaId);
 
     if (data != null) {
       producto = data;
@@ -56,7 +64,7 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
           _inputNombreProducto(),
           Divider(),
           _inputMarcaProducto(),
-          Divider(),
+          getCategorias(),
           _inputPesoProducto(),
           Divider(),
           _inputUnidadMedida(),
@@ -92,8 +100,6 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
   }
 
   void _actionGuardar(Argumentos arg) {
-    producto.categoriaId = 1;
-
     if (producto.productoBodegaId == null) {
       print('creando');
       print(producto.usuarioId);
@@ -242,6 +248,58 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         labelText: 'Estado',
       ),
       onChanged: (value) => producto.productoBodegaEstado = (value),
+    );
+  }
+
+  List<DropdownMenuItem<String>> getCategoriasDropDown(List<Categoria> opciones) {
+    List<DropdownMenuItem<String>> lista = [];
+    lista.add(DropdownMenuItem(
+      child: Text(
+        'Seleccione una Categoria',
+      ),
+      value: '-1',
+    ));
+    opciones.forEach((item) {
+      lista.add(DropdownMenuItem(
+        child: Text(item.categoriaNombre),
+        value: item.categoriaId.toString(),
+      ));
+    });
+    return lista;
+  }
+
+  Widget getCategorias() {
+    return StreamBuilder(
+      stream: categoriaBloc.categoriasStream,
+      builder: (BuildContext context, AsyncSnapshot<List<Categoria>> snapshot) {
+        if (snapshot.hasData) {
+          final categorias = snapshot.data;
+          List<DropdownMenuItem<String>> opciones = getCategoriasDropDown(categorias);
+          return Container(
+            // alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 10, right: 5, left: 5),
+            padding: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: DropdownButton(
+                value: _categoriaSeleccionada,
+                items: opciones,
+                onChanged: (value) {
+                  setState(() {
+                    _categoriaSeleccionada = value;
+                    producto.categoriaId = int.parse(_categoriaSeleccionada);
+                  });
+                },
+              ),
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 }

@@ -142,6 +142,22 @@ class _EmpresaPage extends State<EmpresaPage> {
               ),
             ],
           ),
+        ),
+        PopupMenuItem(
+          value: 3,
+          child: Row(
+            children: [
+              Icon(Icons.menu_book, color: Colors.blue),
+              CupertinoButton(
+                child: Text('Ver Categorias Productos'),
+                onPressed: () {
+                  Argumentos arg = Argumentos(empresa, usuario);
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, 'categoria', arguments: arg);
+                },
+              ),
+            ],
+          ),
         )
       ],
     );

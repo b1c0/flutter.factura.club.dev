@@ -59,4 +59,17 @@ class EmpresaService {
     print(json.decode(resp.body));
     return 1;
   }
+
+  Future<Map<String, dynamic>> cargarEmpresaById(int empresaId) async {
+    HttpClient client = new HttpClient();
+    client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
+    IOClient ioClient = new IOClient(client);
+    final url = 'https://192.168.1.2:44379/api/Empresa/DatosEmpresa/$empresaId';
+    final resp = await ioClient.get(url, headers: {'Content-Type': 'application/json'});
+    final decodeData = json.decode(resp.body);
+    // print(decodeData);
+    final empresa = new Empresa.fromJson(decodeData);
+
+    return {'ok': true, 'empresa': empresa};
+  }
 }

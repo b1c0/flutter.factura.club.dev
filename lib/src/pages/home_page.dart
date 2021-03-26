@@ -50,7 +50,12 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: buildAppBar(),
-      drawer: MenuWidget(usuario: usuario),
+      drawer: MenuWidget(
+        usuario: usuario,
+        empresa: empresa,
+        sucursal: sucursal,
+        bodega: bodega,
+      ),
       floatingActionButton: opcionesFAB(usuario, empresa),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
@@ -259,7 +264,9 @@ class _HomePageState extends State<HomePage> {
                         _opcionSeleccionadaEmpresa = value;
                         _opcionSeleccionadaSucursal = '-1';
                         _opcionSeleccionadaBodega = '-1';
-                        obtenerEmpresaSelecionada();
+                        if (_opcionSeleccionadaBodega != '-1') {
+                          obtenerEmpresaSelecionada();
+                        }
                         print(_opcionSeleccionadaEmpresa);
                         // _opcionSeleccionada = value;
                       });

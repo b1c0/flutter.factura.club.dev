@@ -1,10 +1,19 @@
+import 'package:app_factura_club_dev/src/models/Argumentos.dart';
+import 'package:app_factura_club_dev/src/models/Bodega.dart';
+import 'package:app_factura_club_dev/src/models/Empresa.dart';
+import 'package:app_factura_club_dev/src/models/Producto.dart';
+import 'package:app_factura_club_dev/src/models/Sucursal.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:app_factura_club_dev/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class MenuWidget extends StatefulWidget {
   Usuario usuario;
-  MenuWidget({Key key, this.usuario}) : super(key: key);
+  Empresa empresa;
+  Sucursal sucursal;
+  Bodega bodega;
+  MenuWidget({Key key, this.usuario, this.empresa, this.sucursal, this.bodega}) : super(key: key);
 
   @override
   _MenuWidgetState createState() => _MenuWidgetState();
@@ -38,6 +47,7 @@ class _MenuWidgetState extends State<MenuWidget> {
             leading: Icon(Icons.home, color: Colors.blue),
             title: Text('Inicio'),
             onTap: () {
+              setState(() {});
               Navigator.pushNamedAndRemoveUntil(context, 'home', (Route<dynamic> route) => false, arguments: widget.usuario);
             },
           ),
@@ -53,7 +63,15 @@ class _MenuWidgetState extends State<MenuWidget> {
               leading: Icon(Icons.category, color: Colors.blue),
               title: Text('Productos'),
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, 'productos', ModalRoute.withName('home'));
+                setState(() {});
+                print('widget.bodega.bodegaId ${widget.bodega.bodegaId}');
+                if (widget.bodega.bodegaId < 1 || widget.bodega.bodegaId == null) {
+                  mostrarAlerta(context, 'Advertencia', 'Debe seleccionar una bodega de la empresa');
+                } else {
+                  Navigator.pop(context);
+                  Argumentos arg = Argumentos.producto(widget.empresa, widget.bodega, widget.usuario, Producto(), 'navFromMenu');
+                  Navigator.pushNamed(context, 'productos', arguments: arg);
+                }
               }),
           ListTile(
               leading: Icon(Icons.miscellaneous_services, color: Colors.blue),

@@ -3,9 +3,17 @@ import 'dart:convert';
 Servicio servicioFromJson(String str) => Servicio.fromJson(json.decode(str));
 
 String servicioToJson(Servicio data) => json.encode(data.toJson());
+
 String servicioToJsonSinId(Servicio data) => json.encode(data.toJsonSinId());
 
 class Servicio {
+  int servicioId;
+  String servicioDescripcion;
+  String servicioTipo;
+  int sucursalId;
+  double sucursalServicioPrecio;
+  int usuarioId;
+
   Servicio({
     this.servicioId,
     this.servicioDescripcion,
@@ -15,6 +23,7 @@ class Servicio {
     this.usuarioId,
   });
 
+  //CONSTRUCTOR PARA CREAR SERVICIO EN EL API
   Servicio.sinId({
     this.servicioDescripcion,
     this.servicioTipo,
@@ -22,13 +31,6 @@ class Servicio {
     this.sucursalServicioPrecio,
     this.usuarioId,
   });
-
-  int servicioId;
-  String servicioDescripcion;
-  String servicioTipo;
-  int sucursalId;
-  double sucursalServicioPrecio;
-  int usuarioId;
 
   factory Servicio.fromJson(Map<String, dynamic> json) => Servicio(
         servicioId: json["servicio_id"],
@@ -57,6 +59,7 @@ class Servicio {
       };
 }
 
+//CLASE PARA LISTAR SERVICIOS
 class Servicios {
   List<Servicio> items = [];
   Servicios();

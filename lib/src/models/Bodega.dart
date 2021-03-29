@@ -4,9 +4,16 @@ Bodega bodegaFromJson(String str) => Bodega.fromJson(json.decode(str));
 
 String bodegaToJson(Bodega data) => json.encode(data.toJson());
 
-String bodegaToJsonSinID(Bodega data) => json.encode(data.toJsonSinId());
+String bodegaToJsonSinId(Bodega data) => json.encode(data.toJsonSinId());
 
 class Bodega {
+  int bodegaId;
+  String bodegaNombre;
+  String bodegaProvincia;
+  String bodegaDireccion;
+  int empresaId;
+  int usuarioId;
+
   Bodega({
     this.bodegaId,
     this.bodegaNombre,
@@ -16,6 +23,7 @@ class Bodega {
     this.usuarioId,
   });
 
+  //CONSTRUCTOR PARA CREAR BODEGA EN EL API
   Bodega.sinId({
     this.bodegaNombre,
     this.bodegaProvincia,
@@ -23,13 +31,6 @@ class Bodega {
     this.empresaId,
     this.usuarioId,
   });
-
-  int bodegaId;
-  String bodegaNombre;
-  String bodegaProvincia;
-  String bodegaDireccion;
-  int empresaId;
-  int usuarioId;
 
   factory Bodega.fromJson(Map<String, dynamic> json) => Bodega(
         bodegaId: json["bodega_id"],
@@ -58,6 +59,7 @@ class Bodega {
       };
 }
 
+//CLASE PARA LISTAR BODEGAS
 class Bodegas {
   List<Bodega> items = [];
   Bodegas();

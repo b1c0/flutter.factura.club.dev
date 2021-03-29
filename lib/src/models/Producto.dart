@@ -3,9 +3,24 @@ import 'dart:convert';
 Producto productoFromJson(String str) => Producto.fromJson(json.decode(str));
 
 String productoToJson(Producto data) => json.encode(data.toJson());
+
 String productoToJsonSinId(Producto data) => json.encode(data.toJsonSinId());
 
 class Producto {
+  int productoBodegaId;
+  String productoNombre;
+  String productoMarca;
+  double productoPeso;
+  String productoUnidadMedida;
+  int categoriaId;
+  int usuarioId;
+  int bodegaId;
+  bool productoBodegaIva;
+  bool productoBodegaIce;
+  int productoBodegaStock;
+  double productoBodegaPrecio;
+  String productoBodegaEstado;
+
   Producto({
     this.productoBodegaId,
     this.productoNombre,
@@ -22,6 +37,7 @@ class Producto {
     this.productoBodegaEstado,
   });
 
+  //CONSTRUCTOR PARA CREAR PRODUCTO EN EL API
   Producto.sinId({
     this.productoNombre,
     this.productoMarca,
@@ -36,20 +52,6 @@ class Producto {
     this.productoBodegaPrecio,
     this.productoBodegaEstado,
   });
-
-  int productoBodegaId;
-  String productoNombre;
-  String productoMarca;
-  double productoPeso;
-  String productoUnidadMedida;
-  int categoriaId;
-  int usuarioId;
-  int bodegaId;
-  bool productoBodegaIva;
-  bool productoBodegaIce;
-  int productoBodegaStock;
-  double productoBodegaPrecio;
-  String productoBodegaEstado;
 
   factory Producto.fromJson(Map<String, dynamic> json) => Producto(
         productoBodegaId: json["producto_bodega_id"],
@@ -99,6 +101,7 @@ class Producto {
       };
 }
 
+//CLASE PARA LISTAR PRODUCTOS
 class Productos {
   List<Producto> items = [];
   Productos();

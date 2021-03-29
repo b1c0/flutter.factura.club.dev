@@ -23,12 +23,12 @@ class Usuario {
     this.nombreUser,
     this.correoUser,
     this.celularUser,
-    this.activoUser = '1',
-    this.perfilUser = '',
-    this.postUser = '',
-    this.sidUser = '',
-    this.correoVerficadoUser = '',
-    this.celudarVerificadoUser = '',
+    this.activoUser,
+    this.perfilUser,
+    this.postUser,
+    this.sidUser,
+    this.correoVerficadoUser,
+    this.celudarVerificadoUser,
   });
 
   int idUser;

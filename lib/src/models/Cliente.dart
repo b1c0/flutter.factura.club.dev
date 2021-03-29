@@ -3,9 +3,20 @@ import 'dart:convert';
 Cliente clienteFromJson(String str) => Cliente.fromJson(json.decode(str));
 
 String clienteToJson(Cliente data) => json.encode(data.toJson());
+
 String clienteToJsonSinId(Cliente data) => json.encode(data.toJsonSinId());
 
 class Cliente {
+  int clienteId;
+  int sucursalId;
+  String clienteIdentificacion;
+  String clienteNombres;
+  String clienteCelular;
+  String clienteTelefono;
+  String clienteCorreo;
+  String clienteDireccion;
+  int usuarioId;
+
   Cliente({
     this.clienteId,
     this.sucursalId,
@@ -18,6 +29,7 @@ class Cliente {
     this.usuarioId,
   });
 
+  //CONSTRUCTOR PARA CREAR CLIENTE EN EL API
   Cliente.sinId({
     this.sucursalId,
     this.clienteIdentificacion,
@@ -28,16 +40,6 @@ class Cliente {
     this.clienteDireccion,
     this.usuarioId,
   });
-
-  int clienteId;
-  int sucursalId;
-  String clienteIdentificacion;
-  String clienteNombres;
-  String clienteCelular;
-  String clienteTelefono;
-  String clienteCorreo;
-  String clienteDireccion;
-  int usuarioId;
 
   factory Cliente.fromJson(Map<String, dynamic> json) => Cliente(
         clienteId: json["cliente_id"],
@@ -74,6 +76,7 @@ class Cliente {
       };
 }
 
+//CLASE PARA LISTAR CLIENTES
 class Clientes {
   List<Cliente> items = [];
   Clientes();

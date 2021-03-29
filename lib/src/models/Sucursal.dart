@@ -4,9 +4,18 @@ Sucursal sucursalFromJson(String str) => Sucursal.fromJson(json.decode(str));
 
 String sucursalToJson(Sucursal data) => json.encode(data.toJson());
 
-String sucursalToJsonSinID(Sucursal data) => json.encode(data.toJsonSinId());
+String sucursalToJsonSinId(Sucursal data) => json.encode(data.toJsonSinId());
 
 class Sucursal {
+  int sucursalId;
+  String sucursalNombre;
+  String sucursalCorreoCorporativo;
+  String sucursalTelefono;
+  String sucursalDireccion;
+  String sucursalRuc;
+  int empresaId;
+  int usuarioId;
+
   Sucursal({
     this.sucursalId,
     this.sucursalNombre,
@@ -17,6 +26,8 @@ class Sucursal {
     this.empresaId,
     this.usuarioId,
   });
+
+  //CONSTRUCTOR PARA CREAR SUCURSAL EN EL API
   Sucursal.sinId({
     this.sucursalNombre,
     this.sucursalCorreoCorporativo,
@@ -25,14 +36,6 @@ class Sucursal {
     this.sucursalRuc,
     this.empresaId,
   });
-  int sucursalId;
-  String sucursalNombre;
-  String sucursalCorreoCorporativo;
-  String sucursalTelefono;
-  String sucursalDireccion;
-  String sucursalRuc;
-  int empresaId;
-  int usuarioId;
 
   factory Sucursal.fromJson(Map<String, dynamic> json) => Sucursal(
         sucursalId: json['sucursal_id'],
@@ -65,6 +68,7 @@ class Sucursal {
       };
 }
 
+//CLASE PARA LISTAR SUCURSALES
 class Sucursales {
   List<Sucursal> items = [];
   Sucursales();

@@ -3,9 +3,19 @@ import 'dart:convert';
 Empresa empresaFromJson(String str) => Empresa.fromJson(json.decode(str));
 
 String empresaToJson(Empresa data) => json.encode(data.toJson());
-String empresaToJsonSinID(Empresa data) => json.encode(data.toJsonSinId());
+
+String empresaToJsonSinId(Empresa data) => json.encode(data.toJsonSinId());
 
 class Empresa {
+  int empresaId;
+  String empresaNombre;
+  String empresaCorreoCorporativo;
+  String empresaTelefono;
+  String empresaDireccion;
+  String empresaLogotipo;
+  String empresaRuc;
+  int usuarioId;
+
   Empresa({
     this.empresaId,
     this.empresaNombre,
@@ -16,7 +26,9 @@ class Empresa {
     this.empresaRuc,
     this.usuarioId,
   });
-  Empresa.sinID({
+
+  //CONSTRUCTOR PARA CREAR EMPRESA EN EL API
+  Empresa.sinId({
     this.empresaNombre,
     this.empresaCorreoCorporativo,
     this.empresaTelefono,
@@ -25,15 +37,6 @@ class Empresa {
     this.empresaRuc,
     this.usuarioId,
   });
-
-  int empresaId;
-  String empresaNombre;
-  String empresaCorreoCorporativo;
-  String empresaTelefono;
-  String empresaDireccion;
-  String empresaLogotipo;
-  String empresaRuc;
-  int usuarioId;
 
   factory Empresa.fromJson(Map<String, dynamic> json) => Empresa(
         empresaId: json["empresa_id"],
@@ -68,6 +71,7 @@ class Empresa {
       };
 }
 
+//CLASE PARA LISTAR EMPRESAS
 class Empresas {
   List<Empresa> items = [];
   Empresas();

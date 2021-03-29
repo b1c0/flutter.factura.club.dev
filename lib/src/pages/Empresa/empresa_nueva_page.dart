@@ -12,7 +12,7 @@ class NuevaEmpresaPage extends StatefulWidget {
 }
 
 class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
-  Empresa empresa = Empresa.sinID();
+  Empresa empresa = Empresa.sinId();
   EmpresaBloc crearEmpresaBloc;
   final _formKey = GlobalKey<FormState>();
 

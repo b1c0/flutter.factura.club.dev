@@ -20,6 +20,7 @@ class Argumentos {
 
   Argumentos(this.empresa, this.usuario);
 
+  Argumentos.menu(this.empresa, this.sucursal, this.bodega);
   Argumentos.sucursal(this.empresa, this.usuario, this.sucursal);
   Argumentos.bodega(this.empresa, this.usuario, this.bodega);
   Argumentos.categoria(this.empresa, this.usuario, this.categoria);

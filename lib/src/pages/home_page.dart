@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_factura_club_dev/src/blocs/argumentos_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/bodega_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/empresa_bloc.dart';
 import 'package:app_factura_club_dev/src/blocs/provider.dart';
@@ -33,10 +34,12 @@ class _HomePageState extends State<HomePage> {
   EmpresaBloc empresasBloc;
   SucursalBloc sucursalBloc;
   BodegaBloc bodegaBloc;
+  ArgumentosBloc argumentosBloc;
   Sucursal sucursal = Sucursal();
   Bodega bodega = Bodega();
   Cliente cliente = Cliente();
   Empresa empresa = Empresa();
+  Argumentos argumentos;
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +50,12 @@ class _HomePageState extends State<HomePage> {
     sucursalBloc.cargarSucursales(int.parse(_opcionSeleccionadaEmpresa));
     bodegaBloc = Provider.crearBodegaBloc(context);
     bodegaBloc.cargarBodegas(int.parse(_opcionSeleccionadaEmpresa));
+    argumentosBloc = Provider.argumentosBloc(context);
 
     return Scaffold(
       appBar: buildAppBar(),
       drawer: MenuWidget(
         usuario: usuario,
-        empresa: empresa,
-        sucursal: sucursal,
-        bodega: bodega,
       ),
       floatingActionButton: opcionesFAB(usuario, empresa),
       body: ListView(
@@ -264,6 +265,10 @@ class _HomePageState extends State<HomePage> {
                         _opcionSeleccionadaEmpresa = value;
                         _opcionSeleccionadaSucursal = '-1';
                         _opcionSeleccionadaBodega = '-1';
+                        empresa.empresaId = int.parse(_opcionSeleccionadaEmpresa);
+                        argumentos = Argumentos.menu(empresa, sucursal, bodega);
+                        argumentosBloc.crearArgumentos(argumentos);
+
                         if (_opcionSeleccionadaBodega != '-1') {
                           obtenerEmpresaSelecionada();
                         }
@@ -313,6 +318,8 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         _opcionSeleccionadaSucursal = value;
                         sucursal.sucursalId = int.parse(_opcionSeleccionadaSucursal);
+                        argumentos = Argumentos.menu(empresa, sucursal, bodega);
+                        argumentosBloc.crearArgumentos(argumentos);
                       });
                     },
                   ),
@@ -357,6 +364,8 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         _opcionSeleccionadaBodega = value;
                         bodega.bodegaId = int.parse(_opcionSeleccionadaBodega);
+                        argumentos = Argumentos.menu(empresa, sucursal, bodega);
+                        argumentosBloc.crearArgumentos(argumentos);
                       });
                     },
                   ),

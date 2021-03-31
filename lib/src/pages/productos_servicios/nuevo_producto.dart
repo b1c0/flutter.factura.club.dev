@@ -6,6 +6,7 @@ import 'package:app_factura_club_dev/src/models/Bodega.dart';
 import 'package:app_factura_club_dev/src/models/Categoria.dart';
 import 'package:app_factura_club_dev/src/models/Producto.dart';
 import 'package:app_factura_club_dev/src/models/Usuario.dart';
+import 'package:app_factura_club_dev/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +16,7 @@ class NuevoProductoPage extends StatefulWidget {
 }
 
 class _NuevoProductoPage extends State<NuevoProductoPage> {
-  // String _opcionSeleccionada = 'Selecione impuesto Iva';
-  // List<String> _opciones = ['Selecione impuesto Iva', 'Iva 0%', 'Iva 12%', 'Iva 14%'];
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   String _categoriaSeleccionada = '-1';
 
   String navFrom;
@@ -27,6 +26,7 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
   Producto producto = Producto.sinId();
   ProductoBloc productoBloc;
   CategoriaBloc categoriaBloc;
+
   @override
   Widget build(BuildContext context) {
     productoBloc = Provider.crearProductoBloc(context);
@@ -44,6 +44,10 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
     if (data != null) {
       producto = data;
     }
+    print(producto.categoriaId.toString());
+    if (producto.categoriaId != null) {
+      _categoriaSeleccionada = producto.categoriaId.toString();
+    }
 
     producto.bodegaId = bodega.bodegaId;
     producto.usuarioId = usuario.idUser;
@@ -57,14 +61,26 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
 
   Widget _formulario(Argumentos arg) {
     return Form(
-      key: formKey,
+      key: _formKey,
       child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
         children: [
           _inputNombreProducto(),
           Divider(),
           _inputMarcaProducto(),
-          getCategorias(),
+          Divider(),
+          _inputCodigoBarras(),
+          Divider(),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 6),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black26, width: 1),
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white24,
+            ),
+            child: getCategorias(),
+          ),
+          Divider(),
           _inputPesoProducto(),
           Divider(),
           _inputUnidadMedida(),
@@ -87,19 +103,23 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
 
   Widget _crearBoton(Argumentos arg) {
     return CupertinoButton(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 85.0, vertical: 15.0),
-          child: Text(
-            'Guardar',
-            style: TextStyle(color: Colors.white),
-          ),
+        child: Text(
+          'Guardar',
+          style: TextStyle(color: Colors.white, fontSize: 20),
         ),
+        padding: EdgeInsets.symmetric(vertical: 20),
         borderRadius: BorderRadius.circular(15),
         color: Colors.blueAccent,
         onPressed: () => _actionGuardar(arg));
   }
 
   void _actionGuardar(Argumentos arg) {
+    if (!_formKey.currentState.validate()) return;
+    if (_categoriaSeleccionada == '-1') {
+      mostrarAlerta(context, 'Alerta', 'Debe serleccionar la categoria');
+      return;
+    }
+
     if (producto.productoBodegaId == null) {
       print('creando');
       print(producto.usuarioId);
@@ -107,12 +127,14 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
       if (navFrom == 'navFromHome') {
         Navigator.pop(context);
       } else {
-        Navigator.pushNamedAndRemoveUntil(context, 'productos', ModalRoute.withName('bodega'), arguments: arg);
+        Navigator.pop(context);
+        Navigator.popAndPushNamed(context, 'productos', arguments: arg);
       }
     } else {
       print('actualizando');
       productoBloc.actualizarProducto(producto);
-      Navigator.pushNamedAndRemoveUntil(context, 'productos', ModalRoute.withName('bodega'), arguments: arg);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'productos', arguments: arg);
     }
   }
 
@@ -125,8 +147,15 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         hintText: 'Nombre Producto',
-        labelText: 'Nombre Producto',
+        labelText: 'Nombre Producto *',
       ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'El nombre del producto es obligatorio';
+        } else {
+          return null;
+        }
+      },
       onChanged: (value) => producto.productoNombre = value,
     );
   }
@@ -141,6 +170,19 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         labelText: 'Marca Producto',
       ),
       onChanged: (value) => producto.productoMarca = value,
+    );
+  }
+
+  Widget _inputCodigoBarras() {
+    return TextFormField(
+      initialValue: producto.productoCodigoBarras,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        hintText: 'Codigo de Barras',
+        labelText: 'Codigo de Barras',
+      ),
+      onChanged: (value) => producto.productoCodigoBarras = value,
     );
   }
 
@@ -217,6 +259,13 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         hintText: 'Número de unidades en el inventario',
         labelText: 'Stock',
       ),
+      validator: (value) {
+        if (int.parse(value) > 0) {
+          return null;
+        } else {
+          return 'Debe ingresar la cantidad del stock';
+        }
+      },
       onChanged: (value) => producto.productoBodegaStock = int.parse(value),
     );
   }
@@ -234,6 +283,13 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         hintText: 'Precio Unitario',
         labelText: 'Precio Unitario',
       ),
+      validator: (value) {
+        if (double.parse(value) > 0) {
+          return null;
+        } else {
+          return 'Debe ingresar un precio diferente de 0';
+        }
+      },
       onChanged: (value) => producto.productoBodegaPrecio = double.parse(value),
     );
   }
@@ -276,24 +332,16 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
           final categorias = snapshot.data;
           List<DropdownMenuItem<String>> opciones = getCategoriasDropDown(categorias);
           return Container(
-            // alignment: Alignment.center,
-            margin: EdgeInsets.only(top: 10, right: 5, left: 5),
-            padding: EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: DropdownButton(
-                value: _categoriaSeleccionada,
-                items: opciones,
-                onChanged: (value) {
-                  setState(() {
-                    _categoriaSeleccionada = value;
-                    producto.categoriaId = int.parse(_categoriaSeleccionada);
-                  });
-                },
-              ),
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: DropdownButton(
+              value: _categoriaSeleccionada,
+              items: opciones,
+              onChanged: (value) {
+                setState(() {
+                  _categoriaSeleccionada = value;
+                  producto.categoriaId = int.parse(_categoriaSeleccionada);
+                });
+              },
             ),
           );
         } else {

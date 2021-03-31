@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                     CupertinoButton(
                       child: Text('Nuevo Producto'),
                       onPressed: () {
-                        if (validarSeleccionProducto(int.parse(_opcionSeleccionadaBodega))) {
+                        if (validarSeleccionBodega(int.parse(_opcionSeleccionadaBodega))) {
                           empresa.empresaId = int.parse(_opcionSeleccionadaEmpresa);
                           Argumentos a = Argumentos.producto(empresa, bodega, usuario, Producto(), 'navFromHome');
                           Navigator.popAndPushNamed(context, 'nuevo_producto', arguments: a);
@@ -381,16 +381,24 @@ class _HomePageState extends State<HomePage> {
   bool validarSeleccionSucursal(int sucursalId, String opcion) {
     if (sucursalId < 1) {
       Navigator.pop(context);
-      mostrarAlerta(context, 'Alerta', 'Debe seleccionar la Empresa y la Sucursal a la que desea agregar el $opcion!');
+      mostrarAlerta(
+        context,
+        'Alerta',
+        'Debe seleccionar la Empresa y la Sucursal a la que desea agregar el $opcion!',
+      );
       return false;
     }
     return true;
   }
 
-  bool validarSeleccionProducto(int bodegaId) {
+  bool validarSeleccionBodega(int bodegaId) {
     if (bodegaId < 1) {
       Navigator.pop(context);
-      mostrarAlerta(context, 'Alerta', 'Debe seleccionar la Empresa y la Bodega a la que desea agregar el PRODUCTO!');
+      mostrarAlerta(
+        context,
+        'Alerta',
+        'Debe seleccionar la Empresa y la Bodega a la que desea agregar el PRODUCTO!',
+      );
       return false;
     }
     return true;

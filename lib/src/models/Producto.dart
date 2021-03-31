@@ -11,6 +11,7 @@ class Producto {
   String productoNombre;
   String productoMarca;
   double productoPeso;
+  String productoCodigoBarras;
   String productoUnidadMedida;
   int categoriaId;
   int usuarioId;
@@ -26,6 +27,7 @@ class Producto {
     this.productoNombre,
     this.productoMarca,
     this.productoPeso,
+    this.productoCodigoBarras,
     this.productoUnidadMedida,
     this.categoriaId,
     this.usuarioId,
@@ -42,6 +44,7 @@ class Producto {
     this.productoNombre,
     this.productoMarca,
     this.productoPeso,
+    this.productoCodigoBarras,
     this.productoUnidadMedida,
     this.categoriaId,
     this.usuarioId,
@@ -58,6 +61,7 @@ class Producto {
         productoNombre: json["producto_nombre"],
         productoMarca: json["producto_marca"],
         productoPeso: json["producto_peso"].toDouble(),
+        productoCodigoBarras: json["producto_codigo_barras"],
         productoUnidadMedida: json["producto_unidad_medida"],
         categoriaId: json["categoria_id"],
         usuarioId: json["usuario_id"],
@@ -74,6 +78,7 @@ class Producto {
         "producto_nombre": productoNombre,
         "producto_marca": productoMarca,
         "producto_peso": productoPeso,
+        "producto_codigo_barras": productoCodigoBarras,
         "producto_unidad_medida": productoUnidadMedida,
         "categoria_id": categoriaId,
         "usuario_id": usuarioId,
@@ -89,6 +94,7 @@ class Producto {
         "producto_nombre": productoNombre,
         "producto_marca": productoMarca,
         "producto_peso": productoPeso,
+        "producto_codigo_barras": productoCodigoBarras,
         "producto_unidad_medida": productoUnidadMedida,
         "categoria_id": categoriaId,
         "usuario_id": usuarioId,

@@ -74,8 +74,13 @@ class _MenuWidgetState extends State<MenuWidget> {
                       Producto(),
                       'navFromMenuHome',
                     );
-                    if (snapshot.data.bodega.bodegaId == null || snapshot.data.bodega.bodegaId < 1) {
-                      mostrarAlerta(context, 'Advertencia', 'Debe seleccionar una bodega de la empresa');
+
+                    if (snapshot.data.empresa == null || snapshot.data.bodega.bodegaId == null || snapshot.data.bodega.bodegaId < 1) {
+                      mostrarAlerta(
+                        context,
+                        'Alerta',
+                        'Debe seleccionar la Empresa y la Bodega a la que desea acceder',
+                      );
                       return;
                     } else {
                       Navigator.pushNamed(context, 'productos', arguments: arg);
@@ -93,8 +98,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                       // snapshot.data.empresa,
                       'navFromMenuHome',
                     );
-                    if (snapshot.data.sucursal.sucursalId == null || snapshot.data.sucursal.sucursalId < 1) {
-                      mostrarAlerta(context, 'Advertencia', 'Debe seleccionar una SUCURSAL de la EMPRESA');
+                    if (snapshot.data.empresa == null || snapshot.data.sucursal.sucursalId == null || snapshot.data.sucursal.sucursalId < 1) {
+                      mostrarAlerta(
+                        context,
+                        'Alerta',
+                        'Debe seleccionar la Empresa y la Sucursal a la que desea acceder',
+                      );
                       return;
                     } else {
                       Navigator.pushNamed(context, 'servicios', arguments: arg);
@@ -104,7 +113,6 @@ class _MenuWidgetState extends State<MenuWidget> {
                   leading: Icon(Icons.person, color: Colors.blue),
                   title: Text('Clientes'),
                   onTap: () {
-                    print(snapshot.data.sucursal.sucursalId);
                     Navigator.pop(context);
                     Argumentos arg = Argumentos.cliente(
                       widget.usuario,
@@ -114,7 +122,11 @@ class _MenuWidgetState extends State<MenuWidget> {
                       'navFromMenuHome',
                     );
                     if (snapshot.data.sucursal.sucursalId == null || snapshot.data.sucursal.sucursalId < 1) {
-                      mostrarAlerta(context, 'Advertencia', 'Debe seleccionar una SUCURSAL de la EMPRESA');
+                      mostrarAlerta(
+                        context,
+                        'Alerta',
+                        'Debe seleccionar la Empresa y la Sucursal a la que desea acceder',
+                      );
                       return;
                     } else {
                       Navigator.pushNamed(context, 'clientes', arguments: arg);

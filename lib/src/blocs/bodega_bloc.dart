@@ -14,8 +14,8 @@ class BodegaBloc {
   }
 
   void cargarBodegas(int empresaId) async {
-    final empresas = await _bodegaService.cargarBodegas(empresaId);
-    _bodegasController.sink.add(empresas);
+    final bodegas = await _bodegaService.cargarBodegas(empresaId);
+    _bodegasController.sink.add(bodegas);
   }
 
   void actualizarBodega(Bodega bodega) async {

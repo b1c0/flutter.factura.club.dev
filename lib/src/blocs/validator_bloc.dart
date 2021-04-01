@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app_factura_club_dev/src/blocs/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
+//CLASE PARA VALIDACIONES EN TIEMPO REAL EN LA VISTA DE LOGIN
 class ValidatorBloc with Validators {
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();

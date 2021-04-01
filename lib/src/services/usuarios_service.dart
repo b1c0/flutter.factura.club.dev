@@ -5,12 +5,12 @@ import 'package:app_factura_club_dev/src/utils/utils.dart';
 import 'package:http/io_client.dart';
 
 class UsuarioService {
+  IOClient ioClient = https();
   final Map<String, String> _headers = {'Content-Type': 'application/json'};
   final _url = 'https://192.168.1.2:44379/Usuario';
 
   //login
   Future<Map<String, dynamic>> login(String email, String nic, String password) async {
-    IOClient ioClient = https();
     final url = '$_url/$email,$nic,$password';
     final resp = await ioClient.get(url, headers: _headers);
     if (resp.statusCode == 200) {
@@ -25,7 +25,6 @@ class UsuarioService {
 
   //METODO PARA REGISTRAR USUARIOS PADRE(ADMINISTRADOR)
   Future<Map<String, dynamic>> agregarNuevoUsuario(Usuario usuario) async {
-    IOClient ioClient = https();
     final url = 'https://192.168.1.2:44379/api/UsuarioAdministrador';
     final resp = await ioClient.post(url, body: (usuarioToJson(usuario)), headers: _headers);
     final decodedData = json.decode(resp.body);

@@ -121,8 +121,8 @@ class _ProductosPageState extends State<ProductosPage> {
                   child: Text('OK'),
                   onPressed: () => {
                         _eliminarBodega(productoBloc, producto),
-                        Navigator.pop(context),
                         setState(() {}),
+                        Navigator.pop(context),
                       })
             ],
           );

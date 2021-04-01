@@ -14,7 +14,6 @@ class NuevoServicioPage extends StatefulWidget {
 
 class _NuevoServicioPageState extends State<NuevoServicioPage> {
   final _formKey = GlobalKey<FormState>();
-
   Servicio servicio = Servicio.sinId();
   ServicioBloc servicioBloc;
   String navFrom;
@@ -22,11 +21,16 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
   @override
   Widget build(BuildContext context) {
     servicioBloc = Provider.crearServicioBloc(context);
-
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     navFrom = arg.navFrom;
+
     final Usuario usuario = arg.usuario;
     final Sucursal sucursal = arg.sucursal;
+
+    final Servicio data = arg.servicio;
+    if (data != null) {
+      servicio = data;
+    }
 
     servicio.sucursalId = sucursal.sucursalId;
     servicio.usuarioId = usuario.idUser;
@@ -63,6 +67,7 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
 
   Widget _inputDescripcionServicio() {
     return TextFormField(
+      initialValue: servicio.servicioDescripcion,
       maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -82,6 +87,7 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
 
   Widget _inputTipoServicio() {
     return TextFormField(
+      initialValue: servicio.servicioTipo,
       maxLength: 250,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -94,6 +100,7 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
 
   Widget _inputPrecioServicio() {
     return TextFormField(
+      initialValue: servicio.sucursalServicioPrecio.toString(),
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -125,11 +132,17 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
   void _actionGuardar(Argumentos arg) {
     if (!_formKey.currentState.validate()) return;
 
-    print('creando');
-    servicioBloc.crearNuevoServicio(servicio);
-    if (navFrom == 'navFromHome') {
+    if (servicio.servicioId == null) {
+      print('creando');
+      servicioBloc.crearNuevoServicio(servicio);
       Navigator.pop(context);
+      if (navFrom == 'navFromHome') {
+        Navigator.popAndPushNamed(context, 'servicios', arguments: arg);
+      }
+      Navigator.popAndPushNamed(context, 'servicios', arguments: arg);
     } else {
+      print('actualizando');
+      servicioBloc.actualizarServicio(servicio);
       Navigator.pop(context);
       Navigator.popAndPushNamed(context, 'servicios', arguments: arg);
     }

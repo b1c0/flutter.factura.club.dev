@@ -5,11 +5,11 @@ import 'dart:convert';
 import 'package:http/io_client.dart';
 
 class EmpresaService {
+  IOClient ioClient = https();
   final Map<String, String> _headers = {'Content-Type': 'application/json'};
   final _url = 'https://192.168.1.2:44379/api/Empresa';
 
   Future<bool> crearNuevaEmpresa(Empresa empresa) async {
-    IOClient ioClient = https();
     final url = _url;
     final resp = await ioClient.post(url, body: (empresaToJsonSinId(empresa)), headers: _headers);
     final decodedData = json.decode(resp.body);
@@ -19,7 +19,6 @@ class EmpresaService {
   }
 
   Future<List<Empresa>> cargarEmpresas(int usuarioId) async {
-    IOClient ioClient = https();
     final url = '$_url/$usuarioId';
     final resp = await ioClient.get(url, headers: _headers);
     final decodeData = json.decode(resp.body);
@@ -28,7 +27,6 @@ class EmpresaService {
   }
 
   Future<bool> actualizarEmpresa(Empresa empresa) async {
-    IOClient ioClient = https();
     final url = '$_url/${empresa.usuarioId},${empresa.empresaId}';
     final resp = await ioClient.put(url, body: (empresaToJsonSinId(empresa)), headers: _headers);
     final decodedData = json.decode(resp.body);
@@ -38,7 +36,6 @@ class EmpresaService {
   }
 
   Future<int> eliminarEmpresa(int empresaId, int usuarioId) async {
-    IOClient ioClient = https();
     final url = '$_url/$usuarioId,$empresaId';
     final resp = await ioClient.delete(url);
     print(json.decode(resp.body));
@@ -46,7 +43,6 @@ class EmpresaService {
   }
 
   Future<Map<String, dynamic>> cargarEmpresaById(int empresaId) async {
-    IOClient ioClient = https();
     final url = '$_url/DatosEmpresa/$empresaId';
     final resp = await ioClient.get(url, headers: _headers);
     final decodeData = json.decode(resp.body);

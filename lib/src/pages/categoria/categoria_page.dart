@@ -3,6 +3,7 @@ import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/models/Argumentos.dart';
 import 'package:app_factura_club_dev/src/models/Categoria.dart';
 import 'package:app_factura_club_dev/src/models/Empresa.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CategoriaPage extends StatefulWidget {
@@ -56,23 +57,68 @@ class _CategoriaPageState extends State<CategoriaPage> {
   }
 
   _crearItem(BuildContext context, CategoriaBloc categoriaBloc, Categoria categoria, Argumentos arg) {
-    return Card(
-      margin: EdgeInsets.all(5.0),
-      color: Colors.blue[300],
-      elevation: 5.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      child: Column(
-        children: [
-          Container(
-            color: Colors.pinkAccent,
-            padding: EdgeInsets.all(5.0),
-            child: ListTile(
-              leading: Icon(Icons.menu_book, color: Colors.white, size: 40.0),
-              title: Text(categoria.categoriaNombre, style: TextStyle(color: Colors.white)),
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        padding: EdgeInsets.only(right: 30),
+        color: Colors.red,
+        child: Align(
+          child: Icon(Icons.delete, color: Colors.white),
+          alignment: Alignment.centerRight,
+        ),
+      ),
+      onDismissed: (direction) {
+        mostrarAlertaEliminar(context, categoriaBloc, categoria);
+        setState(() {});
+      },
+      child: Card(
+        margin: EdgeInsets.all(5.0),
+        color: Colors.blue[300],
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Column(
+          children: [
+            Container(
+              color: Colors.pink,
+              padding: EdgeInsets.all(5.0),
+              child: ListTile(
+                leading: Icon(Icons.menu_book, color: Colors.white, size: 40.0),
+                title: Text(categoria.categoriaNombre, style: TextStyle(color: Colors.white)),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  void mostrarAlertaEliminar(BuildContext context, CategoriaBloc categoriaBloc, Categoria categoria) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Eliminar'),
+            content: Text('¿Esta seguro que desea eliminar esta bodega?'),
+            actions: [
+              CupertinoButton(
+                onPressed: () => {
+                  Navigator.pop(context),
+                },
+                child: Text('Cancelar'),
+              ),
+              CupertinoButton(
+                  child: Text('OK'),
+                  onPressed: () => {
+                        _eliminarCategoria(categoriaBloc, categoria),
+                        setState(() {}),
+                        Navigator.pop(context),
+                      })
+            ],
+          );
+        });
+  }
+
+  void _eliminarCategoria(CategoriaBloc categoriaBloc, Categoria categoria) {
+    categoriaBloc.eliminarCategoria(categoria.categoriaId, categoria.usuarioId);
   }
 }

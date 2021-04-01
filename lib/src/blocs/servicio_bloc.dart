@@ -18,6 +18,14 @@ class ServicioBloc {
     _serviciosController.sink.add(servicios);
   }
 
+  void actualizarServicio(Servicio servicio) async {
+    await _servicioService.actualizarServicio(servicio);
+  }
+
+  void eliminarServicio(int servicioId, int usuarioId) async {
+    await _servicioService.eliminarServicio(servicioId, usuarioId);
+  }
+
   disposse() {
     _serviciosController?.close();
     _crearServiciosStreamController?.close();

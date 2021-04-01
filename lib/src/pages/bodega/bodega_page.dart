@@ -35,13 +35,11 @@ class _BodegaPageState extends State<BodegaPage> {
               })
         ],
       ),
-      body:
-          // Container(),
-          _listarBodegas(bodegaBloc, arg),
+      body: _listarBodegas(bodegaBloc, arg),
     );
   }
 
-  _listarBodegas(BodegaBloc bodegaBloc, Argumentos arg) {
+  Widget _listarBodegas(BodegaBloc bodegaBloc, Argumentos arg) {
     return StreamBuilder(
       stream: bodegaBloc.bodegasStream,
       builder: (BuildContext context, AsyncSnapshot<List<Bodega>> snapshot) {
@@ -60,7 +58,7 @@ class _BodegaPageState extends State<BodegaPage> {
     );
   }
 
-  _crearItem(BuildContext context, BodegaBloc bodegaBloc, Bodega bodega, Argumentos arg) {
+  Widget _crearItem(BuildContext context, BodegaBloc bodegaBloc, Bodega bodega, Argumentos arg) {
     return Dismissible(
       key: UniqueKey(),
       background: Container(
@@ -83,7 +81,7 @@ class _BodegaPageState extends State<BodegaPage> {
         child: Column(
           children: [
             Container(
-              color: Colors.green,
+              // color: Colors.green,
               padding: EdgeInsets.all(5.0),
               child: ListTile(
                   leading: Icon(Icons.inventory, color: Colors.white, size: 40.0),

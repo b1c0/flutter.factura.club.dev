@@ -4,7 +4,6 @@ import 'package:rxdart/rxdart.dart';
 
 class CategoriaBloc {
   final _categoriasController = BehaviorSubject<List<Categoria>>();
-
   final _crearCategoriaStreamController = BehaviorSubject<Categoria>();
   final _categoriaService = CategoriaService();
 
@@ -17,6 +16,10 @@ class CategoriaBloc {
   void cargarCategorias(int empresaId) async {
     final empresas = await _categoriaService.cargarCategorias(empresaId);
     _categoriasController.sink.add(empresas);
+  }
+
+  void eliminarCategoria(int categoriaId, int usuarioId) async {
+    await _categoriaService.eliminarcategoria(categoriaId, usuarioId);
   }
 
   dispose() {

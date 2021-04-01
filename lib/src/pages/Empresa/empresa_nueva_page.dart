@@ -33,7 +33,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
       appBar: AppBar(
         title: Text('Datos Empresa'),
       ),
-      body: _formulario(usuario),
+      body: Container(child: _formulario(usuario)),
     );
   }
 
@@ -49,7 +49,35 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
             inputCorreoEmpresa(),
             inputTelefonoEmpresa(),
             inputDireccionEmpresa(),
-            inputLogoEmpresa(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                inputLogoEmpresa(),
+                IconButton(
+                  icon: Icon(
+                    Icons.upload_file,
+                    color: Colors.blueAccent,
+                  ),
+                  onPressed: () {},
+                ),
+                // inputLogoEmpresa(),
+              ],
+            ),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                inputFirmaEmpresa(),
+                IconButton(
+                  icon: Icon(
+                    Icons.upload_file,
+                    color: Colors.blueAccent,
+                  ),
+                  onPressed: () {},
+                ),
+                // inputLogoEmpresa(),
+              ],
+            ),
             Divider(),
             _botonGuardarEmpresa(usuario),
           ],
@@ -122,14 +150,36 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   }
 
   Widget inputLogoEmpresa() {
-    return TextFormField(
-      initialValue: empresa.empresaLogotipo,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        labelText: 'Logo Empresa',
-        hintText: 'Cargar imagen',
+    final size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width * 0.75,
+      child: TextFormField(
+        initialValue: empresa.empresaLogotipo,
+        enabled: false,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          labelText: 'LOGO',
+          // hintText: 'Cargar imagen',
+        ),
+        onChanged: (value) => empresa.empresaLogotipo = value,
       ),
-      onChanged: (value) => empresa.empresaLogotipo = value,
+    );
+  }
+
+  Widget inputFirmaEmpresa() {
+    final size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width * 0.75,
+      child: TextFormField(
+        initialValue: empresa.empresaLogotipo,
+        enabled: false,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          labelText: 'Archivo p12',
+          // hintText: 'Cargar imagen',
+        ),
+        onChanged: (value) => empresa.empresaLogotipo = value,
+      ),
     );
   }
 

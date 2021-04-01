@@ -13,10 +13,9 @@ class ServiciosPage extends StatefulWidget {
 class _ServiciosPageState extends State<ServiciosPage> {
   @override
   Widget build(BuildContext context) {
-    final Argumentos arg = ModalRoute.of(context).settings.arguments;
-    // final Usuario usuario = arg.usuario;
-    final Sucursal sucursal = arg.sucursal;
     final servicioBloc = Provider.crearServicioBloc(context);
+    final Argumentos arg = ModalRoute.of(context).settings.arguments;
+    final Sucursal sucursal = arg.sucursal;
     servicioBloc.cargarServicios(sucursal.sucursalId);
     return Scaffold(
       appBar: AppBar(
@@ -84,10 +83,15 @@ class _ServiciosPageState extends State<ServiciosPage> {
             color: Colors.cyan,
             padding: EdgeInsets.all(5.0),
             child: ListTile(
-              leading: Icon(Icons.miscellaneous_services, color: Colors.white, size: 40.0),
-              title: Text(servicio.servicioDescripcion.toString(), style: TextStyle(color: Colors.white)),
-              subtitle: Text(servicio.sucursalServicioPrecio.toString(), style: TextStyle(color: Colors.white)),
-            ),
+                leading: Icon(Icons.miscellaneous_services, color: Colors.white, size: 40.0),
+                title: Text(servicio.servicioDescripcion.toString(), style: TextStyle(color: Colors.white)),
+                subtitle: Text(servicio.sucursalServicioPrecio.toString(), style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Argumentos a = Argumentos.servicio(arg.sucursal, arg.usuario, servicio, 'navFromServicio');
+                  Navigator.pushNamed(context, 'nuevo-servicio', arguments: a).then((value) {
+                    setState(() {});
+                  });
+                }),
           ),
         ],
       ),

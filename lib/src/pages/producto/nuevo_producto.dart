@@ -17,40 +17,34 @@ class NuevoProductoPage extends StatefulWidget {
 
 class _NuevoProductoPage extends State<NuevoProductoPage> {
   final _formKey = GlobalKey<FormState>();
-  String _categoriaSeleccionada = '-1';
-
-  String navFrom;
-  bool esServicio = false;
-  bool iva = false;
-  bool rice = false;
   Producto producto = Producto.sinId();
   ProductoBloc productoBloc;
   CategoriaBloc categoriaBloc;
+  String navFrom;
+  String _categoriaSeleccionada = '-1';
+  bool esServicio = false;
+  bool iva = false;
+  bool rice = false;
 
   @override
   Widget build(BuildContext context) {
-    productoBloc = Provider.crearProductoBloc(context);
-    categoriaBloc = Provider.crearCategoriaBloc(context);
-
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     final Usuario usuario = arg.usuario;
     final Bodega bodega = arg.bodega;
     final Producto data = arg.producto;
-    navFrom = arg.navFrom;
+    categoriaBloc = Provider.crearCategoriaBloc(context);
+    productoBloc = Provider.crearProductoBloc(context);
     categoriaBloc.cargarCategorias(arg.empresa.empresaId);
-    print(navFrom);
-    print(arg.empresa.empresaId);
+    navFrom = arg.navFrom;
 
-    if (data != null) {
-      producto = data;
-    }
-    print(producto.categoriaId.toString());
+    producto = data;
+    producto.bodegaId = bodega.bodegaId;
+    producto.usuarioId = usuario.idUser;
+
     if (producto.categoriaId != null) {
       _categoriaSeleccionada = producto.categoriaId.toString();
     }
 
-    producto.bodegaId = bodega.bodegaId;
-    producto.usuarioId = usuario.idUser;
     return Scaffold(
       appBar: AppBar(
         title: Text('Nuevo Producto'),
@@ -59,6 +53,7 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
     );
   }
 
+  //===========================================================================FORMULARIO
   Widget _formulario(Argumentos arg) {
     return Form(
       key: _formKey,
@@ -95,47 +90,10 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
           Divider(),
           _inputEstado(),
           Divider(),
-          _crearBoton(arg),
+          _botonGuardarProducto(arg),
         ],
       ),
     );
-  }
-
-  Widget _crearBoton(Argumentos arg) {
-    return CupertinoButton(
-        child: Text(
-          'Guardar',
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        padding: EdgeInsets.symmetric(vertical: 20),
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.blueAccent,
-        onPressed: () => _actionGuardar(arg));
-  }
-
-  void _actionGuardar(Argumentos arg) {
-    if (!_formKey.currentState.validate()) return;
-    if (_categoriaSeleccionada == '-1') {
-      mostrarAlerta(context, 'Alerta', 'Debe serleccionar la categoria');
-      return;
-    }
-
-    if (producto.productoBodegaId == null) {
-      print('creando');
-      print(producto.usuarioId);
-      productoBloc.crearNuevoProducto(producto);
-      if (navFrom == 'navFromHome') {
-        Navigator.pop(context);
-      } else {
-        Navigator.pop(context);
-        Navigator.popAndPushNamed(context, 'productos', arguments: arg);
-      }
-    } else {
-      print('actualizando');
-      productoBloc.actualizarProducto(producto);
-      Navigator.pop(context);
-      Navigator.popAndPushNamed(context, 'productos', arguments: arg);
-    }
   }
 
 //===========================================================================INPUTS
@@ -307,23 +265,6 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
     );
   }
 
-  List<DropdownMenuItem<String>> getCategoriasDropDown(List<Categoria> opciones) {
-    List<DropdownMenuItem<String>> lista = [];
-    lista.add(DropdownMenuItem(
-      child: Text(
-        'Seleccione una Categoria',
-      ),
-      value: '-1',
-    ));
-    opciones.forEach((item) {
-      lista.add(DropdownMenuItem(
-        child: Text(item.categoriaNombre),
-        value: item.categoriaId.toString(),
-      ));
-    });
-    return lista;
-  }
-
   Widget getCategorias() {
     return StreamBuilder(
       stream: categoriaBloc.categoriasStream,
@@ -349,5 +290,57 @@ class _NuevoProductoPage extends State<NuevoProductoPage> {
         }
       },
     );
+  }
+
+  //===========================================================================BOTONES
+  Widget _botonGuardarProducto(Argumentos arg) {
+    return CupertinoButton(
+        child: Text(
+          'Guardar',
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 20),
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.blueAccent,
+        onPressed: () => _ingresarProducto(arg));
+  }
+
+  //===========================================================================MEÉTODOS
+
+  List<DropdownMenuItem<String>> getCategoriasDropDown(List<Categoria> opciones) {
+    List<DropdownMenuItem<String>> lista = [];
+    lista.add(DropdownMenuItem(
+      child: Text(
+        'Seleccione una Categoria',
+      ),
+      value: '-1',
+    ));
+    opciones.forEach((item) {
+      lista.add(DropdownMenuItem(
+        child: Text(item.categoriaNombre),
+        value: item.categoriaId.toString(),
+      ));
+    });
+    return lista;
+  }
+
+  void _ingresarProducto(Argumentos arg) {
+    if (!_formKey.currentState.validate()) return;
+    if (_categoriaSeleccionada == '-1') {
+      mostrarAlerta(context, 'Alerta', 'Debe serleccionar la categoria');
+      return;
+    }
+
+    if (producto.productoBodegaId == null) {
+      productoBloc.crearNuevoProducto(producto);
+      Navigator.pop(context);
+      if (navFrom != 'navFromHome') {
+        Navigator.popAndPushNamed(context, 'productos', arguments: arg);
+      }
+    } else {
+      productoBloc.actualizarProducto(producto);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'productos', arguments: arg);
+    }
   }
 }

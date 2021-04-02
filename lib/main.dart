@@ -13,7 +13,7 @@ import 'package:app_factura_club_dev/src/pages/bodega/bodega_nueva_page.dart';
 import 'package:app_factura_club_dev/src/pages/bodega/bodega_page.dart';
 import 'package:app_factura_club_dev/src/pages/empresa/empresa_nueva_page.dart';
 import 'package:app_factura_club_dev/src/pages/sucursal/sucursal_nueva_page.dart';
-import 'package:app_factura_club_dev/src/pages/sucursal/sucursales_page.dart';
+import 'package:app_factura_club_dev/src/pages/sucursal/sucursal_page.dart';
 import 'package:app_factura_club_dev/src/pages/home_page.dart';
 import 'package:app_factura_club_dev/src/pages/producto/nuevo_producto.dart';
 import 'package:app_factura_club_dev/src/pages/servicio/nuevo_servicio.dart';
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           'home': (BuildContext context) => HomePage(),
           'empresa': (BuildContext context) => EmpresaPage(),
           'nueva-empresa': (BuildContext context) => NuevaEmpresaPage(),
-          'sucursales': (BuildContext context) => SucursalesPage(),
+          'sucursales': (BuildContext context) => SucursalPage(),
           'nueva-sucursal': (BuildContext context) => NuevaSucursalPage(),
           'bodega': (BuildContext context) => BodegaPage(),
           'nueva-bodega': (BuildContext context) => NuevaBodegaPage(),

@@ -17,17 +17,17 @@ class _NuevoClientePage extends State<NuevoClientePage> {
   Cliente cliente = Cliente.sinId();
   ClienteBloc clienteBloc;
   String navFrom;
+
   @override
   Widget build(BuildContext context) {
-    clienteBloc = Provider.crearClienteBloc(context);
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
-    navFrom = arg.navFrom;
     Usuario usuario = arg.usuario;
     Sucursal sucursal = arg.sucursal;
     Cliente data = arg.cliente;
-    if (data != null) {
-      cliente = data;
-    }
+    clienteBloc = Provider.crearClienteBloc(context);
+    navFrom = arg.navFrom;
+
+    cliente = data;
     cliente.usuarioId = usuario.idUser;
     cliente.sucursalId = sucursal.sucursalId;
 
@@ -40,6 +40,7 @@ class _NuevoClientePage extends State<NuevoClientePage> {
     );
   }
 
+  //===========================================================================FORMULARIO
   Widget _formulario(Argumentos arg) {
     return Form(
       key: _formKey,
@@ -179,15 +180,15 @@ class _NuevoClientePage extends State<NuevoClientePage> {
     if (cliente.clienteId == null) {
       print('creando');
       clienteBloc.crearNuevoCliente(cliente);
-      if (navFrom == 'navFromHome') {
-        Navigator.pop(context);
-      } else {
-        Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('sucursales'), arguments: arg);
+      Navigator.pop(context);
+      if (navFrom != 'navFromHome') {
+        Navigator.popAndPushNamed(context, 'clientes', arguments: arg);
       }
     } else {
       print('actualizando');
       clienteBloc.actualizarClientes(cliente);
-      Navigator.pushNamedAndRemoveUntil(context, 'clientes', ModalRoute.withName('sucursales'), arguments: arg);
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, 'clientes', arguments: arg);
     }
   }
 }

@@ -15,11 +15,9 @@ class _EmpresaPage extends State<EmpresaPage> {
   @override
   Widget build(BuildContext context) {
     final Usuario usuario = ModalRoute.of(context).settings.arguments;
-    final Empresa empresa = Empresa(); //solo para evitar un error al pasar los args
-    final Argumentos arg = Argumentos(empresa, usuario);
-    //id del usuario logueado
     final empresasBloc = Provider.crearEmpresaBloc(context);
     empresasBloc.cargarEmpresas(usuario.idUser);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Mis Empresas'),
@@ -27,6 +25,7 @@ class _EmpresaPage extends State<EmpresaPage> {
           IconButton(
               icon: Icon(Icons.add_business),
               onPressed: () {
+                Argumentos arg = Argumentos(Empresa(), usuario);
                 Navigator.pushNamed(context, 'nueva-empresa', arguments: arg).then((value) {
                   setState(() {});
                 });
@@ -36,6 +35,8 @@ class _EmpresaPage extends State<EmpresaPage> {
       body: _listarEmpresas(empresasBloc, usuario),
     );
   }
+
+  //===========================================================================WIDGETS
 
   Widget _listarEmpresas(EmpresaBloc empresasBloc, Usuario usuario) {
     return StreamBuilder(
@@ -68,7 +69,7 @@ class _EmpresaPage extends State<EmpresaPage> {
         ),
       ),
       onDismissed: (direction) {
-        mostrarAlertaEliminar(context, empresasBloc, empresa);
+        _mostrarAlertaEliminar(context, empresasBloc, empresa);
         setState(() {});
       },
       child: Card(
@@ -82,7 +83,7 @@ class _EmpresaPage extends State<EmpresaPage> {
               padding: EdgeInsets.all(5.0),
               child: ListTile(
                   leading: Icon(Icons.business_sharp, color: Colors.white, size: 40.0),
-                  trailing: _crearPopupMenuButton(empresa, usuario),
+                  trailing: _crearPopUpMenuButton(empresa, usuario),
                   title: Text(empresa.empresaNombre, style: TextStyle(color: Colors.white)),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +104,7 @@ class _EmpresaPage extends State<EmpresaPage> {
     );
   }
 
-  Widget _crearPopupMenuButton(Empresa empresa, Usuario usuario) {
+  Widget _crearPopUpMenuButton(Empresa empresa, Usuario usuario) {
     return PopupMenuButton(
       icon: Icon(
         Icons.more_vert,
@@ -163,20 +164,18 @@ class _EmpresaPage extends State<EmpresaPage> {
     );
   }
 
-//===============================================================
-//================           METODOS         ====================
-//===============================================================
+  //===========================================================================MÉTODOS
   void _eliminarEmpresa(EmpresaBloc empresasBloc, Empresa empresa) {
     empresasBloc.eliminarEmpresa(empresa.empresaId, empresa.usuarioId);
   }
 
-  void mostrarAlertaEliminar(BuildContext context, EmpresaBloc empresasBloc, Empresa empresa) {
+  void _mostrarAlertaEliminar(BuildContext context, EmpresaBloc empresasBloc, Empresa empresa) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('Eliminar'),
-            content: Text('¿Esta seguro que desea eliminar esta empresa?'),
+            content: Text('¿Esta seguro que desea eliminar esta Empresa: "${empresa.empresaNombre}"'),
             actions: [
               CupertinoButton(
                 onPressed: () => {

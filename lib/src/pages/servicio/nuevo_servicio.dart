@@ -20,22 +20,16 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
 
   @override
   Widget build(BuildContext context) {
-    servicioBloc = Provider.crearServicioBloc(context);
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
-    navFrom = arg.navFrom;
-
     final Usuario usuario = arg.usuario;
     final Sucursal sucursal = arg.sucursal;
-
     final Servicio data = arg.servicio;
-    if (data != null) {
-      servicio = data;
-    }
+    servicioBloc = Provider.crearServicioBloc(context);
+    navFrom = arg.navFrom;
 
+    servicio = data;
     servicio.sucursalId = sucursal.sucursalId;
     servicio.usuarioId = usuario.idUser;
-    print(servicio.sucursalId);
-    print(servicio.usuarioId);
 
     return Scaffold(
       appBar: AppBar(
@@ -45,26 +39,29 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
     );
   }
 
+  //===========================================================================FORMULARIO
   Widget _formulario(Argumentos arg) {
     return Form(
       key: _formKey,
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-        children: [
-          _inputDescripcionServicio(),
-          Divider(),
-          _inputTipoServicio(),
-          Divider(),
-          _inputPrecioServicio(),
-          Divider(),
-          _crearBoton(arg),
-        ],
+      child: Container(
+        margin: EdgeInsets.only(top: 10),
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          children: [
+            _inputDescripcionServicio(),
+            Divider(),
+            _inputTipoServicio(),
+            Divider(),
+            _inputPrecioServicio(),
+            Divider(),
+            _botonGuardarServicio(arg),
+          ],
+        ),
       ),
     );
   }
 
   //=========================================================================INPUTS
-
   Widget _inputDescripcionServicio() {
     return TextFormField(
       initialValue: servicio.servicioDescripcion,
@@ -99,6 +96,9 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
   }
 
   Widget _inputPrecioServicio() {
+    if (servicio.sucursalServicioPrecio == null) {
+      servicio.sucursalServicioPrecio = 0.0;
+    }
     return TextFormField(
       initialValue: servicio.sucursalServicioPrecio.toString(),
       keyboardType: TextInputType.number,
@@ -118,7 +118,8 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
     );
   }
 
-  Widget _crearBoton(Argumentos arg) {
+  //===========================================================================BOTONES
+  Widget _botonGuardarServicio(Argumentos arg) {
     return CupertinoButton(
         child: Text(
           'Guardar',
@@ -126,22 +127,20 @@ class _NuevoServicioPageState extends State<NuevoServicioPage> {
         ),
         borderRadius: BorderRadius.circular(15),
         color: Colors.blueAccent,
-        onPressed: () => _actionGuardar(arg));
+        onPressed: () => _ingresarServicio(arg));
   }
 
-  void _actionGuardar(Argumentos arg) {
+  //===========================================================================MÉTODOS
+  void _ingresarServicio(Argumentos arg) {
     if (!_formKey.currentState.validate()) return;
 
     if (servicio.servicioId == null) {
-      print('creando');
       servicioBloc.crearNuevoServicio(servicio);
       Navigator.pop(context);
-      if (navFrom == 'navFromHome') {
+      if (navFrom != 'navFromHome') {
         Navigator.popAndPushNamed(context, 'servicios', arguments: arg);
       }
-      Navigator.popAndPushNamed(context, 'servicios', arguments: arg);
     } else {
-      print('actualizando');
       servicioBloc.actualizarServicio(servicio);
       Navigator.pop(context);
       Navigator.popAndPushNamed(context, 'servicios', arguments: arg);

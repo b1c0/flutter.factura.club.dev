@@ -12,21 +12,18 @@ class NuevaEmpresaPage extends StatefulWidget {
 }
 
 class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
+  final _formKey = GlobalKey<FormState>();
   Empresa empresa = Empresa.sinId();
   EmpresaBloc crearEmpresaBloc;
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    crearEmpresaBloc = Provider.crearEmpresaBloc(context);
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     final Usuario usuario = arg.usuario;
     final Empresa data = arg.empresa;
-    if (data != null) {
-      empresa = data;
-      print(empresa.empresaId);
-    }
-    //EL ID DEL USUARIO CONECTADO
+    crearEmpresaBloc = Provider.crearEmpresaBloc(context);
+
+    empresa = data;
     empresa.usuarioId = usuario.idUser;
 
     return Scaffold(
@@ -37,6 +34,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     );
   }
 
+  //===========================================================================FORMULARIO
   Form _formulario(Usuario usuario) {
     return Form(
       key: _formKey,
@@ -154,14 +152,14 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     return Container(
       width: size.width * 0.75,
       child: TextFormField(
-        initialValue: empresa.empresaLogotipo,
+        // initialValue: empresa.empresaLogotipo,
         enabled: false,
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
           labelText: 'LOGO',
           // hintText: 'Cargar imagen',
         ),
-        onChanged: (value) => empresa.empresaLogotipo = value,
+        // onChanged: (value) => empresa.empresaLogotipo = value,
       ),
     );
   }
@@ -171,14 +169,14 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     return Container(
       width: size.width * 0.75,
       child: TextFormField(
-        initialValue: empresa.empresaLogotipo,
+        // initialValue: empresa.empresaLogotipo,
         enabled: false,
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
           labelText: 'Archivo p12',
           // hintText: 'Cargar imagen',
         ),
-        onChanged: (value) => empresa.empresaLogotipo = value,
+        // onChanged: (value) => empresa.empresaLogotipo = value,
       ),
     );
   }

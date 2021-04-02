@@ -13,10 +13,11 @@ class ServiciosPage extends StatefulWidget {
 class _ServiciosPageState extends State<ServiciosPage> {
   @override
   Widget build(BuildContext context) {
-    final servicioBloc = Provider.crearServicioBloc(context);
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     final Sucursal sucursal = arg.sucursal;
+    final servicioBloc = Provider.crearServicioBloc(context);
     servicioBloc.cargarServicios(sucursal.sucursalId);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Servicios'),
@@ -24,8 +25,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Servicio servicio = Servicio();
-                Argumentos a = Argumentos.servicio(arg.sucursal, arg.usuario, servicio, 'navFromServicio');
+                Argumentos a = Argumentos.servicio(arg.sucursal, arg.usuario, Servicio(), 'navFromServicio');
                 Navigator.pushNamed(context, 'nuevo-servicio', arguments: a).then((value) {
                   setState(() {});
                 });
@@ -36,6 +36,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
     );
   }
 
+  //===========================================================================WIDGETS
   Widget _listarServicios(ServicioBloc servicioBloc, Argumentos arg) {
     return StreamBuilder(
       stream: servicioBloc.serviciosStream,
@@ -98,4 +99,6 @@ class _ServiciosPageState extends State<ServiciosPage> {
       // ),
     );
   }
+  //===========================================================================MÉTODOS
+
 }

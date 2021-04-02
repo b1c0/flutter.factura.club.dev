@@ -29,10 +29,12 @@ class _HomePageState extends State<HomePage> {
   String _opcionSeleccionadaEmpresa = '-1';
   String _opcionSeleccionadaSucursal = '-1';
   String _opcionSeleccionadaBodega = '-1';
+
   EmpresaBloc empresasBloc;
   SucursalBloc sucursalBloc;
   BodegaBloc bodegaBloc;
   ArgumentosBloc argumentosBloc;
+
   Sucursal sucursal = Sucursal();
   Bodega bodega = Bodega();
   Cliente cliente = Cliente();
@@ -42,13 +44,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final Usuario usuario = ModalRoute.of(context).settings.arguments;
+
     empresasBloc = Provider.crearEmpresaBloc(context);
-    empresasBloc.cargarEmpresas(usuario.idUser);
     sucursalBloc = Provider.crearSucursalBloc(context);
-    sucursalBloc.cargarSucursales(int.parse(_opcionSeleccionadaEmpresa));
     bodegaBloc = Provider.crearBodegaBloc(context);
-    bodegaBloc.cargarBodegas(int.parse(_opcionSeleccionadaEmpresa));
     argumentosBloc = Provider.argumentosBloc(context);
+
+    empresasBloc.cargarEmpresas(usuario.idUser);
+    sucursalBloc.cargarSucursales(int.parse(_opcionSeleccionadaEmpresa));
+    bodegaBloc.cargarBodegas(int.parse(_opcionSeleccionadaEmpresa));
 
     return Scaffold(
       appBar: buildAppBar(),
@@ -67,6 +71,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //===========================================================================WIDGETS
+  //
   AppBar buildAppBar() {
     return AppBar(
       title: Text('factura.club'),
@@ -177,58 +183,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  List<DropdownMenuItem<String>> getOpcionesEmpresaDropDown(List<Empresa> opciones) {
-    List<DropdownMenuItem<String>> lista = [];
-    lista.add(DropdownMenuItem(
-      child: Center(
-        child: Text(
-          'Seleccione una empresa',
-        ),
-      ),
-      value: '-1',
-    ));
-    opciones.forEach((item) {
-      lista.add(DropdownMenuItem(
-        child: Center(child: Text(item.empresaNombre)),
-        value: item.empresaId.toString(),
-      ));
-    });
-
-    return lista;
-  }
-
-  List<DropdownMenuItem<String>> getOpcionesSucursalDropDown(List<Sucursal> opciones) {
-    List<DropdownMenuItem<String>> lista = [];
-    lista.add(DropdownMenuItem(
-      child: Center(child: Text('Seleccione una sucursal')),
-      value: '-1',
-    ));
-    opciones.forEach((item) {
-      lista.add(DropdownMenuItem(
-        child: Center(child: Text(item.sucursalNombre)),
-        value: item.sucursalId.toString(),
-      ));
-    });
-
-    return lista;
-  }
-
-  List<DropdownMenuItem<String>> getOpcionesBodegaDropDown(List<Bodega> opciones) {
-    List<DropdownMenuItem<String>> lista = [];
-    lista.add(DropdownMenuItem(
-      child: Center(child: Text('Seleccione una bodega')),
-      value: '-1',
-    ));
-    opciones.forEach((item) {
-      lista.add(DropdownMenuItem(
-        child: Center(child: Text(item.bodegaNombre)),
-        value: item.bodegaId.toString(),
-      ));
-    });
-
-    return lista;
   }
 
   Widget getEmpresas() {
@@ -376,6 +330,60 @@ class _HomePageState extends State<HomePage> {
         }
       },
     );
+  }
+
+  //===========================================================================MÉTODOS
+  //
+  List<DropdownMenuItem<String>> getOpcionesEmpresaDropDown(List<Empresa> opciones) {
+    List<DropdownMenuItem<String>> lista = [];
+    lista.add(DropdownMenuItem(
+      child: Center(
+        child: Text(
+          'Seleccione una empresa',
+        ),
+      ),
+      value: '-1',
+    ));
+    opciones.forEach((item) {
+      lista.add(DropdownMenuItem(
+        child: Center(child: Text(item.empresaNombre)),
+        value: item.empresaId.toString(),
+      ));
+    });
+
+    return lista;
+  }
+
+  List<DropdownMenuItem<String>> getOpcionesSucursalDropDown(List<Sucursal> opciones) {
+    List<DropdownMenuItem<String>> lista = [];
+    lista.add(DropdownMenuItem(
+      child: Center(child: Text('Seleccione una sucursal')),
+      value: '-1',
+    ));
+    opciones.forEach((item) {
+      lista.add(DropdownMenuItem(
+        child: Center(child: Text(item.sucursalNombre)),
+        value: item.sucursalId.toString(),
+      ));
+    });
+
+    return lista;
+  }
+
+  List<DropdownMenuItem<String>> getOpcionesBodegaDropDown(List<Bodega> opciones) {
+    List<DropdownMenuItem<String>> lista = [];
+    lista.add(DropdownMenuItem(
+      child: Center(child: Text('Seleccione una bodega')),
+      value: '-1',
+    ));
+    opciones.forEach((item) {
+      lista.add(DropdownMenuItem(
+        child: Center(child: Text(item.bodegaNombre)),
+        value: item.bodegaId.toString(),
+      ));
+    });
+
+    return lista;
   }
 
   bool validarSeleccionSucursal(int sucursalId, String opcion) {

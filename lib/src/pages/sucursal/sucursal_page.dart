@@ -9,18 +9,19 @@ import 'package:app_factura_club_dev/src/models/Usuario.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SucursalesPage extends StatefulWidget {
+class SucursalPage extends StatefulWidget {
   @override
-  _SucursalesPage createState() => _SucursalesPage();
+  _SucursalPage createState() => _SucursalPage();
 }
 
-class _SucursalesPage extends State<SucursalesPage> {
+class _SucursalPage extends State<SucursalPage> {
   @override
   Widget build(BuildContext context) {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     final Empresa empresa = arg.empresa;
     final sucursalesBloc = Provider.crearSucursalBloc(context);
     sucursalesBloc.cargarSucursales(empresa.empresaId);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Sucursales'),
@@ -39,6 +40,7 @@ class _SucursalesPage extends State<SucursalesPage> {
     );
   }
 
+  //===========================================================================WIDGETS
   Widget _listar(SucursalBloc sucursalBloc, Argumentos arg) {
     return StreamBuilder(
       stream: sucursalBloc.sucursalesStream,
@@ -58,7 +60,7 @@ class _SucursalesPage extends State<SucursalesPage> {
     );
   }
 
-  _crearItem(BuildContext context, SucursalBloc sucursalBloc, Sucursal sucursal, Argumentos arg) {
+  Widget _crearItem(BuildContext context, SucursalBloc sucursalBloc, Sucursal sucursal, Argumentos arg) {
     return Dismissible(
       key: UniqueKey(),
       background: Container(
@@ -92,7 +94,7 @@ class _SucursalesPage extends State<SucursalesPage> {
                       Text(sucursal.sucursalDireccion, style: TextStyle(color: Colors.white)),
                     ],
                   ),
-                  trailing: _crearPopupMenuButton(sucursal, arg.usuario),
+                  trailing: _crearPopUpMenuButton(sucursal, arg.usuario),
                   onTap: () {
                     Argumentos a = Argumentos.sucursal(arg.empresa, arg.usuario, sucursal);
                     Navigator.pushNamed(context, 'nueva-sucursal', arguments: a).then((value) {
@@ -106,37 +108,7 @@ class _SucursalesPage extends State<SucursalesPage> {
     );
   }
 
-  void mostrarAlertaEliminar(BuildContext context, SucursalBloc sucursalBloc, Sucursal sucursal) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Eliminar'),
-            content: Text('¿Esta seguro que desea eliminar esta sucursal?'),
-            actions: [
-              CupertinoButton(
-                onPressed: () => {
-                  Navigator.pop(context),
-                },
-                child: Text('Cancelar'),
-              ),
-              CupertinoButton(
-                  child: Text('OK'),
-                  onPressed: () => {
-                        _eliminarSucursal(sucursalBloc, sucursal),
-                        Navigator.pop(context),
-                        setState(() {}),
-                      })
-            ],
-          );
-        });
-  }
-
-  void _eliminarSucursal(SucursalBloc sucursalBloc, Sucursal sucursal) {
-    sucursalBloc.eliminarSucursal(sucursal.usuarioId, sucursal.sucursalId);
-  }
-
-  Widget _crearPopupMenuButton(Sucursal sucursal, Usuario usuario) {
+  Widget _crearPopUpMenuButton(Sucursal sucursal, Usuario usuario) {
     return PopupMenuButton(
       icon: Icon(
         Icons.more_vert,
@@ -184,5 +156,36 @@ class _SucursalesPage extends State<SucursalesPage> {
         ),
       ],
     );
+  }
+
+  //===========================================================================MÉTODOS
+  void _eliminarSucursal(SucursalBloc sucursalBloc, Sucursal sucursal) {
+    sucursalBloc.eliminarSucursal(sucursal.usuarioId, sucursal.sucursalId);
+  }
+
+  void mostrarAlertaEliminar(BuildContext context, SucursalBloc sucursalBloc, Sucursal sucursal) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Eliminar'),
+            content: Text('¿Esta seguro que desea eliminar esta Sucursal: "${sucursal.sucursalNombre}"?'),
+            actions: [
+              CupertinoButton(
+                onPressed: () => {
+                  Navigator.pop(context),
+                },
+                child: Text('Cancelar'),
+              ),
+              CupertinoButton(
+                  child: Text('OK'),
+                  onPressed: () => {
+                        _eliminarSucursal(sucursalBloc, sucursal),
+                        Navigator.pop(context),
+                        setState(() {}),
+                      })
+            ],
+          );
+        });
   }
 }

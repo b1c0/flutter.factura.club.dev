@@ -16,19 +16,19 @@ class _NuevaCategoriaPageState extends State<NuevaCategoriaPage> {
   final _formKey = GlobalKey<FormState>();
   Categoria categoria = Categoria.sinId();
   CategoriaBloc categoriaBloc;
+
   @override
   Widget build(BuildContext context) {
-    categoriaBloc = Provider.crearCategoriaBloc(context);
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
-
     final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
     final Categoria data = arg.categoria;
-    if (data != null) {
-      categoria = data;
-    }
+    categoriaBloc = Provider.crearCategoriaBloc(context);
+
+    categoria = data;
     categoria.usuarioId = usuario.idUser;
     categoria.empresaId = empresa.empresaId;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva Categoria'),
@@ -40,6 +40,7 @@ class _NuevaCategoriaPageState extends State<NuevaCategoriaPage> {
     );
   }
 
+  //===========================================================================FORMULARIO
   Widget _formulario(Argumentos arg) {
     return Form(
       key: _formKey,
@@ -53,6 +54,7 @@ class _NuevaCategoriaPageState extends State<NuevaCategoriaPage> {
     );
   }
 
+  //===========================================================================INPUTS
   Widget _inputNombreCategoria() {
     return TextFormField(
       maxLength: 250,

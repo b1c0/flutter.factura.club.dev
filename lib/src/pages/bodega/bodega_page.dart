@@ -17,10 +17,10 @@ class _BodegaPageState extends State<BodegaPage> {
   @override
   Widget build(BuildContext context) {
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
-    // final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
     final bodegaBloc = Provider.crearBodegaBloc(context);
     bodegaBloc.cargarBodegas(empresa.empresaId);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Bodegas'),
@@ -38,6 +38,8 @@ class _BodegaPageState extends State<BodegaPage> {
       body: _listarBodegas(bodegaBloc, arg),
     );
   }
+
+  //===========================================================================WIDGETS
 
   Widget _listarBodegas(BodegaBloc bodegaBloc, Argumentos arg) {
     return StreamBuilder(
@@ -92,7 +94,7 @@ class _BodegaPageState extends State<BodegaPage> {
                       Text(bodega.bodegaNombre, style: TextStyle(color: Colors.white)),
                     ],
                   ),
-                  trailing: _crearPopupMenuButton(bodega, arg.usuario, arg.empresa),
+                  trailing: _crearPopUpMenuButton(bodega, arg.usuario, arg.empresa),
                   onTap: () {
                     Argumentos a = Argumentos.bodega(arg.empresa, arg.usuario, bodega);
                     Navigator.pushNamed(context, 'nueva-bodega', arguments: a).then((value) {
@@ -106,7 +108,7 @@ class _BodegaPageState extends State<BodegaPage> {
     );
   }
 
-  Widget _crearPopupMenuButton(Bodega bodega, Usuario usuario, Empresa empresa) {
+  Widget _crearPopUpMenuButton(Bodega bodega, Usuario usuario, Empresa empresa) {
     return PopupMenuButton(
       icon: Icon(
         Icons.more_vert,
@@ -137,13 +139,18 @@ class _BodegaPageState extends State<BodegaPage> {
     );
   }
 
+  //===========================================================================MÉTODOS
+  void _eliminarBodega(BodegaBloc bodegaBloc, Bodega bodega) {
+    bodegaBloc.eliminarBodega(bodega.usuarioId, bodega.bodegaId);
+  }
+
   void mostrarAlertaEliminar(BuildContext context, BodegaBloc bodegaBloc, Bodega bodega) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('Eliminar'),
-            content: Text('¿Esta seguro que desea eliminar esta bodega?'),
+            content: Text('¿Esta seguro que desea eliminar esta Bodega: "${bodega.bodegaNombre}"?'),
             actions: [
               CupertinoButton(
                 onPressed: () => {
@@ -161,9 +168,5 @@ class _BodegaPageState extends State<BodegaPage> {
             ],
           );
         });
-  }
-
-  void _eliminarBodega(BodegaBloc bodegaBloc, Bodega bodega) {
-    bodegaBloc.eliminarBodega(bodega.usuarioId, bodega.bodegaId);
   }
 }

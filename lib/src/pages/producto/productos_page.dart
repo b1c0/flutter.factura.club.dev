@@ -40,7 +40,8 @@ class _ProductosPageState extends State<ProductosPage> {
     );
   }
 
-  _listarProductos(ProductoBloc productoBloc, Argumentos arg) {
+  //===========================================================================WIDGETS
+  Widget _listarProductos(ProductoBloc productoBloc, Argumentos arg) {
     return StreamBuilder(
       stream: productoBloc.productosStream,
       builder: (BuildContext context, AsyncSnapshot<List<Producto>> snapshot) {
@@ -103,13 +104,18 @@ class _ProductosPageState extends State<ProductosPage> {
     );
   }
 
+  //===========================================================================MÉTODOS
+  void _eliminarBodega(ProductoBloc productoBloc, Producto producto) {
+    productoBloc.eliminarProducto(producto.usuarioId, producto.productoBodegaId);
+  }
+
   void mostrarAlertaEliminar(BuildContext context, ProductoBloc productoBloc, Producto producto) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('Eliminar'),
-            content: Text('¿Esta seguro que desea eliminar el producto?'),
+            content: Text('¿Esta seguro que desea eliminar el producto: "${producto.productoNombre}"?'),
             actions: [
               CupertinoButton(
                 onPressed: () => {
@@ -121,15 +127,11 @@ class _ProductosPageState extends State<ProductosPage> {
                   child: Text('OK'),
                   onPressed: () => {
                         _eliminarBodega(productoBloc, producto),
-                        setState(() {}),
                         Navigator.pop(context),
+                        setState(() {}),
                       })
             ],
           );
         });
-  }
-
-  void _eliminarBodega(ProductoBloc productoBloc, Producto producto) {
-    productoBloc.eliminarProducto(producto.usuarioId, producto.productoBodegaId);
   }
 }

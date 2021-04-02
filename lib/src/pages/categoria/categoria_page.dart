@@ -37,6 +37,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
     );
   }
 
+  //===========================================================================WIDGETS
   Widget _listarCategorias(CategoriaBloc categoriaBloc, Argumentos arg) {
     return StreamBuilder(
       stream: categoriaBloc.categoriasStream,
@@ -56,7 +57,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
     );
   }
 
-  _crearItem(BuildContext context, CategoriaBloc categoriaBloc, Categoria categoria, Argumentos arg) {
+  Widget _crearItem(BuildContext context, CategoriaBloc categoriaBloc, Categoria categoria, Argumentos arg) {
     return Dismissible(
       key: UniqueKey(),
       background: Container(
@@ -92,13 +93,18 @@ class _CategoriaPageState extends State<CategoriaPage> {
     );
   }
 
+  //===========================================================================MÉTODOS
+  void _eliminarCategoria(CategoriaBloc categoriaBloc, Categoria categoria) {
+    categoriaBloc.eliminarCategoria(categoria.categoriaId, categoria.usuarioId);
+  }
+
   void mostrarAlertaEliminar(BuildContext context, CategoriaBloc categoriaBloc, Categoria categoria) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('Eliminar'),
-            content: Text('¿Esta seguro que desea eliminar esta bodega?'),
+            content: Text('¿Esta seguro que desea eliminar esta Categoria: "${categoria.categoriaNombre}"?'),
             actions: [
               CupertinoButton(
                 onPressed: () => {
@@ -110,15 +116,11 @@ class _CategoriaPageState extends State<CategoriaPage> {
                   child: Text('OK'),
                   onPressed: () => {
                         _eliminarCategoria(categoriaBloc, categoria),
-                        setState(() {}),
                         Navigator.pop(context),
+                        setState(() {}),
                       })
             ],
           );
         });
-  }
-
-  void _eliminarCategoria(CategoriaBloc categoriaBloc, Categoria categoria) {
-    categoriaBloc.eliminarCategoria(categoria.categoriaId, categoria.usuarioId);
   }
 }

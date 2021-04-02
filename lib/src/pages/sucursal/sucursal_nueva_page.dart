@@ -19,14 +19,13 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
 
   @override
   Widget build(BuildContext context) {
-    sucursalBloc = Provider.crearSucursalBloc(context);
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
     final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
     final Sucursal data = arg.sucursal;
-    if (data != null) {
-      sucursal = data;
-    }
+    sucursalBloc = Provider.crearSucursalBloc(context);
+
+    sucursal = data;
     sucursal.empresaId = empresa.empresaId;
     sucursal.usuarioId = usuario.idUser;
 
@@ -38,6 +37,7 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
     );
   }
 
+  //===========================================================================FORMULARIO
   Widget _formulario(Argumentos arg) {
     return Form(
       key: _formKey,
@@ -45,8 +45,6 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
         padding: EdgeInsets.all(20.0),
         child: ListView(
           children: [
-            // _inputCodigoEstablecimiento(),
-            // Divider(),
             _inputNombreSucursal(),
             Divider(),
             _inputDireccionSucursal(),
@@ -65,20 +63,6 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   }
 
   //===========================================================================INPUTS
-
-  Widget _inputCodigoEstablecimiento() {
-    return TextField(
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        hintText: 'Codigo Establecimiento',
-        labelText: 'Codigo Establecimiento',
-      ),
-      maxLength: 3,
-      onChanged: (value) => "",
-    );
-  }
-
   Widget _inputNombreSucursal() {
     return TextFormField(
       initialValue: sucursal.sucursalNombre,
@@ -175,15 +159,14 @@ class _NuevaSucursalPage extends State<NuevaSucursalPage> {
   //===========================================================================MÉTODOS
   void _ingresarSucursal(Argumentos arg) {
     if (!_formKey.currentState.validate()) return;
+
     if (sucursal.sucursalId == null) {
-      print('creando');
       sucursalBloc.crearNuevaSucursal(sucursal);
       Navigator.pop(context);
       Navigator.popAndPushNamed(context, 'sucursales', arguments: arg);
     } else {
-      print('actualizando');
-
       sucursalBloc.actualizarSucursal(sucursal);
+      Navigator.pop(context);
       Navigator.popAndPushNamed(context, 'sucursales', arguments: arg);
     }
   }

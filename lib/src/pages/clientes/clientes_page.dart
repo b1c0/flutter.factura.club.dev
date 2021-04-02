@@ -15,7 +15,6 @@ class _ClientesPage extends State<ClientesPage> {
   @override
   Widget build(BuildContext context) {
     Argumentos arg = ModalRoute.of(context).settings.arguments;
-    // Usuario usuario = arg.usuario;
     Sucursal sucursal = arg.sucursal;
     final clientesBloc = Provider.crearClienteBloc(context);
     clientesBloc.cargarClientes(sucursal.sucursalId);
@@ -38,6 +37,7 @@ class _ClientesPage extends State<ClientesPage> {
     );
   }
 
+  //===========================================================================WIDGETS
   Widget _listarClientes(ClienteBloc clienteBloc, Argumentos arg) {
     return StreamBuilder(
       stream: clienteBloc.clientesStream,
@@ -105,13 +105,18 @@ class _ClientesPage extends State<ClientesPage> {
     );
   }
 
+  //===========================================================================MÉTODOS
+  void _eliminarCliente(ClienteBloc clienteBloc, Cliente cliente, Argumentos arg) {
+    clienteBloc.eliminarCliente(cliente.clienteId, arg.usuario.idUser, arg.sucursal.sucursalId);
+  }
+
   void mostrarAlertaEliminar(BuildContext context, ClienteBloc clienteBloc, Cliente cliente, Argumentos arg) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('Eliminar'),
-            content: Text('¿Esta seguro que desea eliminar este cliente?'),
+            content: Text('¿Esta seguro que desea eliminar este cliente: "${cliente.clienteNombres}"?'),
             actions: [
               CupertinoButton(
                 onPressed: () => {
@@ -129,9 +134,5 @@ class _ClientesPage extends State<ClientesPage> {
             ],
           );
         });
-  }
-
-  void _eliminarCliente(ClienteBloc clienteBloc, Cliente cliente, Argumentos arg) {
-    clienteBloc.eliminarCliente(cliente.clienteId, arg.usuario.idUser, arg.sucursal.sucursalId);
   }
 }

@@ -8,8 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NuevaBodegaPage extends StatefulWidget {
-  NuevaBodegaPage({Key key}) : super(key: key);
-
   @override
   _NuevaBodegaPageState createState() => _NuevaBodegaPageState();
 }
@@ -18,19 +16,19 @@ class _NuevaBodegaPageState extends State<NuevaBodegaPage> {
   final _formKey = GlobalKey<FormState>();
   Bodega bodega = Bodega.sinId();
   BodegaBloc bodegaBloc;
+
   @override
   Widget build(BuildContext context) {
-    bodegaBloc = Provider.crearBodegaBloc(context);
     final Argumentos arg = ModalRoute.of(context).settings.arguments;
-
     final Usuario usuario = arg.usuario;
     final Empresa empresa = arg.empresa;
     final Bodega data = arg.bodega;
-    if (data != null) {
-      bodega = data;
-    }
+    bodegaBloc = Provider.crearBodegaBloc(context);
+
+    bodega = data;
     bodega.usuarioId = usuario.idUser;
     bodega.empresaId = empresa.empresaId;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva Bodega'),
@@ -42,6 +40,7 @@ class _NuevaBodegaPageState extends State<NuevaBodegaPage> {
     );
   }
 
+  //===========================================================================FORMULARIO
   Widget _formulario(Argumentos arg) {
     return Form(
       key: _formKey,

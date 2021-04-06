@@ -48,7 +48,7 @@ class _NuevaCategoriaPageState extends State<NuevaCategoriaPage> {
         children: [
           _inputNombreCategoria(),
           Divider(),
-          _botonGuardarBodega(arg),
+          _botonGuardarCategoria(arg),
         ],
       ),
     );
@@ -74,17 +74,17 @@ class _NuevaCategoriaPageState extends State<NuevaCategoriaPage> {
   }
 
   //===========================================================================BOTONES
-  Widget _botonGuardarBodega(Argumentos arg) {
+  Widget _botonGuardarCategoria(Argumentos arg) {
     return CupertinoButton(
       child: Text('Guardar'),
       borderRadius: BorderRadius.circular(15),
       color: Colors.blueAccent,
-      onPressed: () => _ingresarBodega(arg),
+      onPressed: () => _ingresarCategoria(arg),
     );
   }
 
   //===========================================================================MÉTODOS
-  void _ingresarBodega(Argumentos arg) {
+  void _ingresarCategoria(Argumentos arg) {
     if (!_formKey.currentState.validate()) return;
 
     if (categoria.categoriaId == null) {

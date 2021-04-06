@@ -69,7 +69,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
         ),
       ),
       onDismissed: (direction) {
-        mostrarAlertaEliminar(context, categoriaBloc, categoria);
+        _mostrarAlertaEliminar(context, categoriaBloc, categoria);
         setState(() {});
       },
       child: Card(
@@ -98,7 +98,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
     categoriaBloc.eliminarCategoria(categoria.categoriaId, categoria.usuarioId);
   }
 
-  void mostrarAlertaEliminar(BuildContext context, CategoriaBloc categoriaBloc, Categoria categoria) {
+  void _mostrarAlertaEliminar(BuildContext context, CategoriaBloc categoriaBloc, Categoria categoria) {
     showDialog(
         context: context,
         builder: (context) {

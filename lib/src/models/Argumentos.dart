@@ -16,7 +16,7 @@ class Argumentos {
   Producto producto;
   Servicio servicio;
   Categoria categoria;
-  String navFrom;
+  String navFrom; //campo que indica desde que vista se envía la información para validar la navegación
 
   //CONSTRUCTORES
   Argumentos(this.empresa, this.usuario);

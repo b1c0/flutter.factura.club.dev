@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Text('Ingresar', style: TextStyle(color: Colors.white)),
       borderRadius: BorderRadius.circular(15),
       color: Colors.blueAccent,
-      onPressed: () => _actionLogin(context, bloc),
+      onPressed: () => _login(context, bloc),
     );
   }
 
@@ -195,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 //===========================================================================MÉTODOS
-  void _actionLogin(BuildContext context, ValidatorBloc bloc) async {
+  void _login(BuildContext context, ValidatorBloc bloc) async {
     Map info = await usuarioService.login(bloc.email, bloc.username, bloc.password);
     if (info['ok']) {
       // Duration(milliseconds: 5);

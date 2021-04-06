@@ -36,12 +36,12 @@ class _SucursalPage extends State<SucursalPage> {
               })
         ],
       ),
-      body: _listar(sucursalesBloc, arg),
+      body: _listarSucursales(sucursalesBloc, arg),
     );
   }
 
   //===========================================================================WIDGETS
-  Widget _listar(SucursalBloc sucursalBloc, Argumentos arg) {
+  Widget _listarSucursales(SucursalBloc sucursalBloc, Argumentos arg) {
     return StreamBuilder(
       stream: sucursalBloc.sucursalesStream,
       builder: (BuildContext context, AsyncSnapshot<List<Sucursal>> snapshot) {
@@ -72,7 +72,7 @@ class _SucursalPage extends State<SucursalPage> {
         ),
       ),
       onDismissed: (direction) {
-        mostrarAlertaEliminar(context, sucursalBloc, sucursal);
+        _mostrarAlertaEliminar(context, sucursalBloc, sucursal);
         setState(() {});
       },
       child: Card(
@@ -163,7 +163,7 @@ class _SucursalPage extends State<SucursalPage> {
     sucursalBloc.eliminarSucursal(sucursal.usuarioId, sucursal.sucursalId);
   }
 
-  void mostrarAlertaEliminar(BuildContext context, SucursalBloc sucursalBloc, Sucursal sucursal) {
+  void _mostrarAlertaEliminar(BuildContext context, SucursalBloc sucursalBloc, Sucursal sucursal) {
     showDialog(
         context: context,
         builder: (context) {

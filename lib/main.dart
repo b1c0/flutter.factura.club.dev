@@ -2,10 +2,10 @@ import 'package:app_factura_club_dev/src/blocs/provider.dart';
 import 'package:app_factura_club_dev/src/pages/Empresa/empresa_page.dart';
 import 'package:app_factura_club_dev/src/pages/acceso/login_page.dart';
 import 'package:app_factura_club_dev/src/pages/acceso/registro_page.dart';
-import 'package:app_factura_club_dev/src/pages/categoria/categoria_nueva.dart';
+import 'package:app_factura_club_dev/src/pages/categoria/categoria_nueva_page.dart';
 import 'package:app_factura_club_dev/src/pages/categoria/categoria_page.dart';
 import 'package:app_factura_club_dev/src/pages/clientes/clientes_page.dart';
-import 'package:app_factura_club_dev/src/pages/clientes/nuevo_cliente.dart';
+import 'package:app_factura_club_dev/src/pages/clientes/cliente_nuevo_page.dart';
 import 'package:app_factura_club_dev/src/pages/documentos/facturas/agregar_producto_factura.dart';
 import 'package:app_factura_club_dev/src/pages/documentos/facturas/facturas_page.dart';
 import 'package:app_factura_club_dev/src/pages/documentos/facturas/nueva_factura.dart';
@@ -15,13 +15,10 @@ import 'package:app_factura_club_dev/src/pages/empresa/empresa_nueva_page.dart';
 import 'package:app_factura_club_dev/src/pages/sucursal/sucursal_nueva_page.dart';
 import 'package:app_factura_club_dev/src/pages/sucursal/sucursal_page.dart';
 import 'package:app_factura_club_dev/src/pages/home_page.dart';
-import 'package:app_factura_club_dev/src/pages/producto/nuevo_producto.dart';
-import 'package:app_factura_club_dev/src/pages/servicio/nuevo_servicio.dart';
+import 'package:app_factura_club_dev/src/pages/producto/producto_nuevo_page.dart';
+import 'package:app_factura_club_dev/src/pages/servicio/servicio_nuevo_page.dart';
 import 'package:app_factura_club_dev/src/pages/producto/productos_page.dart';
 import 'package:app_factura_club_dev/src/pages/servicio/servicios_page.dart';
-import 'package:app_factura_club_dev/src/pages/usuarios/agregar_usuario_page.dart';
-import 'package:app_factura_club_dev/src/pages/usuarios/permisos_page.dart';
-import 'package:app_factura_club_dev/src/pages/usuarios/usuario_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -65,12 +62,9 @@ class MyApp extends StatelessWidget {
           'categoria': (BuildContext context) => CategoriaPage(),
           'nueva-categoria': (BuildContext context) => NuevaCategoriaPage(),
           //
-          'usuarios': (BuildContext context) => UsuariosPage(),
-          'nuevo-usuario': (BuildContext context) => NuevoUsuarioPage(),
           'facturas': (BuildContext context) => FacturasPage(),
           'nueva-factura': (BuildContext context) => NuevaFacturaPage(),
           'agregar-producto-factura': (BuildContext context) => AgregarProductoFacturaPage(),
-          'permisos-usuarios': (BuildContext context) => PermisosUsuarioPage(),
         },
       ),
     );

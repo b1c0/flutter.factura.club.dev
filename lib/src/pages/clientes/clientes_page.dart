@@ -69,7 +69,7 @@ class _ClientesPage extends State<ClientesPage> {
         ),
       ),
       onDismissed: (direction) {
-        mostrarAlertaEliminar(context, clienteBloc, cliente, arg);
+        _mostrarAlertaEliminar(context, clienteBloc, cliente, arg);
         setState(() {});
       },
       child: Card(
@@ -110,7 +110,7 @@ class _ClientesPage extends State<ClientesPage> {
     clienteBloc.eliminarCliente(cliente.clienteId, arg.usuario.idUser, arg.sucursal.sucursalId);
   }
 
-  void mostrarAlertaEliminar(BuildContext context, ClienteBloc clienteBloc, Cliente cliente, Argumentos arg) {
+  void _mostrarAlertaEliminar(BuildContext context, ClienteBloc clienteBloc, Cliente cliente, Argumentos arg) {
     showDialog(
         context: context,
         builder: (context) {

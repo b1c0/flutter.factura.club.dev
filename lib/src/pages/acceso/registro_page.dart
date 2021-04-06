@@ -25,7 +25,7 @@ class _RegistroPageState extends State<RegistroPage> {
       body: Stack(
         children: [
           _fondo(context),
-          _formularioLogin(context),
+          _formulario(context),
         ],
       ),
     );
@@ -70,7 +70,7 @@ class _RegistroPageState extends State<RegistroPage> {
     );
   }
 
-  Widget _formularioLogin(BuildContext context) {
+  Widget _formulario(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(

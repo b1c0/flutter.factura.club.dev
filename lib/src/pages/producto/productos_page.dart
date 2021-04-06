@@ -60,7 +60,7 @@ class _ProductosPageState extends State<ProductosPage> {
     );
   }
 
-  _crearItem(BuildContext context, ProductoBloc productoBloc, Producto producto, Argumentos arg) {
+  Widget _crearItem(BuildContext context, ProductoBloc productoBloc, Producto producto, Argumentos arg) {
     return Dismissible(
       key: UniqueKey(),
       background: Container(
@@ -72,7 +72,7 @@ class _ProductosPageState extends State<ProductosPage> {
         ),
       ),
       onDismissed: (direction) {
-        mostrarAlertaEliminar(context, productoBloc, producto);
+        _mostrarAlertaEliminar(context, productoBloc, producto);
         setState(() {});
       },
       child: Card(
@@ -105,11 +105,11 @@ class _ProductosPageState extends State<ProductosPage> {
   }
 
   //===========================================================================MÉTODOS
-  void _eliminarBodega(ProductoBloc productoBloc, Producto producto) {
+  void _eliminarProducto(ProductoBloc productoBloc, Producto producto) {
     productoBloc.eliminarProducto(producto.usuarioId, producto.productoBodegaId);
   }
 
-  void mostrarAlertaEliminar(BuildContext context, ProductoBloc productoBloc, Producto producto) {
+  void _mostrarAlertaEliminar(BuildContext context, ProductoBloc productoBloc, Producto producto) {
     showDialog(
         context: context,
         builder: (context) {
@@ -126,7 +126,7 @@ class _ProductosPageState extends State<ProductosPage> {
               CupertinoButton(
                   child: Text('OK'),
                   onPressed: () => {
-                        _eliminarBodega(productoBloc, producto),
+                        _eliminarProducto(productoBloc, producto),
                         Navigator.pop(context),
                         setState(() {}),
                       })

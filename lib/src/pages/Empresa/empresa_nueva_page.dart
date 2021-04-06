@@ -42,15 +42,15 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
         padding: EdgeInsets.all(20.0),
         child: ListView(
           children: [
-            inputNombreEmpresa(),
-            inputRUCEmpresa(),
-            inputCorreoEmpresa(),
-            inputTelefonoEmpresa(),
-            inputDireccionEmpresa(),
+            _inputNombreEmpresa(),
+            _inputRUCEmpresa(),
+            _inputCorreoEmpresa(),
+            _inputTelefonoEmpresa(),
+            _inputDireccionEmpresa(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                inputLogoEmpresa(),
+                _inputLogoEmpresa(),
                 IconButton(
                   icon: Icon(
                     Icons.upload_file,
@@ -65,7 +65,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                inputFirmaEmpresa(),
+                _inputFirmaEmpresa(),
                 IconButton(
                   icon: Icon(
                     Icons.upload_file,
@@ -85,7 +85,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
   }
 
   //===========================================================================INPUTS
-  Widget inputNombreEmpresa() {
+  Widget _inputNombreEmpresa() {
     return TextFormField(
       initialValue: empresa.empresaNombre,
       maxLength: 250,
@@ -105,7 +105,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     );
   }
 
-  Widget inputCorreoEmpresa() {
+  Widget _inputCorreoEmpresa() {
     return TextFormField(
       initialValue: empresa.empresaCorreoCorporativo,
       maxLength: 100,
@@ -119,7 +119,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     );
   }
 
-  Widget inputTelefonoEmpresa() {
+  Widget _inputTelefonoEmpresa() {
     return TextFormField(
       initialValue: empresa.empresaTelefono,
       maxLength: 25,
@@ -133,7 +133,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     );
   }
 
-  Widget inputDireccionEmpresa() {
+  Widget _inputDireccionEmpresa() {
     return TextFormField(
       initialValue: empresa.empresaDireccion,
       maxLength: 250,
@@ -147,7 +147,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     );
   }
 
-  Widget inputLogoEmpresa() {
+  Widget _inputLogoEmpresa() {
     final size = MediaQuery.of(context).size;
     return Container(
       width: size.width * 0.75,
@@ -164,7 +164,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     );
   }
 
-  Widget inputFirmaEmpresa() {
+  Widget _inputFirmaEmpresa() {
     final size = MediaQuery.of(context).size;
     return Container(
       width: size.width * 0.75,
@@ -181,7 +181,7 @@ class _NuevaEmpresaPageState extends State<NuevaEmpresaPage> {
     );
   }
 
-  Widget inputRUCEmpresa() {
+  Widget _inputRUCEmpresa() {
     return TextFormField(
       initialValue: empresa.empresaRuc,
       maxLength: 13,

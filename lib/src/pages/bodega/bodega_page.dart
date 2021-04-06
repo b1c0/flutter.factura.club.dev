@@ -72,7 +72,7 @@ class _BodegaPageState extends State<BodegaPage> {
         ),
       ),
       onDismissed: (direction) {
-        mostrarAlertaEliminar(context, bodegaBloc, bodega);
+        _mostrarAlertaEliminar(context, bodegaBloc, bodega);
         setState(() {});
       },
       child: Card(
@@ -144,7 +144,7 @@ class _BodegaPageState extends State<BodegaPage> {
     bodegaBloc.eliminarBodega(bodega.usuarioId, bodega.bodegaId);
   }
 
-  void mostrarAlertaEliminar(BuildContext context, BodegaBloc bodegaBloc, Bodega bodega) {
+  void _mostrarAlertaEliminar(BuildContext context, BodegaBloc bodegaBloc, Bodega bodega) {
     showDialog(
         context: context,
         builder: (context) {
